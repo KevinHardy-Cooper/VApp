@@ -1,0 +1,18 @@
+# This file will contain files that we do not want in our repo
+
+# Intellij Ultimate IDE
+.idea/*
+.idea/misc.xml
+.idea/modules.xml
+.idea/SFWRENG_4G06.iml
+.idea/vcs.xml
+.idea/workspace.xml
+
+# Node Modules
+node_modules/*
+
+# Logs
+./log/*
+
+# SensitiveInfo
+config/SensitiveInfo.js

@@ -1,0 +1,34 @@
+{
+  "name": "sfwreng_4g06",
+  "version": "1.0.0",
+  "description": "This will be the private repo for our SFWR ENG 4G06 capstone project. The group members for the project will be able to commit to the repo.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "8.8.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KevinHardy-Cooper/SFWRENG_4G06.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KevinHardy-Cooper/SFWRENG_4G06/issues"
+  },
+  "homepage": "https://github.com/KevinHardy-Cooper/SFWRENG_4G06#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "mysql": "^2.16.0",
+    "oauth": "^0.9.15",
+    "request": "^2.88.0",
+    "twitter": "^1.7.1",
+    "util-inspect": "^0.1.8"
+  }
+}
