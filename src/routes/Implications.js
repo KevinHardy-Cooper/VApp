@@ -12,9 +12,16 @@ class Implications {
 
     static getImplicationsForGivenSocialMediaSetting(settingId, callback) {
         let con = DatabaseConnection.createConnection();
-        // TODO: add security
-        con.query("SELECT * FROM Implications INNER JOIN Settings ON Implications.setting_id = Settings.id WHERE Settings.id = '" + settingId + "'" , function (err, result) {
-            if (err) throw err;
+        let sql = 'SELECT * ' +
+                    'FROM Implications ' +
+                    'INNER JOIN Settings ' +
+                    'ON Implications.setting_id = Settings.id ' +
+                    'WHERE Settings.id = ' + con.escape(settingId);
+        con.query(sql , function (err, result) {
+            if (err) {
+                console.log(err);
+                throw err;
+            }
             callback(null, result);
         });
     }
@@ -29,9 +36,14 @@ class Implications {
 
     static getInstructionsForGivenImplication(implicationId, callback) {
         let con = DatabaseConnection.createConnection();
-        // TODO: add security
-        con.query("SELECT * FROM Implications WHERE id = '" + implicationId + "'" , function (err, result) {
-            if (err) throw err;
+        let sql = 'SELECT * ' +
+                    'FROM Implications ' +
+                    'WHERE id = ' + con.escape(implicationId);
+        con.query(sql, function (err, result) {
+            if (err) {
+                console.log(err);
+                throw err;
+            }
             callback(null, result);
         });
     }

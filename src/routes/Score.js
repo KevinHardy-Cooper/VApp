@@ -8,7 +8,9 @@ const DatabaseConnection = require('../../config/DatabaseConnection');
 class Score {
     static insertScore(userId, typeId, score, callback) {
         let con = DatabaseConnection.createConnection();
-        con.query("INSERT INTO Scores (user_id, type_id, score) VALUES ('" + userId + "', '" + typeId + "', '" + score + "')", function (err, result) {
+        let sql = 'INSERT INTO Scores (user_id, type_id, score) ' +
+                    'VALUES (' + con.escape(userId) + ', ' + con.escape(typeId) + ', ' + con.escape(score) + ')';
+        con.query(sql, function (err, result) {
             if (err) throw err;
             callback(null, 200);
         });
@@ -20,18 +22,29 @@ class Score {
 
     static getScoresForGivenType(userId, typeId, callback) {
         let con = DatabaseConnection.createConnection();
-        // TODO: add security
-        con.query("SELECT * FROM Scores WHERE user_id =  '" + userId + "' AND type_id = '" + typeId + "'", function (err, result) {
-            if (err) throw err;
+        let sql = 'SELECT * ' +
+                    'FROM Scores ' +
+                    'WHERE user_id = ' + con.escape(userId) +
+                    ' AND type_id = ' + con.escape(typeId);
+        con.query(sql, function (err, result) {
+            if (err) {
+                console.log(err);
+                throw err;
+            }
             callback(null, result);
         });
     }
 
     static getScores(userId, callback) {
         let con = DatabaseConnection.createConnection();
-        // TODO: add security
-        con.query("SELECT * FROM Scores WHERE user_id =  '" + userId + "'", function (err, result) {
-            if (err) throw err;
+        let sql = 'SELECT * ' +
+                    'FROM Scores ' +
+                    'WHERE user_id = ' + con.escape(userId);
+        con.query(sql, function (err, result) {
+            if (err) {
+                console.log(err);
+                throw err;
+            }
             callback(null, result);
         });
     }
@@ -42,9 +55,14 @@ class Score {
 
     static getScoreType(socialMedia, callback) {
         let con = DatabaseConnection.createConnection();
-        // TODO: add security
-        con.query("SELECT id FROM Score_Types WHERE name =  '" + socialMedia + "'", function (err, result) {
-            if (err) throw err;
+        let sql = 'SELECT id ' +
+                    'FROM Score_Types ' +
+                    'WHERE name = ' + con.escape(socialMedia);
+        con.query(sql, function (err, result) {
+            if (err) {
+                console.log(err);
+                throw err;
+            }
             callback(null, result);
         });
     }
