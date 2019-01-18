@@ -67,6 +67,18 @@ computer password, but rather the password that you set up to be used for your l
 `this.database = '';` This will contain the database name for the database we are using. For this project, we will be using 
 `VApp`.
 
+`this.consumer_key = '';` This is one of the two keys required in order to use Twitter's APIs for our app. They are 
+associated with Kevin's Twitter developer account and can be found there. More information can be found [here](https://themepacific.com/how-to-generate-api-key-consumer-token-access-key-for-twitter-oauth/994/).
+
+`this.consumer_secret_key = '';` This is the other key required in order to use Twitter's APIS for our app. They are 
+associated with Kevin's Twitter developer account and can be found there. More information can be found [here](https://themepacific.com/how-to-generate-api-key-consumer-token-access-key-for-twitter-oauth/994/).
+        
+`this.callback_url = '';` This is used to provide direction on where a user should go after signing in with their 
+Twitter credentials. This callback url has been explicitly declared in the app's settings on Kevin's Twitter developer
+account. More information can be found [here](https://developer.twitter.com/en/docs/basics/apps/guides/callback-urls.html).
+
+`this.cookie_signer = '';` This is the secret used to sign the session ID cookie.
+
 ## Linting
 For JavaScript development, we will follow the following naming conventions:
 * Classes and files are to be named in UpperCamelCase
@@ -77,3 +89,36 @@ For JavaScript development, we will follow the following naming conventions:
 For Database development, we will follow the following naming conventions:
 * Database and tables will be named in Upper_Snake_Case
 * Columns will be named in lower_snake_case
+
+## Endpoints
+`GET /` - Home page
+
+`POST /signup` - Sign up the user
+
+`POST /signout` - Sign out the user
+
+`POST /signin` - Sign in the user
+
+`GET /oauth` - Start OAuth process 
+
+`GET /oauth/callback` - Receives access tokens from Twitter
+
+`GET /oauth/:socialMedia` - Requests Twitter login page
+
+`GET /settings/:socialMedia` - Gets user's Twitter settings
+
+`GET /cumulativeScore` - Gets user's cumulative score
+
+`POST /cumulativeScore` - Inserts user's cumulative score
+
+`GET /score/:userId` - Gets user's scores
+
+`GET /score/:userId/:socialMedia` - Gets user's scores by social media
+
+`POST /score/:socialMedia` - Inserts user's social media score
+
+`GET /implications/:settingId` - Gets implications by setting
+
+`GET /instructions/:implicationId` - Gets instructions by implication
+
+

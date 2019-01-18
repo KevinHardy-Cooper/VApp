@@ -4,6 +4,8 @@
 
 // Imports
 const DatabaseConnection = require('../../config/DatabaseConnection');
+const logger = require('../../config/log.js');
+const inspect = require('util').inspect;
 
 class Settings {
     static connectToGivenSocialMedia() {
@@ -16,12 +18,13 @@ class Settings {
                     'FROM Settings ' +
                     'INNER JOIN Social_Media ' +
                     'ON Settings.social_media_id = Social_Media.id ' +
-                    'WHERE Social_Media.name = ' + con.escape(socialMedia);
-        con.query(sql, function (err, result) {
+                    'WHERE Social_Media.name = ?';
+        con.query(sql, socialMedia, function (err, result) {
             if (err) {
-                console.log(err);
+                logger.error(inspect(err));
                 throw err;
             }
+            logger.info("Successfully got settings given socialMedia in Settings");
             callback(null, result);
         });
     }

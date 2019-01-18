@@ -4,14 +4,20 @@
 
 // Imports
 const DatabaseConnection = require('../../config/DatabaseConnection');
+const logger = require('../../config/log.js');
+const inspect = require('util').inspect;
 
 class Score {
     static insertScore(userId, typeId, score, callback) {
         let con = DatabaseConnection.createConnection();
         let sql = 'INSERT INTO Scores (user_id, type_id, score) ' +
-                    'VALUES (' + con.escape(userId) + ', ' + con.escape(typeId) + ', ' + con.escape(score) + ')';
-        con.query(sql, function (err, result) {
-            if (err) throw err;
+                    'VALUES (?, ?, ?)';
+        con.query(sql, userId, typeId, score, function (err, result) {
+            if (err) {
+                logger.error(inspect(err));
+                throw err;
+            }
+            logger.info("Successfully inserted score in Score");
             callback(null, 200);
         });
     }
@@ -24,13 +30,14 @@ class Score {
         let con = DatabaseConnection.createConnection();
         let sql = 'SELECT * ' +
                     'FROM Scores ' +
-                    'WHERE user_id = ' + con.escape(userId) +
-                    ' AND type_id = ' + con.escape(typeId);
-        con.query(sql, function (err, result) {
+                    'WHERE user_id = ?' +
+                    ' AND type_id = ?';
+        con.query(sql, userId, typeId, function (err, result) {
             if (err) {
-                console.log(err);
+                logger.error(inspect(err));
                 throw err;
             }
+            logger.info("Successfully got scores for given type in Score");
             callback(null, result);
         });
     }
@@ -39,12 +46,13 @@ class Score {
         let con = DatabaseConnection.createConnection();
         let sql = 'SELECT * ' +
                     'FROM Scores ' +
-                    'WHERE user_id = ' + con.escape(userId);
-        con.query(sql, function (err, result) {
+                    'WHERE user_id = ?';
+        con.query(sql, userId, function (err, result) {
             if (err) {
-                console.log(err);
+                logger.error(inspect(err));
                 throw err;
             }
+            logger.info("Successfully got scores by userId in Score");
             callback(null, result);
         });
     }
@@ -57,12 +65,13 @@ class Score {
         let con = DatabaseConnection.createConnection();
         let sql = 'SELECT id ' +
                     'FROM Score_Types ' +
-                    'WHERE name = ' + con.escape(socialMedia);
-        con.query(sql, function (err, result) {
+                    'WHERE name = ?';
+        con.query(sql, socialMedia, function (err, result) {
             if (err) {
-                console.log(err);
+                logger.error(inspect(err));
                 throw err;
             }
+            logger.info("Successfully got score type by social media in Score");
             callback(null, result);
         });
     }

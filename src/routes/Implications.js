@@ -4,6 +4,8 @@
 
 // Imports
 const DatabaseConnection = require('../../config/DatabaseConnection');
+const logger = require('../../config/log.js');
+const inspect = require('util').inspect;
 
 class Implications {
     static getImplicationsForGivenSocialMedia() {
@@ -16,12 +18,13 @@ class Implications {
                     'FROM Implications ' +
                     'INNER JOIN Settings ' +
                     'ON Implications.setting_id = Settings.id ' +
-                    'WHERE Settings.id = ' + con.escape(settingId);
-        con.query(sql , function (err, result) {
+                    'WHERE Settings.id = ?';
+        con.query(sql, settingId , function (err, result) {
             if (err) {
-                console.log(err);
+                logger.error(inspect(err));
                 throw err;
             }
+            logger.info("Successfully got implications for given social media setting in Implications");
             callback(null, result);
         });
     }
@@ -38,12 +41,13 @@ class Implications {
         let con = DatabaseConnection.createConnection();
         let sql = 'SELECT * ' +
                     'FROM Implications ' +
-                    'WHERE id = ' + con.escape(implicationId);
-        con.query(sql, function (err, result) {
+                    'WHERE id = ?';
+        con.query(sql, implicationId, function (err, result) {
             if (err) {
-                console.log(err);
+                logger.error(inspect(err));
                 throw err;
             }
+            logger.info("Successfully got instructions for given implication in Implications");
             callback(null, result);
         });
     }

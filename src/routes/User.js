@@ -4,33 +4,22 @@
 
 // Imports
 const DatabaseConnection = require('../../config/DatabaseConnection');
+const logger = require('../../config/log.js');
+const inspect = require('util').inspect;
 
 class User {
-    static getUserByEmail(email) {
-        let con = DatabaseConnection.createConnection();
-        let sql = 'SELECT * ' +
-                    'FROM  Users ' +
-                    'WHERE email = ' + con.escape(email);
-        con.query(sql, function (err, result) {
-            if (err) {
-                console.log(err);
-                throw err;
-            }
-            callback(null, result);
-        });
-    }
-
     static getUser(email, password, callback) {
         let con = DatabaseConnection.createConnection();
         let sql = 'SELECT * ' +
                     'FROM  Users ' +
-                    'WHERE email = ' + con.escape(email) +
-                    ' AND password = ' + con.escape(password);
-        con.query(sql, function (err, result) {
+                    'WHERE email = ?'+
+                    ' AND password = ?';
+        con.query(sql, email, password, function (err, result) {
             if (err) {
-                console.log(err);
+                logger.error(inspect(err));
                 throw err;
             }
+            logger.info("Successfully got user in User");
             callback(null, result);
         });
     }
@@ -38,12 +27,13 @@ class User {
     static insertUser(email, password, callback) {
         let con = DatabaseConnection.createConnection();
         let sql = 'INSERT INTO Users (email, password) ' +
-                    'VALUES (' + con.escape(email) + ', ' + con.escape(password) + ')';
-        con.query(sql, function (err, result) {
+                    'VALUES (?, ?)';
+        con.query(sql, email, password, function (err, result) {
             if (err) {
-                console.log(err);
+                logger.error(inspect(err));
                 throw err;
             }
+            logger.info("Successfully inserted user in User");
             callback(null, 200);
         });
     }
@@ -52,13 +42,14 @@ class User {
         let con = DatabaseConnection.createConnection();
         let sql = 'UPDATE Users ' +
                     'SET session_id = NULL ' +
-                    'WHERE email = ' + con.escape(email) +
-                    ' AND password = ' + con.escape(password);
-        con.query(sql, function (err, result) {
+                    'WHERE email = ?'+
+                    ' AND password = ?';
+        con.query(sql, email, password, function (err, result) {
             if (err) {
-                console.log(err);
+                logger.error(inspect(err));
                 throw err;
             }
+            logger.info("Successfully set session id to null in User");
             callback(null, 200);
         });
     }
