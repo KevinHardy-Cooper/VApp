@@ -8,28 +8,42 @@ const logger = require('../../config/log.js');
 const inspect = require('util').inspect;
 
 class User {
-    static getUser(email, password, callback) {
+    static getUserByEmail(email, callback) {
         let con = DatabaseConnection.createConnection();
-        let sql = 'SELECT * FROM Users WHERE email = ?';
-        con.query(sql , email, function (err, result) {
+        let sql = 'SELECT * FROM Users WHERE email = ? LIMIT 1';
+        con.query(sql, email, function(err, result) {
             if (err) {
                 logger.error(inspect(err));
                 throw err;
-            }else{
-                if(result.length >0){
-                    if(result[0].password === password){
-                        result.statusCode = 200;
-                        result.statusMessage = "Login Successful";
-                    }
-                    else{
-                        result.statusCode = 204;
-                        result.statusMessage = "Email and password does not match";
-                    }
+            } else {
+                if(result.length === 1){
+                    result.statusCode = 200;
+                    result.statusMessage = "User exists for email";
                 }
-                else{
+                else {
                     result.statusCode = 204;
-                    result.statusMessage = "Email does not exist";
+                    result.statusMessage = "User does not exist for email";
                 }
+            }
+            callback(null, result);
+        });
+    }
+
+    static getUser(email, password, callback) {
+        let con = DatabaseConnection.createConnection();
+        let inserts = [email, password];
+        let sql = 'SELECT * FROM Users WHERE email = ? AND password = ? LIMIT 1';
+        con.query(sql, inserts, function (err, result) {
+            if (err) {
+                logger.error(inspect(err));
+                throw err;
+            } else {
+                if(result.length === 1){
+                    result.statusCode = 200;
+                    result.statusMessage = "User exists for given email and password";                }
+                else {
+                    result.statusCode = 204;
+                    result.statusMessage = "User does not exist for given email and password";                }
             }
             callback(null, result);
         });
@@ -37,33 +51,19 @@ class User {
 
     static insertUser(email, password, callback) {
         let con = DatabaseConnection.createConnection();
-        let user={
-            "email":email,
-            "password":password
+        let inserts = {
+            "email": email,
+            "password": password
         };
-        let sql = 'SELECT * FROM Users WHERE email = ?';
-        con.query(sql , email, function (err, result) {
+        let sql = 'INSERT INTO Users SET ?';
+        con.query(sql, inserts, function (err, result) {
             if (err) {
                 logger.error(inspect(err));
                 throw err;
-            } else if (result.length > 0) {
-                result.statusCode = 204;
-                result.statusMessage = "Email already exists";
-                callback(null, result);
             } else {
-                let sql = 'INSERT INTO Users SET ?';
-                con.query(sql, user, function (err, obj) {
-                    if (err) {
-                        logger.error(inspect(err));
-                        obj.statusCode = 400;
-                        obj.statusMessage = "Sign Up Failed";
-                        throw err;
-                    } else {
-                        obj.statusCode = 200;
-                        obj.statusMessage = "Sign Up Successful";
-                        callback(null, obj);
-                    }
-                });
+                result.statusCode = 200;
+                result.statusMessage = "New user inserted";
+                callback(null, result);
             }
         });
     }

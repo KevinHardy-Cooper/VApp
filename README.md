@@ -16,17 +16,17 @@ commit to the repo.
 
 ## How To Setup The Database
 ### Remote Database
-1. Log into Azure Portal ([https://portal.azure.com/](Azure Portal))
-2. Create a new Web App + MySQL resource ([https://azuremarketplace.microsoft.com/en-/marketplace/apps/Microsoft.WebSiteMySQLDatabase?tab=Overview](Download Resource Here))
+1. Log into [Azure Portal](https://portal.azure.com/).
+2. Create a new Web App + MySQL resource by downloading the resource [here](https://azuremarketplace.microsoft.com/en-/marketplace/apps/Microsoft.WebSiteMySQLDatabase?tab=Overview).
 3. Make sure you name the Database VApp, and create your credentials.
 4. After the resources are created, navigate to the My SQL resource and find the connection string
 5. Update the SensitiveInfo.js with credential found in the connection string.
 #### Creating Database Tables
-1. Figure out a way to create table in remote DB.... I just run the SQL script in `migrations/database.sql` file with ([https://razorsql.com/](RazorSQL))
+1. Figure out a way to create table in remote DB.... I just run the SQL script in `migrations/database.sql` file with [RazorSQL](https://razorsql.com/).
 2. Using Razor to login into the remote DB and run SQL Queries with Razor GUI
 3. Explore newly created tables with Razor GUI (As a test, check if Users Table exists)
 #### Deploying App
-1. Deploy the App with VSCode([https://code.visualstudio.com/tutorials/app-service-extension/getting-started](Follow Steps to install Azure App Service extension))
+1. Deploy the App with VSCode. [Follow Steps to install Azure App Service extension](https://code.visualstudio.com/tutorials/app-service-extension/getting-started).
 2. When Azure Extension is configured, you will be able to see the Web App you created on Azure. Right click and hit Deploy to Web App.
 
 ### Local Database
