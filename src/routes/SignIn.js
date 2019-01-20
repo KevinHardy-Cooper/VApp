@@ -14,7 +14,6 @@ class SignIn extends User {
                 logger.error(inspect(err));
                 throw err;
             }
-            logger.info("Successfully signed in in SignIn");
             callback(null, obj);
         });
     }

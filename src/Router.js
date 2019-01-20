@@ -56,12 +56,15 @@ router.get('/', function(req, res) {
 
 router.post('/signup', function(req, res, next) {
     SignUp.delegate(req.body.email, req.body.password, function(err, obj) {
-        if (err) {
+        if (err){
             logger.error(inspect(err));
             res.status(err.statusCode).send(err);
         } else {
-            logger.info("Successful Sign Up")
-            res.sendStatus(200);
+            logger.info(obj.statusMessage);
+            res.send({
+                "code":obj.statusCode,
+                "success":obj.statusMessage
+            });
         }
     });
 });
@@ -72,7 +75,7 @@ router.post('/signout', function(req, res) {
             logger.error(inspect(err));
             res.status(err.statusCode).send(err);
         } else {
-            logger.info("Successful Sign Out")
+            logger.info("Successful Sign Out");
             res.sendStatus(200);
         }
     });
@@ -83,9 +86,12 @@ router.post('/signin', function(req, res) {
         if (err) {
             logger.error(inspect(err));
             res.status(err.statusCode).send(err);
-        } else {
-            logger.info("Successful Sign In")
-            res.send(obj);
+        }else{
+            logger.info(obj.statusMessage);
+            res.send({
+                "code":obj.statusCode,
+                "success":obj.statusMessage
+            });
         }
     });
 });

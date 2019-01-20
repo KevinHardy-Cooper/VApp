@@ -14,7 +14,8 @@ class DatabaseConnection {
             host: sensitiveInfo.host,
             user: sensitiveInfo.user,
             password: sensitiveInfo.password,
-            database: sensitiveInfo.database
+            database: sensitiveInfo.database,
+            port: sensitiveInfo.port
         });
 
         return con;

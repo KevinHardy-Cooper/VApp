@@ -14,8 +14,7 @@ class SignUp extends User {
                 logger.error(inspect(err));
                 throw err;
             }
-            logger.info("Successfully signed up in SignUp");
-            callback(null, 200);
+            callback(null, obj);
         });
     }
 }
