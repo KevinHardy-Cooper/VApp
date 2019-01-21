@@ -64,6 +64,23 @@ NOTE:
 If you have made change to a table, such as inserted Implications or Settings, export the database as an SQL file, 
  replace the `database.sql` with this file (also name it `database.sql`), and make a pull request on GitHub with the 
  updated file.
+
+ ## Database Migrations
+ To manage our database we will be using database migrations. This is pretty standard for web applications. This is the basic idea: instead of manually updating the database (by using a tool like MySQL Workbench or having to run SQL queries manually in the terminal) we can create migration scripts. These scripts will make the updates to the database for us and they are very easy to use. Also, it will support upgrading and rolling back the database. For new developers, they can simply import the database.sql file and run the migration command and be good to go.
+
+ For an overview of how database migrations work in NodeJS, read [this](https://itnext.io/updating-an-sql-database-schema-using-node-js-6c58173a455a) article.
+
+ We will be using [db-migrate](https://www.npmjs.com/package/db-migrate) and [db-migrate-mysql](https://www.npmjs.com/package/db-migrate-mysql). You should install these packages globally for convenience by using the following command:
+
+ `npm install -g db-migrate db-migrate-mysql`
+
+ You will need to make sure have a `database.json` file. Simply copy the `database-sample.json` file, rename it to `database.json` and edit the contents as necessary (or ask someone)!
+
+ To update your database to the latest version, simply run:
+
+ `db-migrate up`
+
+ For more information on how to write scripts, refer to the [official docs](https://db-migrate.readthedocs.io/en/latest/API/SQL/).
  
 ## What Should Go In SensitiveInfo.js?
 At this stage, there are only four fields, and each is required in order to make a database connection **currently**.
