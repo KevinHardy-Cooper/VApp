@@ -13,7 +13,11 @@ node_modules/*
 
 # Logs
 ./logs/*
+/logs/*
 
 # SensitiveInfo
 config/SensitiveInfo.js
 database.json
+
+# Package
+package-lock.json
