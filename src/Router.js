@@ -96,84 +96,29 @@ router.post('/signin', function(req, res) {
     });
 });
 
-router.get('/oauth', function(req, res) {
-    consumer.get(
-        "https://api.twitter.com/1.1/account/verify_credentials.json",
-        req.session.oauthAccessToken,
-        req.session.oauthAccessTokenSecret,
-        function (err, data, response) {
-
-        if (err) {
-            if (err.statusCode === 403) {
-                logger.info("Good Error for OAuth, User has not authorized app")
-                res.redirect('/oauth/twitter'); // send to /oauth/:socialMedia endpoint
-            } else {
-                logger.error(inspect(err));
-                res.status(err.statusCode).send(err);
-            }
-        } else {
-            // no error means that user has authorized app
-            logger.info("User has already authorized app");
-            res.redirect('/settings/twitter'); // send to /settings/:socialMedia
-        }
-    });
-});
-
-router.get('/oauth/callback', function(req, res) {
-    if (req.query.denied) {
-        logger.warn("User has denied the authorization of the app, sending them home");
-        res.redirect('/');
-    } else {
-        consumer.getOAuthAccessToken(
-            req.session.oauthRequestToken,
-            req.session.oauthRequestTokenSecret,
-            req.query.oauth_verifier,
-            function (err, oauthAccessToken, oauthAccessTokenSecret, results) {
+router.get('/settings/:socialMedia', function(req, res){
+    if (req.params.socialMedia === 'twitter') {
+        consumer.get(
+            "https://api.twitter.com/1.1/account/settings.json",
+            req.session.oauthAccessToken,
+            req.session.oauthAccessTokenSecret,
+            function (err, data) {
 
                 if (err) {
                     logger.error(inspect(err));
                     res.status(err.statusCode).send(err);
                 } else {
-                    req.session.oauthAccessToken = oauthAccessToken;
-                    req.session.oauthAccessTokenSecret = oauthAccessTokenSecret;
-                    logger.info("Callback successful, now directing to /settings/twitter")
-                    res.redirect('/settings/twitter'); // send to /settings/:socialMedia
+                    logger.info("Successful Pull of User Settings from Twitter");
+                    res.send(data);
                 }
             });
+    } else {
+        logger.info("Social media not supported");
+        res.send({
+            "code":204,
+            "success":"Social media not supported"
+        });
     }
-});
-
-router.get('/oauth/:socialMedia', function(req, res) {
-    consumer.getOAuthRequestToken(
-        function(err, oauthToken, oauthTokenSecret, results){
-
-        if (err) {
-            logger.error(inspect(err));
-            res.status(err.statusCode).send(err);
-        } else {
-            req.session.oauthRequestToken = oauthToken;
-            req.session.oauthRequestTokenSecret = oauthTokenSecret;
-            logger.info("Request for Twitter login page successful")
-            res.redirect("https://twitter.com/oauth/authorize?oauth_token=" + req.session.oauthRequestToken);
-        }
-    });
-});
-
-router.get('/settings/:socialMedia', function(req, res){
-    consumer.get(
-        "https://api.twitter.com/1.1/account/settings.json",
-        req.session.oauthAccessToken,
-        req.session.oauthAccessTokenSecret,
-        function (err, data) {
-
-        if (err) {
-            logger.error(inspect(err));
-            res.status(err.statusCode).send(err);
-        } else {
-            logger.info("Successful Pull of User Settings")
-            res.send(data);
-        }
-    });
 });
 
 router.get('/cumulativeScore', function(req, res) {

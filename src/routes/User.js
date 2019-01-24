@@ -38,12 +38,14 @@ class User {
                 logger.error(inspect(err));
                 throw err;
             } else {
-                if(result.length === 1){
+                if (result.length === 1) {
                     result.statusCode = 200;
-                    result.statusMessage = "User exists for given email and password";                }
+                    result.statusMessage = "User exists for given email and password";
+                }
                 else {
                     result.statusCode = 204;
-                    result.statusMessage = "User does not exist for given email and password";                }
+                    result.statusMessage = "User does not exist for given email and password";
+                }
             }
             callback(null, result);
         });
