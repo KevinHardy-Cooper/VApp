@@ -63,7 +63,7 @@ connector.get('/oauth', function(req, res) {
             } else {
                 // no error means that user has authorized app
                 logger.info("User has already authorized app");
-                res.redirect('/settings/twitter'); // send to /settings/:socialMedia
+                res.redirect('/settings'); // send to /settings/:socialMedia
             }
         });
 });
@@ -86,7 +86,7 @@ connector.get('/oauth/callback', function(req, res) {
                     req.session.oauthAccessToken = oauthAccessToken;
                     req.session.oauthAccessTokenSecret = oauthAccessTokenSecret;
                     logger.info("Callback successful, now directing to /settings/twitter")
-                    res.redirect('/settings/twitter'); // send to /settings/:socialMedia
+                    res.redirect('/settings'); // send to /settings/:socialMedia
                 }
             });
     }

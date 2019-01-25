@@ -17,7 +17,9 @@ node_modules/*
 
 # SensitiveInfo
 config/SensitiveInfo.js
+
+# Database credentials
 database.json
 
-# Package
+# Package-lock.json
 package-lock.json

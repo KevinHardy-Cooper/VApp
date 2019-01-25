@@ -18,6 +18,7 @@ const session = require('express-session');
 const SensitiveInfo = require('../config/SensitiveInfo');
 const logger = require('../config/log.js');
 const inspect = require('util').inspect;
+const path = require('path');
 
 // Grouping route handlers together using express.Router object
 const router = express.Router();
@@ -40,6 +41,9 @@ let consumer = new oauth.OAuth(
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
+//Serve static content for the app from the "public" directory in the application directory.
+router.use(express.static(__dirname + '/public'));
+
 // Here we are setting up the session to work properly
 router.use(session({ secret: sensitiveInfo.cookie_signer, resave: false, saveUninitialized: true}));
 router.use(function(req, res, next) {
@@ -54,6 +58,26 @@ router.get('/', function(req, res) {
     res.send("GET request for the Home Page");
 });
 
+router.get('/dashboard', function(req, res) {
+    logger.info("GET request for the Dashboard Page");
+    res.sendFile(path.join(__dirname + '/public/views/dashboard.html'));
+});
+
+router.get('/signin', function(req, res) {
+    logger.info("GET request for the SignIn Page");
+    res.sendFile(path.join(__dirname + '/public/views/signin.html'));
+});
+
+router.get('/signup', function(req, res) {
+    logger.info("GET request for the SignIn Page");
+    res.sendFile(path.join(__dirname + '/public/views/signup.html'));
+});
+
+router.get('/settings', function(req, res) {
+    logger.info("GET request for the Settings Page");
+    res.sendFile(path.join(__dirname + '/public/views/settings.html'));
+});
+
 router.post('/signup', function(req, res, next) {
     SignUp.delegate(req.body.email, req.body.password, function(err, obj) {
         if (err){
@@ -61,10 +85,9 @@ router.post('/signup', function(req, res, next) {
             res.status(err.statusCode).send(err);
         } else {
             logger.info(obj.statusMessage);
-            res.send({
-                "code":obj.statusCode,
-                "success":obj.statusMessage
-            });
+            if(obj.statusCode === 200) {
+                res.redirect('/signin');
+            }
         }
     });
 });
@@ -88,10 +111,9 @@ router.post('/signin', function(req, res) {
             res.status(err.statusCode).send(err);
         }else{
             logger.info(obj.statusMessage);
-            res.send({
-                "code":obj.statusCode,
-                "success":obj.statusMessage
-            });
+            if(obj.statusCode === 200) {
+                res.redirect('/dashboard');
+            }
         }
     });
 });
