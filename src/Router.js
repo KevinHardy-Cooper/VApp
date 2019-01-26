@@ -55,7 +55,7 @@ router.use(function(req, res, next) {
 
 router.get('/', function(req, res) {
     logger.info("GET request for the Home Page");
-    res.send("GET request for the Home Page");
+    res.sendFile(path.join(__dirname, '/public/views/home.html'));
 });
 
 router.get('/dashboard', function(req, res) {
