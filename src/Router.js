@@ -184,8 +184,8 @@ router.post('/score/:socialMedia', function(req, res) {
     });
 });
 
-router.get('/implications/:settingId/', function(req, res) {
-    Implications.getImplicationsForGivenSocialMediaSetting(req.params.settingId, function(err, obj) {
+router.get('/implications/:socialMedia/:settingName/:settingState', function(req, res) {
+    Implications.getImplications(req.params.socialMedia, req.params.settingName, req.params.settingState, function(err, obj) {
         if (err) {
             logger.error(inspect(err));
             res.status(err.statusCode).send(err);
@@ -195,8 +195,8 @@ router.get('/implications/:settingId/', function(req, res) {
     })
 });
 
-router.get('/instructions/:implicationId/', function(req, res) {
-    Implications.getInstructionsForGivenImplication(req.params.implicationId, function(err, obj) {
+router.get('/instructions/:socialMedia/:settingName/:settingState', function(req, res) {
+    Implications.getInstructions(req.params.socialMedia, req.params.settingName, req.params.settingState, function(err, obj) {
         if (err) {
             logger.error(inspect(err));
             res.status(err.statusCode).send(err);

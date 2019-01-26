@@ -12,14 +12,20 @@ class Implications {
         // returns all implications for given social media
     }
 
-    static getImplicationsForGivenSocialMediaSetting(settingId, callback) {
+    static getImplications(socialMedia, settingName, settingState, callback) {
         let con = DatabaseConnection.createConnection();
-        let sql = 'SELECT * ' +
-                    'FROM Implications ' +
-                    'INNER JOIN Settings ' +
-                    'ON Implications.setting_id = Settings.id ' +
-                    'WHERE Settings.id = ?';
-        con.query(sql, settingId , function (err, result) {
+        let inserts = [socialMedia, settingName, settingState+""];
+        let sql = `select Implications.description 
+                    from Implications 
+                    inner join Setting_States 
+                    on Setting_States.id = Implications.setting_state_id 
+                    inner join Settings 
+                    on Implications.setting_id = Settings.id 
+                    inner join social_media 
+                    on Settings.social_media_id = Social_Media.id
+                     where Social_Media.name = ? 
+                     and Settings.name = ? and Setting_States.state = ?`;
+        con.query(sql, inserts , function (err, result) {
             if (err) {
                 logger.error(inspect(err));
                 throw err;
@@ -33,16 +39,20 @@ class Implications {
         // returns implication for given social media, given setting, and given state
     }
 
-    static getImplications() {
-        // returns all implications
-    }
-
-    static getInstructionsForGivenImplication(implicationId, callback) {
+    static getInstructions(socialMedia, settingName, settingState, callback) {
         let con = DatabaseConnection.createConnection();
-        let sql = 'SELECT * ' +
-                    'FROM Implications ' +
-                    'WHERE id = ?';
-        con.query(sql, implicationId, function (err, result) {
+        let inserts = [socialMedia, settingName, settingState+""];
+        let sql = `select Implications.instructions 
+                    from Implications 
+                    inner join Setting_States 
+                    on Setting_States.id = Implications.setting_state_id 
+                    inner join Settings 
+                    on Implications.setting_id = Settings.id 
+                    inner join social_media 
+                    on Settings.social_media_id = Social_Media.id
+                     where Social_Media.name = ? 
+                     and Settings.name = ? and Setting_States.state = ?`;
+        con.query(sql, inserts, function (err, result) {
             if (err) {
                 logger.error(inspect(err));
                 throw err;
