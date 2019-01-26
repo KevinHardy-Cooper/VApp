@@ -13,6 +13,7 @@ const CumulativeScore = require('./routes/CumulativeScore');
 const History = require('./routes/History');
 const SocialMediaScore = require('./routes/SocialMediaScore');
 const Implications = require('./routes/Implications');
+const Levels = require('./routes/Levels');
 const oauth = require('oauth');
 const session = require('express-session');
 const SensitiveInfo = require('../config/SensitiveInfo');
@@ -208,5 +209,16 @@ router.get('/instructions/:socialMedia/:settingName/:settingState', function(req
         res.send(obj);
     })
 });
+
+router.get('/level/:amount', function(req, res) {
+    Levels.getLevel(req.params.amount, function(err, obj) {
+        if (err) {
+            logger.error(inspect(err));
+            res.status(err.statusCode).send(err);
+        }
+        logger.info("Successful GET of level for amount");
+        res.send(obj);
+    })
+})
 
 module.exports = router;
