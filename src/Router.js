@@ -60,33 +60,36 @@ router.get('/', function(req, res) {
 
 router.get('/dashboard', function(req, res) {
     logger.info("GET request for the Dashboard Page");
-    res.sendFile(path.join(__dirname + '/public/views/dashboard.html'));
+    res.sendFile(path.join(__dirname, '/public/views/dashboard.html'));
 });
 
 router.get('/signin', function(req, res) {
     logger.info("GET request for the SignIn Page");
-    res.sendFile(path.join(__dirname + '/public/views/signin.html'));
+    res.sendFile(path.join(__dirname, '/public/views/signin.html'));
 });
 
 router.get('/signup', function(req, res) {
     logger.info("GET request for the SignIn Page");
-    res.sendFile(path.join(__dirname + '/public/views/signup.html'));
+    res.sendFile(path.join(__dirname, '/public/views/signup.html'));
 });
 
 router.get('/settings', function(req, res) {
     logger.info("GET request for the Settings Page");
-    res.sendFile(path.join(__dirname + '/public/views/settings.html'));
+    res.sendFile(path.join(__dirname, '/public/views/settings.html'));
 });
 
-router.post('/signup', function(req, res, next) {
+router.post('/signup', function(req, res) {
     SignUp.delegate(req.body.email, req.body.password, function(err, obj) {
         if (err){
             logger.error(inspect(err));
             res.status(err.statusCode).send(err);
         } else {
-            logger.info(obj.statusMessage);
             if(obj.statusCode === 200) {
                 res.redirect('/signin');
+                // TODO: show banner on front end regarding new user successfully created
+            } else {
+                res.send(obj);
+                // TODO: do something here to handle on front end to show user that email already exists
             }
         }
     });
@@ -157,7 +160,7 @@ router.get('/score/:userId', function(req, res) {
             logger.error(inspect(err));
             res.status(err.statusCode).send(err);
         }
-        logger.info("Successful GET of score for userId")
+        logger.info("Successful GET of score for userId");
         res.send(obj);
     });
 });
@@ -168,7 +171,7 @@ router.get('/score/:userId/:socialMedia', function(req, res) {
             logger.error(inspect(err));
             res.status(err.statusCode).send(err);
         }
-        logger.info("Successful GET of score for userId by socialMedia")
+        logger.info("Successful GET of score for userId by socialMedia");
         res.send(obj);
     });
 });
@@ -179,7 +182,7 @@ router.post('/score/:socialMedia', function(req, res) {
             logger.error(inspect(err));
             res.status(err.statusCode).send(err);
         }
-        logger.info("Successful POST of score for socialMedia")
+        logger.info("Successful POST of score for socialMedia");
         res.sendStatus(200);
     });
 });
@@ -190,7 +193,7 @@ router.get('/implications/:settingId/', function(req, res) {
             logger.error(inspect(err));
             res.status(err.statusCode).send(err);
         }
-        logger.info("Successful GET of implications for settingId")
+        logger.info("Successful GET of implications for settingId");
         res.send(obj);
     })
 });
@@ -201,7 +204,7 @@ router.get('/instructions/:implicationId/', function(req, res) {
             logger.error(inspect(err));
             res.status(err.statusCode).send(err);
         }
-        logger.info("Sucessful GET of instructions for implicationId")
+        logger.info("Sucessful GET of instructions for implicationId");
         res.send(obj);
     })
 });

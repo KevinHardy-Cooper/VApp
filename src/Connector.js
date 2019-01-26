@@ -54,7 +54,7 @@ connector.get('/oauth', function(req, res) {
         function (err, data, response) {
             if (err) {
                 if (err.statusCode === 403) {
-                    logger.info("Good Error for OAuth, User has not authorized app")
+                    logger.info("Good Error for OAuth, User has not authorized app");
                     res.redirect('/oauth/twitter'); // send to /oauth/:socialMedia endpoint
                 } else {
                     logger.error(inspect(err));
@@ -85,7 +85,7 @@ connector.get('/oauth/callback', function(req, res) {
                 } else {
                     req.session.oauthAccessToken = oauthAccessToken;
                     req.session.oauthAccessTokenSecret = oauthAccessTokenSecret;
-                    logger.info("Callback successful, now directing to /settings/twitter")
+                    logger.info("Callback successful, now directing to /settings/twitter");
                     res.redirect('/settings'); // send to /settings/:socialMedia
                 }
             });

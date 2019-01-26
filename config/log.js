@@ -3,8 +3,8 @@ const winston = require('winston');
 const fs = require('fs');
 
 // Creating logs directory if it doesn't already exist
-if (!fs.existsSync('logs/')) {
-    fs.mkdir('logs/');
+if (!fs.existsSync('./logs/')) {
+    fs.mkdirSync('./logs/');
 }
 
 // Creating a custom format to log

@@ -22,7 +22,10 @@ class SignUp extends User {
                     callback(null, obj);
                 });
             } else if (obj.statusCode === 200) { // if the user does exist for email
-                obj.statusMessage = "New user not inserted, user already exists for email"
+                obj = {
+                    "code": 204,
+                    "failed": "New user not inserted, user already exists for email"
+                };
                 callback(null, obj);
             }
         });
