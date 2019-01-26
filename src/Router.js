@@ -177,13 +177,13 @@ router.get('/score/:userId/:socialMedia', function(req, res) {
 });
 
 router.post('/score/:socialMedia', function(req, res) {
-    SocialMediaScore.calculateSocialMediaScore(req.body.userId, req.params.socialMedia, req.body.score, function(err, obj) {
+    SocialMediaScore.calculateSocialMediaScore(req.params.socialMedia, req.body.settings, function(err, obj) {
         if (err) {
             logger.error(inspect(err));
             res.status(err.statusCode).send(err);
         }
-        logger.info("Successful POST of score for socialMedia");
-        res.sendStatus(200);
+        logger.info("Successful POST of score for socialMedia")
+        res.send(obj);
     });
 });
 
