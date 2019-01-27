@@ -47,30 +47,36 @@
 </nav>
 
 <div class="container-with-padding-left">
-    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">Twitter: <span>A-</span></h1>
+    <div class="text-center">
+        <h1 class="display-4">Twitter: <span></span></h1>
     </div>
 
     <div class="container">
         <div class="card" style="margin: 30px">
-            <div class="card-header text-white bg-primary" id="setting-1-state" >Let others find you by your email address: <span class="value"></span></div>
+            <div class="card-header text-white bg-primary" id="setting-0-state" >Let others find you by your email address: <span class="value"></span></div>
             <div class="card-body">
-                <p class="card-text">Implications:</p>
-                <p class="card-text">How to Fix:</p>
+                <h5 class="text-center"><u>Implications</u></h5>
+                <p class="card-text" id="setting-0-imp"></p>
+                <h5 class="text-center"><u>How to Fix</u></h5>
+                <p class="card-text" id="setting-0-fix"></p>
             </div>
         </div>
         <div class="card" style="margin: 30px">
-            <div class="card-header text-white bg-primary" id="setting-2-state">Tweet with a location (website), Precise Location (mobile app): <span class="value"></span></div>
+            <div class="card-header text-white bg-primary" id="setting-1-state">Tweet with a location (website), Precise Location (mobile app): <span class="value"></span></div>
             <div class="card-body">
-                <p class="card-text">Implications:</p>
-                <p class="card-text">How to Fix:</p>
+                <h5 class="text-center"><u>Implications</u></h5>
+                <p class="card-text" id="setting-1-imp"></p>
+                <h5 class="text-center"><u>How to Fix</u></h5>
+                <p class="card-text" id="setting-1-fix"></p>
             </div>
         </div>
         <div class="card" style="margin: 30px">
-            <div class="card-header text-white bg-primary" id="setting-3-state">Protect your tweets from the public: <span class="value"></span></div>
+            <div class="card-header text-white bg-primary" id="setting-2-state">Protect your tweets from the public: <span class="value"></span></div>
             <div class="card-body">
-                <p class="card-text">Implications:</p>
-                <p class="card-text">How to Fix:</p>
+                <h5 class="text-center"><u>Implications</u></h5>
+                <p class="card-text" id="setting-2-imp"></p>
+                <h5 class="text-center"><u>How to Fix</u></h5>
+                <p class="card-text" id="setting-2-fix"></p>
             </div>
         </div>
     </div>
@@ -83,11 +89,44 @@
 </body>
 <script>
     function delegate() {
+        let settings =  ["discoverable_by_email","geo_enabled", "protected"];
         $.getJSON('/settings/twitter', function(data) { // retrieve user settings
-            $("#setting-1-state > span").append("<strong>"+ data.discoverable_by_email + "</strong>");
-            $("#setting-2-state > span").append("<strong>"+ data.geo_enabled + "</strong>");
-            $("#setting-3-state > span").append("<strong>"+ data.protected + "</strong>");
+            for (var i = 0; i < settings.length; i++){
+                $("#setting-" + i + "-state > span").append("<strong>"+ data[settings[i]] + "</strong>");
+            }
+        }).done(function( data ) {
+            $.ajax( "/score/twitter", {
+                data : JSON.stringify({ "settings":data } ),
+                contentType : 'application/json',
+                type : 'POST'}).done(function( score ) {
+                $.getJSON('/level/1/twitter', function(level) {
+                    $("body > div > div.text-center > h1 > span").append("<strong>"+ level[0].name + "</strong>");
+                })
+            });
+            for (var i = 0; i < settings.length; i++){
+                generateSettingsBody("setting-" + i + "-imp", "implications", settings[i] ,data[settings[i]]);
+            }
+
+            for (var i = 0; i < settings.length; i++){
+                generateSettingsBody("setting-" + i + "-fix", "instructions", settings[i] ,data[settings[i]]);
+            }
+
         });
+
+        function generateSettingsBody(id, type, setting, value) {
+            let link = '/'+ type +'/twitter/'+setting+"/"+ value;
+            $.getJSON(link, function(data) { // retrieve user settings
+                if(type === "implications"){
+                    $("#"+id).append("<strong>"+ data[0].description + "</strong>");
+                    $("#"+id).css("white-space","pre-wrap");
+
+                }else if (type === "instructions"){
+                    $("#"+id).append("<strong>"+ data[0].instructions + "</strong>");
+                    $("#"+id).css("white-space","pre-wrap");
+                }
+            });
+        }
+
     }
 </script>
 </html>
