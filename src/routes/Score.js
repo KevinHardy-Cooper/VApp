@@ -9,10 +9,11 @@ const inspect = require('util').inspect;
 
 class Score {
     static insertScore(userId, typeId, score, callback) {
+        let inserts = [userId, typeId, score];
         let con = DatabaseConnection.createConnection();
         let sql = 'INSERT INTO Scores (user_id, type_id, score) ' +
                     'VALUES (?, ?, ?)';
-        con.query(sql, userId, typeId, score, function (err, result) {
+        con.query(sql, inserts, function (err, result) {
             if (err) {
                 logger.error(inspect(err));
                 throw err;
@@ -22,17 +23,32 @@ class Score {
         });
     }
 
-    static getMostRecentScoreForGivenType() {
-        // returns most recent score
+    static getMostRecentScoreForGivenType(userId, typeId, callback) {
+        let inserts = [userId, typeId];
+        let con = DatabaseConnection.createConnection();
+        let sql = 'SELECT *' +
+            'FROM Scores ' +
+            'WHERE user_id = ?' +
+            ' AND type_id = ?' +
+            ' ORDER BY id DESC LIMIT 1';
+        con.query(sql, inserts, function (err, result) {
+            if (err) {
+                logger.error(inspect(err));
+                throw err;
+            }
+            logger.info("Successfully got scores for given type in Score");
+            callback(null, result);
+        });
     }
 
     static getScoresForGivenType(userId, typeId, callback) {
+        let inserts = [userId, typeId];
         let con = DatabaseConnection.createConnection();
         let sql = 'SELECT * ' +
                     'FROM Scores ' +
                     'WHERE user_id = ?' +
                     ' AND type_id = ?';
-        con.query(sql, userId, typeId, function (err, result) {
+        con.query(sql, inserts, function (err, result) {
             if (err) {
                 logger.error(inspect(err));
                 throw err;

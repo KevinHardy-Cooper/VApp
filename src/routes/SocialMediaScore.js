@@ -19,7 +19,7 @@ class SocialMediaScore extends Score {
 
         // Prepare query
         // Get all the implications' weights given the social media, setting names, and setting states
-        let sql = `SELECT SUM(Implications.weight) as Score
+        let sql = `SELECT SUM(Implications.weight) as score
                     from Settings 
                     inner join Social_Media 
                     on Settings.social_media_id = Social_Media.id 
@@ -63,8 +63,28 @@ class SocialMediaScore extends Score {
                 logger.error(inspect(err));
                 throw err;
             }
+            let score = result[0].score;
             logger.info("Successfully calculated social media score");
-            callback(null, result);
+            Score.getScoreType(inserts[0], function (err, obj) {
+                if (err) {
+                    logger.error(inspect(err));
+                    throw err;
+                }
+                logger.info("Successfully got the score type in SocialMediaScore");
+                let typeId = obj[0].id;
+                Score.insertScore(1, typeId, score, function (err, obj) {
+                    if (err) {
+                        logger.error(inspect(err));
+                        throw err;
+                    } else if (obj === 200) {
+                        obj = {
+                            "code": 204,
+                            "success": "Successfully inserted score in SocialMediaScore"
+                        };
+                        callback(null, obj);
+                    }
+                });
+            });
         });
     }
 }

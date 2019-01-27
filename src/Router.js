@@ -221,4 +221,15 @@ router.get('/level/:amount', function(req, res) {
     })
 })
 
+router.get('/level/:userId/:socialMedia', function(req, res) {
+    History.getUsersLevelGivenSocialMedia(req.params.userId, req.params.socialMedia, function(err, obj) {
+        if (err) {
+            logger.error(inspect(err));
+            res.status(err.statusCode).send(err);
+        }
+        logger.info("Successful GET of score for userId by socialMedia");
+        res.send(obj);
+    });
+});
+
 module.exports = router;
