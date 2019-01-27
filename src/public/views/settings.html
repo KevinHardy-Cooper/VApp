@@ -20,143 +20,57 @@
 </head>
 
 <body onload="delegate()">
-<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
-    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-    <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-            <a class="nav-link" href="#">Sign out</a>
-        </li>
-    </ul>
-</nav>
-
-<nav class="col-md-2 d-none d-md-block bg-light sidebar">
-    <div class="sidebar-sticky">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">
-                    <span data-feather="home"></span>
-                    Dashboard <span class="sr-only">(current)</span>
-                </a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">App Name</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/dashboard">HOME</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file"></span>
-                    Orders
-                </a>
+                <a class="nav-link" href="#">HISTORY</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="shopping-cart"></span>
-                    Products
-                </a>
+                <a class="nav-link" href="#">ACCOUNT</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="users"></span>
-                    Customers
-                </a>
+                <a class="nav-link" href="#">ABOUT</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="bar-chart-2"></span>
-                    Reports
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="layers"></span>
-                    Integrations
-                </a>
-            </li>
-        </ul>
-
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-            <span>Saved reports</span>
-            <a class="d-flex align-items-center text-muted" href="#">
-                <span data-feather="plus-circle"></span>
-            </a>
-        </h6>
-        <ul class="nav flex-column mb-2">
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file-text"></span>
-                    Current month
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file-text"></span>
-                    Last quarter
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file-text"></span>
-                    Social engagement
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <span data-feather="file-text"></span>
-                    Year-end sale
-                </a>
+                <a class="nav-link" href="#">SIGN OUT</a>
             </li>
         </ul>
     </div>
 </nav>
+
 <div class="container-with-padding-left">
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">Settings</h1>
-        <p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It's built with default Bootstrap components and utilities with little customization.</p>
+        <h1 class="display-4">Twitter: <span>A-</span></h1>
     </div>
 
     <div class="container">
-        <div class="card-deck mb-3 text-center">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Let others find you by your email address</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title"><small id="setting-1-state" class="text-muted"></small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>10 users included</li>
-                        <li>2 GB of storage</li>
-                        <li>Email support</li>
-                        <li>Help center access</li>
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free</button>
-                </div>
+        <div class="card" style="margin: 30px">
+            <div class="card-header text-white bg-primary" id="setting-1-state" >Let others find you by your email address: <span class="value"></span></div>
+            <div class="card-body">
+                <p class="card-text">Implications:</p>
+                <p class="card-text">How to Fix:</p>
             </div>
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Tweet with a location (website), Precise Location (mobile app)</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title"><small id="setting-2-state" class="text-muted"></small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>20 users included</li>
-                        <li>10 GB of storage</li>
-                        <li>Priority email support</li>
-                        <li>Help center access</li>
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
-                </div>
+        </div>
+        <div class="card" style="margin: 30px">
+            <div class="card-header text-white bg-primary" id="setting-2-state">Tweet with a location (website), Precise Location (mobile app): <span class="value"></span></div>
+            <div class="card-body">
+                <p class="card-text">Implications:</p>
+                <p class="card-text">How to Fix:</p>
             </div>
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Protect your tweets from the public</h4>
-                </div>
-                <div class="card-body">
-                    <h1 class="card-title pricing-card-title"><small id="setting-3-state" class="text-muted"></small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>30 users included</li>
-                        <li>15 GB of storage</li>
-                        <li>Phone and email support</li>
-                        <li>Help center access</li>
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
-                </div>
+        </div>
+        <div class="card" style="margin: 30px">
+            <div class="card-header text-white bg-primary" id="setting-3-state">Protect your tweets from the public: <span class="value"></span></div>
+            <div class="card-body">
+                <p class="card-text">Implications:</p>
+                <p class="card-text">How to Fix:</p>
             </div>
         </div>
     </div>
@@ -170,9 +84,9 @@
 <script>
     function delegate() {
         $.getJSON('/settings/twitter', function(data) { // retrieve user settings
-            document.getElementById("setting-1-state").innerHTML = data.discoverable_by_email;
-            document.getElementById("setting-2-state").innerHTML = data.geo_enabled;
-            document.getElementById("setting-3-state").innerHTML = data.protected;
+            $("#setting-1-state > span").append("<strong>"+ data.discoverable_by_email + "</strong>");
+            $("#setting-2-state > span").append("<strong>"+ data.geo_enabled + "</strong>");
+            $("#setting-3-state > span").append("<strong>"+ data.protected + "</strong>");
         });
     }
 </script>
