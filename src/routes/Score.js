@@ -58,7 +58,7 @@ class Score {
         });
     }
 
-    static getScores(userId, callback) {
+    static getScoresByUserId(userId, callback) {
         let con = DatabaseConnection.createConnection();
         let sql = 'SELECT * ' +
                     'FROM Scores ' +
@@ -71,10 +71,6 @@ class Score {
             logger.info("Successfully got scores by userId in Score");
             callback(null, result);
         });
-    }
-
-    static getMostRecentScores() {
-        // returns most recent scores for given user
     }
 
     static getScoreType(socialMedia, callback) {

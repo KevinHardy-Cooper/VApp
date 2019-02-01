@@ -143,14 +143,13 @@ For Database development, we will follow the following naming conventions:
 
 `POST /cumulativeScore` - Inserts user's cumulative score
 
-`GET /score/:userId` - Gets user's scores
-
-`GET /score/:userId/:socialMedia` - Gets user's scores by social media
-
 `POST /score/:socialMedia` - Inserts user's social media score
 
 `GET /implications/:settingId` - Gets implications by setting
 
 `GET /instructions/:implicationId` - Gets instructions by implication
 
+`GET /history/:userId` - Get all scores by userId
+
+`GET /history/:userId/:socialMedia` - Get all scores by userId and by socialMedia
 

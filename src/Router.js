@@ -155,8 +155,8 @@ router.post('/cumulativeScore', function(req, res) {
     res.send("POST request add the most recent cumulative score to a scores DB");
 });
 
-router.get('/score/:userId', function(req, res) {
-    History.getScores(req.params.userId, function(err, obj) {
+router.get('/history/:userId', function(req, res) {
+    History.getScoresByUserId(req.params.userId, function(err, obj) {
         if (err) {
             logger.error(inspect(err));
             res.status(err.statusCode).send(err);
@@ -166,8 +166,8 @@ router.get('/score/:userId', function(req, res) {
     });
 });
 
-router.get('/score/:userId/:socialMedia', function(req, res) {
-    History.getUsersScoresGivenSocialMedia(req.params.userId, req.params.socialMedia, function(err, obj) {
+router.get('/history/:userId/:socialMedia', function(req, res) {
+    History.getScoresByUserIdAndSocialMedia(req.params.userId, req.params.socialMedia, function(err, obj) {
         if (err) {
             logger.error(inspect(err));
             res.status(err.statusCode).send(err);

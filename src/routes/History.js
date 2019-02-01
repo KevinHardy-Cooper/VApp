@@ -9,12 +9,8 @@ const logger = require('../../config/log.js');
 const inspect = require('util').inspect;
 
 class History extends Score {
-    static delegate() {
-        // controls the flow of retrieving past scores
-    }
-
-    static getScores(userId, callback) {
-        Score.getScores(userId, function(err, obj) {
+    static getScoresByUserId(userId, callback) {
+        Score.getScoresByUserId(userId, function(err, obj) {
             if (err) {
                 logger.error(inspect(err));
                 throw err;
@@ -24,7 +20,7 @@ class History extends Score {
         })
     }
 
-    static getUsersScoresGivenSocialMedia(userId, socialMedia, callback) {
+    static getScoresByUserIdAndSocialMedia(userId, socialMedia, callback) {
         Score.getScoreType(socialMedia, function(err, obj) {
             if (err) {
                 logger.error(inspect(err));
