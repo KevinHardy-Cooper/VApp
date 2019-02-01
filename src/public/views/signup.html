@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel="icon" href="../../../../favicon.ico">
+  <link rel="icon" href="favicon.ico">
 
   <title>Sign Up</title>
 
@@ -14,16 +14,12 @@
 
   <!-- Custom styles for this template -->
   <link href="css/signin.css" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 
 <body class="text-center">
 <div class="container">
   <div class="row">
-    <form class="form-signin" action="http://localhost:3000/signup" method="post">
-      <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <form class="form-signin" action="/signup" method="post">
       <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
       <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
@@ -34,7 +30,9 @@
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
     </form>
   </div>
-<p class="mt-5 mb-3 text-muted">&copy; 2019</p>
+  <div id="copyright" class="container">
+    <p>Made with 🍌🔥 in Hamilton, ON by Script Kitties. &copy; 2019.</p>
+  </div>
 </div>
 </div>
 <script>
