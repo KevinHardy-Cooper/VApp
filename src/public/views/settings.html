@@ -53,7 +53,7 @@
 
     <div class="container">
         <div class="card" style="margin: 30px">
-            <div class="card-header text-white bg-primary" id="setting-0-state" >Let others find you by your email address: <span class="value"></span></div>
+            <div class="card-header text-white bg-primary" id="setting-0" ><span class="value"></span></div>
             <div class="card-body">
                 <h5 class="text-center"><u>Implications</u></h5>
                 <p class="card-text" id="setting-0-imp"></p>
@@ -62,7 +62,7 @@
             </div>
         </div>
         <div class="card" style="margin: 30px">
-            <div class="card-header text-white bg-primary" id="setting-1-state">Tweet with a location (website), Precise Location (mobile app): <span class="value"></span></div>
+            <div class="card-header text-white bg-primary" id="setting-1"><span class="value"></span></div>
             <div class="card-body">
                 <h5 class="text-center"><u>Implications</u></h5>
                 <p class="card-text" id="setting-1-imp"></p>
@@ -71,7 +71,7 @@
             </div>
         </div>
         <div class="card" style="margin: 30px">
-            <div class="card-header text-white bg-primary" id="setting-2-state">Protect your tweets from the public: <span class="value"></span></div>
+            <div class="card-header text-white bg-primary" id="setting-2"><span class="value"></span></div>
             <div class="card-body">
                 <h5 class="text-center"><u>Implications</u></h5>
                 <p class="card-text" id="setting-2-imp"></p>
@@ -90,9 +90,15 @@
 <script>
     function delegate() {
         let settings =  ["discoverable_by_email","geo_enabled", "protected"];
+        let friendly_setting_names = {
+            "discoverable_by_email" : "Let others find you by your email address",
+            "geo_enabled" : "Tweet with a location (website), Precise Location (mobile app)",
+            "protected" : "Protect your tweets from the public"
+        };
         $.getJSON('/settings/twitter', function(data) { // retrieve user settings
             for (var i = 0; i < settings.length; i++){
-                $("#setting-" + i + "-state > span").append("<strong>"+ data[settings[i]] + "</strong>");
+                console.log(friendly_setting_names[settings[i]]);
+                $("#setting-" + i + " > span").append(friendly_setting_names[settings[i]] + ": <strong>"+ data[settings[i]] + "</strong>");
             }
         }).done(function( data ) {
             $.ajax( "/score/twitter", {
