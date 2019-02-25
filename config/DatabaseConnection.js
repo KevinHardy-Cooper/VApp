@@ -1,9 +1,6 @@
 // Imports
-const SensitiveInfo = require('./SensitiveInfo');
+const sensitiveInfo = require('./SensitiveInfo.json');
 const mysql = require('mysql');
-
-// Creating an instance of SensitiveInfo
-const sensitiveInfo = new SensitiveInfo();
 
 class DatabaseConnection {
     static createConnection() {

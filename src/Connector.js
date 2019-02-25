@@ -2,15 +2,12 @@
 const express = require('express');
 const oauth = require('oauth');
 const session = require('express-session');
-const SensitiveInfo = require('../config/SensitiveInfo');
+const sensitiveInfo = require('../config/SensitiveInfo.json');
 const logger = require('../config/log.js');
 const inspect = require('util').inspect;
 
 // Grouping route handlers together using express.Router object
 const connector = express.Router();
-
-// Creating an instance of SensitiveInfo
-const sensitiveInfo = new SensitiveInfo();
 
 // Initializing the OAuth class
 let consumer = new oauth.OAuth(

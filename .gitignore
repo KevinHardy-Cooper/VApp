@@ -16,7 +16,7 @@ node_modules/*
 /logs/*
 
 # SensitiveInfo
-config/SensitiveInfo.js
+config/SensitiveInfo.json
 
 # Database credentials
 database.json

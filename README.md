@@ -6,7 +6,7 @@ commit to the repo.
 1. Make sure you have [NodeJS](https://nodejs.org/en/) and MySQL (see How To Setup The Database -> Local Database -> Installation below) installed.
 2. Open your terminal and navigate to a directory of your choice.
 3. Clone the repository into that directory by running `git clone https://github.com/KevinHardy-Cooper/SFWRENG_4G06.git`
-4. Obtain a copy (or create your own) `SensitiveInfo.js` file. See What Should Go In SensitiveInfo.js? below.
+4. Obtain a copy (or create your own) `SensitiveInfo.json` file. See What Should Go In SensitiveInfo.json? below.
 5. Create the database (see How To Setup The Database -> Local Database -> Getting Started below)
 6. Start the local MySQL server: `mysql -u root -p` for Mac/Linux, `winpty mysql -u root -p` for Windows.
 7. Run `npm install`
@@ -20,7 +20,7 @@ commit to the repo.
 2. Create a new Web App + MySQL resource by downloading the resource [here](https://azuremarketplace.microsoft.com/en-/marketplace/apps/Microsoft.WebSiteMySQLDatabase?tab=Overview).
 3. Make sure you name the Database VApp, and create your credentials.
 4. After the resources are created, navigate to the My SQL resource and find the connection string
-5. Update the SensitiveInfo.js with credential found in the connection string.
+5. Update the SensitiveInfo.json with credential found in the connection string.
 #### Creating Database Tables
 1. Figure out a way to create table in remote DB.... I just run the SQL script in `migrations/database.sql` file with [RazorSQL](https://razorsql.com/).
 2. Using Razor to login into the remote DB and run SQL Queries with Razor GUI
@@ -82,34 +82,34 @@ If you have made change to a table, such as inserted Implications or Settings, e
 
  For more information on how to write scripts, refer to the [official docs](https://db-migrate.readthedocs.io/en/latest/API/SQL/).
  
-## What Should Go In SensitiveInfo.js?
+## What Should Go In SensitiveInfo.json?
 At this stage, there are only four fields, and each is required in order to make a database connection **currently**.
 
-`this.host = '';` This will contain the host of the database we are using. For a local database, the host is `localhost`;
+`"host" : ""` This will contain the host of the database we are using. For a local database, the host is `localhost`;
 
-`this.user = '';` This will contain the user for the database we are using. For a local database, the user could be `root`,
+`"user" : ""` This will contain the user for the database we are using. For a local database, the user could be `root`,
 or whatever you set up your local database user to be.
 
-`this.password = '';` This will contain the password for the database we are using. For a local database, this is not your
+`"password" : ""` This will contain the password for the database we are using. For a local database, this is not your
 computer password, but rather the password that you set up to be used for your local database.
 
-`this.database = '';` This will contain the database name for the database we are using. For this project, we will be using 
+`"database" : ""` This will contain the database name for the database we are using. For this project, we will be using 
 `VApp`.
 
-`this.port= '';` This will contain the database port for the database we are using. The default is `3306`.
+`"port" : ""` This will contain the database port for the database we are using. The default is `3306`.
 
 
-`this.consumer_key = '';` This is one of the two keys required in order to use Twitter's APIs for our app. They are 
+`"consumer_key" : ""` This is one of the two keys required in order to use Twitter's APIs for our app. They are 
 associated with Kevin's Twitter developer account and can be found there. More information can be found [here](https://themepacific.com/how-to-generate-api-key-consumer-token-access-key-for-twitter-oauth/994/).
 
-`this.consumer_secret_key = '';` This is the other key required in order to use Twitter's APIS for our app. They are 
+`"consumer_secret_key" : ""` This is the other key required in order to use Twitter's APIS for our app. They are 
 associated with Kevin's Twitter developer account and can be found there. More information can be found [here](https://themepacific.com/how-to-generate-api-key-consumer-token-access-key-for-twitter-oauth/994/).
         
-`this.callback_url = '';` This is used to provide direction on where a user should go after signing in with their 
+`"callback_url" : ""` This is used to provide direction on where a user should go after signing in with their 
 Twitter credentials. This callback url has been explicitly declared in the app's settings on Kevin's Twitter developer
 account. More information can be found [here](https://developer.twitter.com/en/docs/basics/apps/guides/callback-urls.html).
 
-`this.cookie_signer = '';` This is the secret used to sign the session ID cookie.
+`"cookie_signer" : ""` This is the secret used to sign the session ID cookie.
 
 ## Linting
 For JavaScript development, we will follow the following naming conventions:

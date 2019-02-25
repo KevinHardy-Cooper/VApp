@@ -71,9 +71,7 @@
           <div class="col-sm" style="margin-top: 30px">
             <p> <i class='fab fa-facebook-square' style='font-size:48px;color:#073fa5'></i></p>
             <p> Grade: A+</p>
-            <a href="/connect/facebook">
-              <button class="btn btn-lg btn-primary btn-block">Log into Facebook</button>
-            </a>
+            <button class="btn btn-lg btn-primary btn-block" onclick="loginWithFacebook();">Log into Facebook</button>
             <br>
             <a href="/settings">
               <button class="btn btn-lg btn-primary btn-block">See Facebook Settings</button>
@@ -98,5 +96,11 @@
 <div id="copyright" class="container">
   <p>Made with 🍌🔥 in Hamilton, ON by Script Kitties. &copy; 2019.</p>
 </div>
+<!--
+  Below we include the Login Button social plugin. This button uses
+  the JavaScript SDK to present a graphical Login button that triggers
+  the FB.login() function when clicked.
+-->
+<script src = "js/facebook_oauth.js"></script>
 </body>
 </html>
