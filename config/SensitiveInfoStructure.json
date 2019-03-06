@@ -7,5 +7,6 @@
   "consumer_key" : "",
   "consumer_secret_key" : "",
   "callback_url" : "",
-  "cookie_signer" : ""
+  "cookie_signer" : "",
+  "aes_key" : ""
 }

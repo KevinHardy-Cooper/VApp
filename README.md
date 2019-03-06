@@ -111,6 +111,8 @@ account. More information can be found [here](https://developer.twitter.com/en/d
 
 `"cookie_signer" : ""` This is the secret used to sign the session ID cookie.
 
+`"aes_key" : ""` This is the key that will be used in the one-way encryption of the user's password.
+
 ## Linting
 For JavaScript development, we will follow the following naming conventions:
 * Classes and files are to be named in UpperCamelCase

@@ -67,7 +67,7 @@ router.get('/signin', function(req, res) {
 });
 
 router.get('/signup', function(req, res) {
-    logger.info("GET request for the SignIn Page");
+    logger.info("GET request for the SignUp Page");
     res.sendFile(path.join(__dirname, '/public/views/signup.html'));
 });
 
