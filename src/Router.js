@@ -111,10 +111,11 @@ router.post('/signin', function(req, res) {
             logger.error(inspect(err));
             res.status(err.statusCode).send(err);
         }else{
-            logger.info(obj.statusMessage);
-            if(obj.statusCode === 200) {
-                res.redirect('/dashboard');
-            }
+            let response = {
+                "code": obj.statusCode,
+                "success": obj.statusMessage
+            };
+            res.send(response);
         }
     });
 });
