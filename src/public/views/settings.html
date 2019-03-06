@@ -57,7 +57,7 @@
             <div class="card-body">
                 <h5 class="text-center"><u>Implications</u></h5>
                 <p class="card-text" id="setting-0-imp"></p>
-                <h5 class="text-center"><u>How to Fix</u></h5>
+                <h5 class="text-center" id="setting-0-fix-header"><u>How to Fix</u></h5>
                 <p class="card-text" id="setting-0-fix"></p>
             </div>
         </div>
@@ -66,7 +66,7 @@
             <div class="card-body">
                 <h5 class="text-center"><u>Implications</u></h5>
                 <p class="card-text" id="setting-1-imp"></p>
-                <h5 class="text-center"><u>How to Fix</u></h5>
+                <h5 class="text-center" id="setting-1-fix-header"><u>How to Fix</u></h5>
                 <p class="card-text" id="setting-1-fix"></p>
             </div>
         </div>
@@ -75,7 +75,7 @@
             <div class="card-body">
                 <h5 class="text-center"><u>Implications</u></h5>
                 <p class="card-text" id="setting-2-imp"></p>
-                <h5 class="text-center"><u>How to Fix</u></h5>
+                <h5 class="text-center" id="setting-2-fix-header"><u>How to Fix</u></h5>
                 <p class="card-text" id="setting-2-fix"></p>
             </div>
         </div>
@@ -85,52 +85,6 @@
     <p>Made with 🍌🔥 in Hamilton, ON by Script Kitties. &copy; 2019.</p>
 </div>
 </body>
-<script>
-    function delegate() {
-        let settings =  ["discoverable_by_email","geo_enabled", "protected"];
-        let friendly_setting_names = {
-            "discoverable_by_email" : "Let others find you by your email address",
-            "geo_enabled" : "Tweet with a location (website), Precise Location (mobile app)",
-            "protected" : "Protect your tweets from the public"
-        };
-        $.getJSON('/settings/twitter', function(data) { // retrieve user settings
-            for (var i = 0; i < settings.length; i++){
-                console.log(friendly_setting_names[settings[i]]);
-                $("#setting-" + i + " > span").append(friendly_setting_names[settings[i]] + ": <strong>"+ data[settings[i]] + "</strong>");
-            }
-        }).done(function( data ) {
-            $.ajax( "/score/twitter", {
-                data : JSON.stringify({ "settings":data } ),
-                contentType : 'application/json',
-                type : 'POST'}).done(function( score ) {
-                $.getJSON('/level/1/twitter', function(level) {
-                    $("body > div > div.text-center > h1 > span").append("<strong>"+ level[0].name + "</strong>");
-                })
-            });
-            for (var i = 0; i < settings.length; i++){
-                generateSettingsBody("setting-" + i + "-imp", "implications", settings[i] ,data[settings[i]]);
-            }
-
-            for (var i = 0; i < settings.length; i++){
-                generateSettingsBody("setting-" + i + "-fix", "instructions", settings[i] ,data[settings[i]]);
-            }
-
-        });
-
-        function generateSettingsBody(id, type, setting, value) {
-            let link = '/'+ type +'/twitter/'+setting+"/"+ value;
-            $.getJSON(link, function(data) { // retrieve user settings
-                if(type === "implications"){
-                    $("#"+id).append("<strong>"+ data[0].description + "</strong>");
-                    $("#"+id).css("white-space","pre-wrap");
-
-                }else if (type === "instructions"){
-                    $("#"+id).append("<strong>"+ data[0].instructions + "</strong>");
-                    $("#"+id).css("white-space","pre-wrap");
-                }
-            });
-        }
-
-    }
-</script>
+<!-- Script used to import the settings text from database-->
+<script type="text/javascript" src="../js/SettingsHandler.js"></script>
 </html>
