@@ -1,4 +1,4 @@
-let form = document.getElementById('signinForm');
+let form = document.getElementById("signinForm");
 
 if (form.attachEvent) {
 	form.attachEvent("submit", processForm);
@@ -18,8 +18,8 @@ function processForm(e) {
 			"email": email,
 			"password": password
 		}),
-		contentType : 'application/json',
-		type : 'POST'}).done(function( res ) {
+		contentType : "application/json",
+		type : "POST"}).done(function( res ) {
 		if (res.code === 200) {
 			window.location = "/dashboard";
 		} else {

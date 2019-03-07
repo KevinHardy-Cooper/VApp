@@ -3,21 +3,21 @@
  */
 
 // Imports
-const User = require('./User');
-const logger = require('../../config/log.js');
-const inspect = require('util').inspect;
+const User = require("./User");
+const logger = require("../../config/log.js");
+const inspect = require("util").inspect;
 
 class SignOut extends User {
-    static delegate(email, password, callback) {
-        User.nullifySessionId(email, password, function (err, obj) {
-            if (err) {
-                logger.error(inspect(err));
-                callback(err, null);
-            }
-            logger.info("Successfully signed out in SignOut");
-            callback(null, 200);
-        });
-    }
+	static delegate(email, password, callback) {
+		User.nullifySessionId(email, password, function (err, obj) {
+			if (err) {
+				logger.error(inspect(err));
+				callback(err, null);
+			}
+			logger.info("Successfully signed out in SignOut");
+			callback(null, 200);
+		});
+	}
 }
 
 module.exports = SignOut;

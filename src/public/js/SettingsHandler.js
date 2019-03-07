@@ -5,30 +5,30 @@ function delegate() {
 		"geo_enabled" : "Tweet with a location (website), Precise Location (mobile app)",
 		"protected" : "Protect your tweets from the public"
 	};
-	$.getJSON('/settings/twitter', function(data) { // retrieve user settings
+	$.getJSON("/settings/twitter", function(data) { // retrieve user settings
 		for (var i = 0; i < settings.length; i++){
 			$("#setting-" + i + " > span").append(friendly_setting_names[settings[i]] + ": <strong>"+ data[settings[i]] + "</strong>");
 		}
 	}).done(function( data ) {
 		$.ajax( "/score/twitter", {
 			data : JSON.stringify({ "settings":data } ),
-			contentType : 'application/json',
-			type : 'POST'}).done(function() {
-			$.getJSON('/level/1/twitter', function(level) {
+			contentType : "application/json",
+			type : "POST"}).done(function() {
+			$.getJSON("/level/1/twitter", function(level) {
 				$("body > div > div.text-center > h1 > span").append("<strong>"+ level[0].name + "</strong>");
-			})
+			});
 		});
 		for (var i = 0; i < settings.length; i++){
 			generateSettingsBody("setting-" + i + "-imp", "implications", settings[i] ,data[settings[i]]);
 		}
 		
-		for (var i = 0; i < settings.length; i++){
-			generateSettingsBody("setting-" + i + "-fix", "instructions", settings[i] ,data[settings[i]]);
+		for (var j = 0; j < settings.length; j++){
+			generateSettingsBody("setting-" + j + "-fix", "instructions", settings[j] ,data[settings[j]]);
 		}
 	});
 	
 	function generateSettingsBody(id, type, setting, value) {
-		let link = '/'+ type +'/twitter/'+setting+"/"+ value;
+		let link = "/"+ type +"/twitter/"+setting+"/"+ value;
 		$.getJSON(link, function(data) { // retrieve user settings
 			let implications = data[0].description;
 			let instructions = data[0].instructions;
