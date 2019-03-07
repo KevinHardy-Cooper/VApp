@@ -72,8 +72,12 @@ router.get('/signup', function(req, res) {
 });
 
 router.get('/settings', function(req, res) {
-    logger.info("GET request for the Settings Page");
-    res.sendFile(path.join(__dirname, '/public/views/settings.html'));
+	if (req.session.oauthAccessToken === undefined) {
+		res.redirect("/connect/twitter");
+	} else {
+		logger.info("GET request for the Settings Page");
+		res.sendFile(path.join(__dirname, '/public/views/settings.html'));
+	}
 });
 
 router.post('/signup', function(req, res) {
@@ -124,13 +128,14 @@ router.post('/signin', function(req, res) {
 });
 
 router.get('/settings/:socialMedia', function(req, res){
-    if (req.params.socialMedia === 'twitter') {
+    // if the user tries to see their settings without going through oauth
+    if (req.params.socialMedia === "twitter" && req.session.oauthAccessToken !== undefined) {
+        // if the user tries to see their settings and have already gone through oauth
         consumer.get(
             "https://api.twitter.com/1.1/account/settings.json",
             req.session.oauthAccessToken,
             req.session.oauthAccessTokenSecret,
             function (err, data) {
-
                 if (err) {
                     logger.error(inspect(err));
                     res.status(err.statusCode).send(err);

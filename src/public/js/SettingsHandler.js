@@ -25,7 +25,6 @@ function delegate() {
 		for (var i = 0; i < settings.length; i++){
 			generateSettingsBody("setting-" + i + "-fix", "instructions", settings[i] ,data[settings[i]]);
 		}
-		
 	});
 	
 	function generateSettingsBody(id, type, setting, value) {
