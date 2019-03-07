@@ -82,9 +82,9 @@ router.get('/settings', function(req, res) {
 
 router.post('/signup', function(req, res) {
     SignUp.delegate(req.body.email, req.body.password, function(err, obj) {
-        if (err){
+        if (err !== null || obj === null) {
             logger.error(inspect(err));
-            res.status(err.statusCode).send(err);
+            res.sendFile(path.join(__dirname, '/public/views/error.html'));
         } else {
             if(obj.statusCode === 200) {
                 let response = {
@@ -102,9 +102,9 @@ router.post('/signup', function(req, res) {
 
 router.post('/signout', function(req, res) {
     SignOut.delegate(req.body.email, req.body.password, function(err, obj) {
-        if (err) {
+        if (err !== null || obj === null) {
             logger.error(inspect(err));
-            res.status(err.statusCode).send(err);
+            res.sendFile(path.join(__dirname, '/public/views/error.html'));
         } else {
             logger.info("Successful Sign Out");
             res.sendStatus(200);
@@ -114,9 +114,9 @@ router.post('/signout', function(req, res) {
 
 router.post('/signin', function(req, res) {
     SignIn.delegate(req.body.email, req.body.password, function(err, obj) {
-        if (err) {
+        if (err !== null || obj === null) {
             logger.error(inspect(err));
-            res.status(err.statusCode).send(err);
+            res.sendFile(path.join(__dirname, '/public/views/error.html'));
         }else{
             let response = {
                 "code": obj.statusCode,
@@ -136,9 +136,9 @@ router.get('/settings/:socialMedia', function(req, res){
             req.session.oauthAccessToken,
             req.session.oauthAccessTokenSecret,
             function (err, data) {
-                if (err) {
+                if (err !== null) {
                     logger.error(inspect(err));
-                    res.status(err.statusCode).send(err);
+                    res.sendFile(path.join(__dirname, '/public/views/error.html'));
                 } else {
                     logger.info("Successful Pull of User Settings from Twitter");
                     res.send(data);
@@ -163,9 +163,9 @@ router.post('/cumulativeScore', function(req, res) {
 
 router.get('/history/:userId', function(req, res) {
     History.getScoresByUserId(req.params.userId, function(err, obj) {
-        if (err) {
+        if (err !== null || obj === null) {
             logger.error(inspect(err));
-            res.status(err.statusCode).send(err);
+            res.sendFile(path.join(__dirname, '/public/views/error.html'));
         }
         logger.info("Successful GET of score for userId");
         res.send(obj);
@@ -174,9 +174,9 @@ router.get('/history/:userId', function(req, res) {
 
 router.get('/history/:userId/:socialMedia', function(req, res) {
     History.getScoresByUserIdAndSocialMedia(req.params.userId, req.params.socialMedia, function(err, obj) {
-        if (err) {
+        if (err !== null || obj === null) {
             logger.error(inspect(err));
-            res.status(err.statusCode).send(err);
+            res.sendFile(path.join(__dirname, '/public/views/error.html'));
         }
         logger.info("Successful GET of score for userId by socialMedia");
         res.send(obj);
@@ -185,9 +185,9 @@ router.get('/history/:userId/:socialMedia', function(req, res) {
 
 router.post('/score/:socialMedia', function(req, res) {
     SocialMediaScore.calculateSocialMediaScore(req.params.socialMedia, req.body.settings, function(err, obj) {
-        if (err) {
+        if (err !== null || obj === null) {
             logger.error(inspect(err));
-            res.status(err.statusCode).send(err);
+            res.sendFile(path.join(__dirname, '/public/views/error.html'));
         }
         logger.info("Successful POST of score for socialMedia")
         res.send(obj);
@@ -196,9 +196,9 @@ router.post('/score/:socialMedia', function(req, res) {
 
 router.get('/implications/:socialMedia/:settingName/:settingState', function(req, res) {
     Implications.getImplications(req.params.socialMedia, req.params.settingName, req.params.settingState, function(err, obj) {
-        if (err) {
+        if (err !== null || obj === null) {
             logger.error(inspect(err));
-            res.status(err.statusCode).send(err);
+            res.sendFile(path.join(__dirname, '/public/views/error.html'));
         }
         logger.info("Successful GET of implications for settingId");
         res.send(obj);
@@ -207,9 +207,9 @@ router.get('/implications/:socialMedia/:settingName/:settingState', function(req
 
 router.get('/instructions/:socialMedia/:settingName/:settingState', function(req, res) {
     Implications.getInstructions(req.params.socialMedia, req.params.settingName, req.params.settingState, function(err, obj) {
-        if (err) {
+        if (err !== null || obj === null) {
             logger.error(inspect(err));
-            res.status(err.statusCode).send(err);
+            res.sendFile(path.join(__dirname, '/public/views/error.html'));
         }
         logger.info("Sucessful GET of instructions for implicationId");
         res.send(obj);
@@ -218,9 +218,9 @@ router.get('/instructions/:socialMedia/:settingName/:settingState', function(req
 
 router.get('/level/:amount', function(req, res) {
     Levels.getLevel(req.params.amount, function(err, obj) {
-        if (err) {
+        if (err !== null || obj === null) {
             logger.error(inspect(err));
-            res.status(err.statusCode).send(err);
+            res.sendFile(path.join(__dirname, '/public/views/error.html'));
         }
         logger.info("Successful GET of level for amount");
         res.send(obj);
@@ -229,9 +229,9 @@ router.get('/level/:amount', function(req, res) {
 
 router.get('/level/:userId/:socialMedia', function(req, res) {
     History.getUsersLevelGivenSocialMedia(req.params.userId, req.params.socialMedia, function(err, obj) {
-        if (err) {
+        if (err !== null || obj === null) {
             logger.error(inspect(err));
-            res.status(err.statusCode).send(err);
+            res.sendFile(path.join(__dirname, '/public/views/error.html'));
         }
         logger.info("Successful GET of score for userId by socialMedia");
         res.send(obj);

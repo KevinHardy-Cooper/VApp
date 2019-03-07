@@ -14,7 +14,7 @@ class User {
         con.query(sql, email, function(err, result) {
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             } else {
                 if(result.length === 1){
                     result.statusCode = 200;
@@ -24,8 +24,8 @@ class User {
                     result.statusCode = 204;
                     result.statusMessage = "User does not exist for email";
                 }
+                callback(null, result);
             }
-            callback(null, result);
         });
     }
 
@@ -36,7 +36,7 @@ class User {
         con.query(sql, inserts, function (err, result) {
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             } else {
                 if (result.length === 1) {
                     result.statusCode = 200;
@@ -46,8 +46,8 @@ class User {
                     result.statusCode = 204;
                     result.statusMessage = "User does not exist for given email and password";
                 }
+                callback(null, result);
             }
-            callback(null, result);
         });
     }
 
@@ -61,7 +61,7 @@ class User {
         con.query(sql, inserts, function (err, result) {
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             } else {
                 result.statusCode = 200;
                 result.statusMessage = "New user inserted";
@@ -79,7 +79,7 @@ class User {
         con.query(sql, email, password, function (err, result) {
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             }
             logger.info("Successfully set session id to null in User");
             callback(null, 200);

@@ -16,7 +16,7 @@ class Score {
         con.query(sql, inserts, function (err, result) {
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             }
             logger.info("Successfully inserted score in Score");
             callback(null, 200);
@@ -34,7 +34,7 @@ class Score {
         con.query(sql, inserts, function (err, result) {
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             }
             logger.info("Successfully got scores for given type in Score");
             callback(null, result);
@@ -51,7 +51,7 @@ class Score {
         con.query(sql, inserts, function (err, result) {
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             }
             logger.info("Successfully got scores for given type in Score");
             callback(null, result);
@@ -66,7 +66,7 @@ class Score {
         con.query(sql, userId, function (err, result) {
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             }
             logger.info("Successfully got scores by userId in Score");
             callback(null, result);
@@ -81,7 +81,7 @@ class Score {
         con.query(sql, socialMedia, function (err, result) {
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             }
             logger.info("Successfully got score type by social media in Score");
             callback(null, result);

@@ -22,7 +22,7 @@ class Settings {
         con.query(sql, socialMedia, function (err, result) {
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             }
             logger.info("Successfully got settings given socialMedia in Settings");
             callback(null, result);

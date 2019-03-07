@@ -28,7 +28,7 @@ class Implications {
         con.query(sql, inserts , function (err, result) {
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             }
             logger.info("Successfully got implications for given social media setting in Implications");
             callback(null, result);
@@ -55,7 +55,7 @@ class Implications {
         con.query(sql, inserts, function (err, result) {
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             }
             logger.info("Successfully got instructions for given implication in Implications");
             callback(null, result);

@@ -61,21 +61,21 @@ class SocialMediaScore extends Score {
             // Log success or error
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             }
             let score = result[0].score;
             logger.info("Successfully calculated social media score");
             Score.getScoreType(inserts[0], function (err, obj) {
                 if (err) {
                     logger.error(inspect(err));
-                    throw err;
+                    callback(err, null);
                 }
                 logger.info("Successfully got the score type in SocialMediaScore");
                 let typeId = obj[0].id;
                 Score.insertScore(1, typeId, score, function (err, obj) {
                     if (err) {
                         logger.error(inspect(err));
-                        throw err;
+                        callback(err, null);
                     } else if (obj === 200) {
                         obj = {
                             "code": 204,

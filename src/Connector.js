@@ -78,7 +78,7 @@ connector.get('/oauth/callback', function(req, res) {
 
                 if (err) {
                     logger.error(inspect(err));
-                    res.status(err.statusCode).send(err);
+                    res.sendFile(path.join(__dirname, '/public/views/error.html'));
                 } else {
                     req.session.oauthAccessToken = oauthAccessToken;
                     req.session.oauthAccessTokenSecret = oauthAccessTokenSecret;
@@ -94,7 +94,7 @@ connector.get('/oauth/:socialMedia', function(req, res) {
         function(err, oauthToken, oauthTokenSecret, results) {
             if (err) {
                 logger.error(inspect(err));
-                res.status(err.statusCode).send(err);
+                res.sendFile(path.join(__dirname, '/public/views/error.html'));
             } else {
                 req.session.oauthRequestToken = oauthToken;
                 req.session.oauthRequestTokenSecret = oauthTokenSecret;

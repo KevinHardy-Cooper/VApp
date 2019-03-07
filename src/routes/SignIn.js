@@ -20,7 +20,7 @@ class SignIn extends User {
         User.getUser(email, encrypted_password, function(err, obj) {
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             }
             callback(null, obj);
         });

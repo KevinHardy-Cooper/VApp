@@ -10,7 +10,7 @@ class Levels {
         con.query(sql, amount, function (err, result) {
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             }
             logger.info("Successfully selected level in Level");
             callback(null, result);

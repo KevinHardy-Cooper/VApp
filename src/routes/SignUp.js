@@ -14,7 +14,7 @@ class SignUp extends User {
         User.getUserByEmail(email, function(err, obj) {
             if (err) {
                 logger.error(inspect(err));
-                throw err;
+                callback(err, null);
             } else if (obj.statusCode === 204) { // if the user does not exist for email
 
                 // hash user password using AES
@@ -25,7 +25,7 @@ class SignUp extends User {
                 User.insertUser(email, encrypted_password, function(err, obj) {
                     if (err) {
                         logger.error(inspect(err));
-                        throw err;
+                        callback(err, null);
                     }
                     callback(null, obj);
                 });
