@@ -83,11 +83,14 @@ router.post('/signup', function(req, res) {
             res.status(err.statusCode).send(err);
         } else {
             if(obj.statusCode === 200) {
-                res.redirect('/signin');
+                let response = {
+                    "code": obj.statusCode,
+                    "success": obj.statusMessage
+                };
+                res.send(response);
                 // TODO: show banner on front end regarding new user successfully created
             } else {
                 res.send(obj);
-                // TODO: do something here to handle on front end to show user that email already exists
             }
         }
     });
