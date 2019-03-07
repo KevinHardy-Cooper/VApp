@@ -27,33 +27,26 @@
       <label for="inputEmail" class="sr-only">Email address</label>
       <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
       <label for="inputPassword" class="sr-only">Password</label>
-      <input style="margin-bottom: 0px;" name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+      <input style="margin-bottom: -1px;" name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
       <label for="inputConfirmPassword" class="sr-only">Password</label>
       <input name="confirmpassword" type="password" id="inputConfirmPassword" class="form-control" placeholder="Confirm Password" required>
+      <div id="message">
+        <p>Password Requirements:</p>
+        <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+        <p id="capital" class="invalid">An <b>uppercase</b> letter</p>
+        <p id="number" class="invalid">A <b>number</b></p>
+        <p id="special" class="invalid">A <b>special character</b></p>
+        <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+        <p id="match" class="invalid">Passwords must <b>match</b></p>
+      </div>
       <div id="invalidEmail" class="invalid-email"></div>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+      <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit" disabled>Sign Up</button>
     </form>
   </div>
   <div id="copyright" class="container">
     <p>Made with 🍌🔥 in Hamilton, ON by Script Kitties. &copy; 2019.</p>
   </div>
 </div>
-</div>
-<script>
-  let password = document.getElementById("inputPassword")
-          , confirm_password = document.getElementById("inputConfirmPassword");
-
-  function validatePassword(){
-    if(password.value != confirm_password.value) {
-      confirm_password.setCustomValidity("Passwords Don't Match");
-    } else {
-      confirm_password.setCustomValidity('');
-    }
-  }
-
-  password.onchange = validatePassword;
-  confirm_password.onkeyup = validatePassword;
-</script>
 </body>
 <!-- Script used to validate if email exists on signup -->
 <script type="text/javascript" src="../js/SignUpHandler.js"></script>

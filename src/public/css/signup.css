@@ -6,7 +6,6 @@ body {
 body {
   display: -ms-flexbox;
   display: -webkit-box;
-  display: flex;
   -ms-flex-align: center;
   -ms-flex-pack: center;
   -webkit-box-align: center;
@@ -65,6 +64,30 @@ body {
   text-align: center;
   text-transform: uppercase;
   font-size: 0.80em;
+}
+
+#message {
+  background: #f1f1f1;
+}
+
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  left: -10px;
+  content: "✅";
+}
+
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -10px;
+  content: "❌";
 }
 
 .invalid-email
