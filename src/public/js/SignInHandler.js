@@ -21,6 +21,7 @@ function processForm(e) {
 		contentType : "application/json",
 		type : "POST"}).done(function( res ) {
 		if (res.code === 200) {
+			setCookie("session_id", res.cookie, 14); // setting expiry date to 14 days
 			window.location = "/dashboard";
 		} else {
 			document.getElementById("invalidCredentials").innerHTML = "Invalid Credentials";

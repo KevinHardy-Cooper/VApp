@@ -22,7 +22,22 @@ class SignIn extends User {
 				logger.error(inspect(err));
 				callback(err, null);
 			}
-			callback(null, obj);
+			if (obj.statusCode === 200) {
+				User.setSessionId(email, encrypted_password, function(err, obj) {
+					if (err) {
+						logger.error(inspect(err));
+						throw err;
+					}
+					let response = {
+						"code" : obj.statusCode,
+						"success" : "User exists for given email and password",
+						"cookie": obj.statusMessage
+					};
+					callback(null, response);
+				});
+			} else {
+				callback(null, obj);
+			}
 		});
 	}
 }

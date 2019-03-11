@@ -101,7 +101,7 @@ router.post("/signup", function(req, res) {
 });
 
 router.post("/signout", function(req, res) {
-	SignOut.delegate(req.body.email, req.body.password, function(err, obj) {
+	SignOut.delegate(req.body.session_id, function(err, obj) {
 		if (err !== null || obj === null) {
 			logger.error(inspect(err));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
@@ -118,11 +118,7 @@ router.post("/signin", function(req, res) {
 			logger.error(inspect(err));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
 		}else{
-			let response = {
-				"code": obj.statusCode,
-				"success": obj.statusMessage
-			};
-			res.send(response);
+			res.send(obj);
 		}
 	});
 });

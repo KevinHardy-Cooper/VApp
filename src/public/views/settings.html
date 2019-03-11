@@ -17,6 +17,10 @@
 
     <!-- Script used for ajax -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Script to handle cookies -->
+    <script type="text/javascript" src="../js/CookieHandler.js"></script>
+    <script type="text/javascript">checkCookie()</script>
 </head>
 
 <body onload="delegate()">
@@ -40,7 +44,7 @@
                 <a class="nav-link" href="#">ABOUT</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">SIGN OUT</a>
+                <a id="signout" class="nav-link" href="/signout">SIGN OUT</a>
             </li>
         </ul>
     </div>
@@ -87,4 +91,6 @@
 </body>
 <!-- Script used to import the settings text from database-->
 <script type="text/javascript" src="../js/SettingsHandler.js"></script>
+<!-- Script to implement navbar functionality-->
+<script type="text/javascript" src="../js/Navbar.js"></script>
 </html>
