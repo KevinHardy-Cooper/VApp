@@ -96,7 +96,7 @@ CREATE TABLE `scores` (
   `user_id` int(11) NOT NULL,
   `type_id` int(11) NOT NULL,
   `score` int(5) NOT NULL,
-  `time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `time` timestamp DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `type_id` (`type_id`),
