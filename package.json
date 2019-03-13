@@ -4,7 +4,8 @@
   "description": "This will be the private repo for our SFWR ENG 4G06 capstone project. The group members for the project will be able to commit to the repo.",
   "main": "src/App.js",
   "scripts": {
-    "start": "node src/App.js"
+    "start": "node src/App.js",
+    "test": "mocha --exit"
   },
   "engines": {
     "node": "8.8.1"
@@ -29,6 +30,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "fs": "0.0.1-security",
+    "mocha": "^6.0.2",
     "mysql": "^2.16.0",
     "oauth": "^0.9.15",
     "path": "^0.12.7",
