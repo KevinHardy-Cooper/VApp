@@ -11,10 +11,10 @@ function delegate() {
 		}
 	}).done(function( data ) {
 		$.ajax( "/score/twitter", {
-			data : JSON.stringify({ "settings":data } ),
+			data : JSON.stringify({ "sessionId":getCookie("session_id"), "settings":data } ),
 			contentType : "application/json",
-			type : "POST"}).done(function() {
-			$.getJSON("/level/1/twitter", function(level) {
+			type : "POST"}).done(function( score ) {
+			$.getJSON("/level/" + getCookie("session_id") + "/twitter", function(level) {
 				$("body > div > div.text-center > h1 > span").append("<strong>"+ level[0].name + "</strong>");
 			});
 		});

@@ -17,7 +17,7 @@ class SignOut extends User {
 				User.nullifySessionId(obj[0].email, obj[0].password, function (err, obj) {
 					if (err) {
 						logger.error(inspect(err));
-						throw err;
+						callback(err, null);
 					}
 					logger.info("Successfully signed out in SignOut");
 					callback(null, 200);

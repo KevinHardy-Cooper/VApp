@@ -180,7 +180,7 @@ router.get("/history/:userId/:socialMedia", function(req, res) {
 });
 
 router.post("/score/:socialMedia", function(req, res) {
-	SocialMediaScore.calculateSocialMediaScore(req.params.socialMedia, req.body.settings, function(err, obj) {
+	SocialMediaScore.calculateSocialMediaScore(req.params.socialMedia, req.body.sessionId, req.body.settings, function(err, obj) {
 		if (err !== null || obj === null) {
 			logger.error(inspect(err));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
@@ -223,8 +223,8 @@ router.get("/level/:amount", function(req, res) {
 	});
 });
 
-router.get("/level/:userId/:socialMedia", function(req, res) {
-	History.getUsersLevelGivenSocialMedia(req.params.userId, req.params.socialMedia, function(err, obj) {
+router.get("/level/:sessionId/:socialMedia", function(req, res) {
+	History.getUsersLevelGivenSocialMedia(req.params.sessionId, req.params.socialMedia, function(err, obj) {
 		if (err !== null || obj === null) {
 			logger.error(inspect(err));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));

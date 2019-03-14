@@ -4,6 +4,7 @@
 
 // Imports
 const Score = require("./Score");
+const User = require("./User");
 const DatabaseConnection = require("../../config/DatabaseConnection");
 const logger = require("../../config/log.js");
 const inspect = require("util").inspect;
@@ -12,7 +13,7 @@ class SocialMediaScore extends Score {
 
 	// Calculates score for given social media given setting
 	// Receives a string for socialMediaName and arrays for settingNames and settingStates
-	static calculateSocialMediaScore(socialMediaName, settings, callback) {
+	static calculateSocialMediaScore(socialMediaName, sessionId, settings, callback) {
 
 		// Establish database connection
 		let con = DatabaseConnection.createConnection();
@@ -72,16 +73,23 @@ class SocialMediaScore extends Score {
 				}
 				logger.info("Successfully got the score type in SocialMediaScore");
 				let typeId = obj[0].id;
-				Score.insertScore(1, typeId, score, function (err, obj) {
+				User.getUserBySessionId(sessionId, function(err, obj) {
 					if (err) {
 						logger.error(inspect(err));
 						callback(err, null);
-					} else if (obj === 200) {
-						obj = {
-							"code": 204,
-							"success": "Successfully inserted score in SocialMediaScore"
-						};
-						callback(null, obj);
+					} else if (obj.statusCode === 200) {
+						Score.insertScore(obj[0].id, typeId, score, function (err, obj) {
+							if (err) {
+								logger.error(inspect(err));
+								callback(err, null);
+							} else if (obj === 200) {
+								obj = {
+									"code": 204,
+									"success": "Successfully inserted score in SocialMediaScore"
+								};
+								callback(null, obj);
+							}
+						});
 					}
 				});
 			});
