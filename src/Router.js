@@ -80,6 +80,11 @@ router.get("/settings", function(req, res) {
 	}
 });
 
+router.get('/history', function(req, res) {
+	logger.info("GET request for the History Page");
+	res.sendFile(path.join(__dirname, '/public/views/history.html'));
+});
+
 router.post("/signup", function(req, res) {
 	SignUp.delegate(req.body.email, req.body.password, function(err, obj) {
 		if (err !== null || obj === null) {
@@ -157,8 +162,8 @@ router.post("/cumulativeScore", function(req, res) {
 	res.send("POST request add the most recent cumulative score to a scores DB");
 });
 
-router.get("/history/:userId", function(req, res) {
-	History.getScoresByUserId(req.params.userId, function(err, obj) {
+router.get("/history/:sessionId", function(req, res) {
+	History.getScoresBySessionId(req.params.sessionId, function(err, obj) {
 		if (err !== null || obj === null) {
 			logger.error(inspect(err));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));

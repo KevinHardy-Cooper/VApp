@@ -10,15 +10,22 @@ const logger = require("../../config/log.js");
 const inspect = require("util").inspect;
 
 class History extends Score {
-	static getScoresByUserId(userId, callback) {
-		Score.getScoresByUserId(userId, function(err, obj) {
+	static getScoresBySessionId(sessionId, callback) {
+		User.getUserBySessionId(sessionId, function(err, obj) {
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
+			} else if (obj.statusCode === 200) {
+				Score.getScoresByUserId(obj[0].id, function(err, obj) {
+					if (err) {
+						logger.error(inspect(err));
+						callback(err, null);
+					}
+					logger.info("Successfully got scores given userId in History");
+					callback(null, obj);
+				});
 			}
-			logger.info("Successfully got scores given userId in History");
-			callback(null, obj);
-		});
+		})
 	}
 
 	static getScoresByUserIdAndSocialMedia(userId, socialMedia, callback) {

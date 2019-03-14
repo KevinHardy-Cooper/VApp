@@ -78,7 +78,7 @@ class User {
 		con.query(sql, insert, function(err, result) {
 			if (err) {
 				logger.error(inspect(err));
-				throw err;
+				callback(err, null);
 			} else {
 				if(result.length === 1){
 					result.statusCode = 200;
@@ -102,7 +102,7 @@ class User {
 		con.query(sql, inserts, function (err, result) {
 			if (err) {
 				logger.error(inspect(err));
-				throw err;
+				callback(err, null);
 			} else {
 				result.statusCode = 200;
 				result.statusMessage = session_id;

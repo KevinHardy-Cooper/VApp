@@ -26,7 +26,7 @@ class SignIn extends User {
 				User.setSessionId(email, encrypted_password, function(err, obj) {
 					if (err) {
 						logger.error(inspect(err));
-						throw err;
+						callback(err, null);
 					}
 					let response = {
 						"code" : obj.statusCode,
