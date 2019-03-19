@@ -99,7 +99,7 @@ connector.get("/oauth/:socialMedia", function(req, res) {
 				req.session.oauthRequestToken = oauthToken;
 				req.session.oauthRequestTokenSecret = oauthTokenSecret;
 				logger.info("Request for Twitter login page successful");
-				res.redirect("https://twitter.com/oauth/authorize?oauth_token=" + req.session.oauthRequestToken);
+				res.redirect("https://twitter.com/oauth/authorize?force_login=true&oauth_token=" + req.session.oauthRequestToken);
 			}
 		});
 });

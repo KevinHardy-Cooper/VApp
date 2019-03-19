@@ -112,6 +112,10 @@ router.post("/signout", function(req, res) {
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
 		} else {
 			logger.info("Successful Sign Out");
+			delete req.session['oauthRequestToken'];
+			delete req.session['oauthRequestTokenSecret'];
+			delete req.session['oauthAccessToken'];
+			delete req.session['oauthAccessTokenSecret'];
 			res.sendStatus(200);
 		}
 	});
