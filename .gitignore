@@ -23,3 +23,7 @@ database.json
 
 # Package-lock.json
 package-lock.json
+
+# SSL Keys and Certs
+./keys/*
+/keys/*
