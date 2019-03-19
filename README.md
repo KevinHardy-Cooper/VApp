@@ -125,7 +125,18 @@ For Database development, we will follow the following naming conventions:
 * Columns will be named in lower_snake_case
 
 ## Endpoints
+### In Router
 `GET /` - Home page
+
+`GET /dashboard` - Dashboard page
+
+`GET /signin` - Sign in page
+
+`GET /signup` - Sign up page
+
+`GET /settings/:socialMedia` - Settings page for given social media
+
+`GET /facebook` - Facebook page
 
 `POST /signup` - Sign up the user
 
@@ -133,25 +144,31 @@ For Database development, we will follow the following naming conventions:
 
 `POST /signin` - Sign in the user
 
-`GET /oauth` - Start OAuth process 
-
-`GET /oauth/callback` - Receives access tokens from Twitter
-
-`GET /oauth/:socialMedia` - Requests Twitter login page
-
-`GET /settings/:socialMedia` - Gets user's Twitter settings
+`GET /user/settings/:socialMedia` - Gets user's settings for given social media
 
 `GET /cumulativeScore` - Gets user's cumulative score
 
 `POST /cumulativeScore` - Inserts user's cumulative score
 
-`POST /score/:socialMedia` - Inserts user's social media score
-
-`GET /implications/:settingId` - Gets implications by setting
-
-`GET /instructions/:implicationId` - Gets instructions by implication
-
 `GET /history/:userId` - Get all scores by userId
 
 `GET /history/:userId/:socialMedia` - Get all scores by userId and by socialMedia
 
+`POST /score/:socialMedia` - Inserts user's social media score
+
+`GET /implications/:socialMedia/:settingName/:settingState` - Gets implications by setting state
+
+`GET /instructions/:socialMedia/:settingName/:settingState` - Gets instructions by implication
+
+`GET /level/:amount` - Get a grade based on a value
+
+`GET /level/:userId/:socialMedia` - Get grade for userId's most recent score given social media
+
+### In Connector
+`GET /connect/:socialMedia` - Gateway for social media connections that require OAuth
+
+`GET /oauth` - Start OAuth process 
+
+`GET /oauth/callback` - Receives access tokens from Twitter
+
+`GET /oauth/:socialMedia` - Requests Twitter login page

@@ -35,13 +35,20 @@ class SocialMediaScore extends Score {
 		let settingNames = [];
 		let settingStates = [];
 
-		if (socialMediaName === "twitter") {
-			// Binding parameters
-			inserts = [socialMediaName];
-			settingNames = ["geo_enabled", "protected", "discoverable_by_email"];
-			// need to convert boolean values to strings
-			settingStates = [settings.geo_enabled+"", settings.protected+"", settings.discoverable_by_email+""];
-		}
+        if (socialMediaName === "twitter") {
+            // Binding parameters
+            inserts = [socialMediaName];
+            settingNames = ["geo_enabled", "protected", "discoverable_by_email"];
+            // need to convert boolean values to strings
+            settingStates = [settings.geo_enabled+"", settings.protected+"", settings.discoverable_by_email+""];
+        } else if (socialMediaName === "facebook") {
+            // Binding parameters
+            inserts = [socialMediaName];
+            settingNames = ["future_posts", "friend_requests", "friends_list", "discoverable_by_email",
+                "discoverable_by_phone", "discoverable_by_search_engine"];
+            settingStates = [settings.future_posts, settings.friend_requests, settings.friends_list,
+                settings.discoverable_by_email, settings.discoverable_by_phone, settings.discoverable_by_search_engine];
+        }
 
 		// Loop through given arrays
 		for (let i = 0; i < settingNames.length; i++){
@@ -73,6 +80,7 @@ class SocialMediaScore extends Score {
 				}
 				logger.info("Successfully got the score type in SocialMediaScore");
 				let typeId = obj[0].id;
+				logger.info(sessionId);
 				User.getUserBySessionId(sessionId, function(err, obj) {
 					if (err) {
 						logger.error(inspect(err));

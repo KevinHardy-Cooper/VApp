@@ -71,9 +71,13 @@ router.get("/signup", function(req, res) {
 	res.sendFile(path.join(__dirname, "/public/views/signup.html"));
 });
 
-router.get("/settings", function(req, res) {
-	if (req.session.oauthAccessToken === undefined) {
+router.get("/settings/:socialMedia", function(req, res) {
+	if (req.params.socialMedia === "twitter" && req.session.oauthAccessToken === undefined) {
 		res.redirect("/connect/twitter");
+	} else if (req.params.socialMedia === "facebook") {
+		// TODO: handle if user clicks "Go to Facebook Settings", but has not logged in
+		logger.info("GET request for the Settings Page");
+		res.sendFile(path.join(__dirname, "/public/views/settings.html"));
 	} else {
 		logger.info("GET request for the Settings Page");
 		res.sendFile(path.join(__dirname, "/public/views/settings.html"));
@@ -83,6 +87,11 @@ router.get("/settings", function(req, res) {
 router.get('/history', function(req, res) {
 	logger.info("GET request for the History Page");
 	res.sendFile(path.join(__dirname, '/public/views/history.html'));
+});
+
+router.get('/facebook', function(req, res) {
+	logger.info("GET request for the Facebook Page");
+	res.sendFile(path.join(__dirname, '/public/views/facebook.html'));
 });
 
 router.post("/signup", function(req, res) {
@@ -132,7 +141,7 @@ router.post("/signin", function(req, res) {
 	});
 });
 
-router.get("/settings/:socialMedia", function(req, res){
+router.get("/user/settings/:socialMedia", function(req, res) {
 	// if the user tries to see their settings without going through oauth
 	if (req.params.socialMedia === "twitter" && req.session.oauthAccessToken !== undefined) {
 		// if the user tries to see their settings and have already gone through oauth
@@ -149,6 +158,9 @@ router.get("/settings/:socialMedia", function(req, res){
 					res.send(data);
 				}
 			});
+	} else if (req.params.socialMedia === "facebook") {
+		logger.info("There are no facebook user settings to retrieve upon refresh, so sending settings from initial post");
+		res.send(req.session.facebookSettings);
 	} else {
 		logger.info("Social media not supported");
 		res.send({
@@ -189,6 +201,7 @@ router.get("/history/:userId/:socialMedia", function(req, res) {
 });
 
 router.post("/score/:socialMedia", function(req, res) {
+	req.session.facebookSettings = req.body.settings;
 	SocialMediaScore.calculateSocialMediaScore(req.params.socialMedia, req.body.sessionId, req.body.settings, function(err, obj) {
 		if (err !== null || obj === null) {
 			logger.error(inspect(err));

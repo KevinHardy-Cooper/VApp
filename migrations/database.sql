@@ -49,7 +49,27 @@ INSERT INTO `implications` VALUES (1,1,1,'If a hacker has your email, they can n
                                   (7,4,7,'Twitter is able to track your visits to other websites with Twitter integration.\nTracking is done through the use of cookies, which are small files that websites place on your device as you browse the web. They track your website history, however your name, email, phone number or Twitter handle are not associated with it. Twitter will not utilize the information gathered for longer than 30 days.\nAn example of this would be if you regularly visit bird-watching websites, Twitter will suggest accounts for you to follow or advertisements that are related to this topic.\nThe current state of this setting makes you more vulnerable.', 'If you want to change this setting using the mobile Twitter app, do the following:\n1. To access this setting, open the Twitter mobile app and tap on your profile picture on the top left corner of your screen\n2. Tap \'Settings and privacy\'\n3. Tap \'Privacy and safety\'\n4. Tap \'Personalization and data\' (setting is displayed with title \'Track where you see Twitter content across the web\')\nIf you want to change this setting using the Twitter website www.twitter.com, do the following:\n1. To access this setting, open the Twitter website and click on your profile picture on the top right corner of your screen\n2. Click \'Privacy and safety\'\n3. Click Personalization and data (setting is displayed with title \'Track where you see Twitter content across the web\')',10),
                                   (8,4,8,'Twitter is not able to track your visits to other websites through the use of cookies.\nCookies are small files that websites place on your device as you browse the web. They track your website history, however your name, email, phone number or Twitter handle are not associated with it. Twitter will not utilize the information gathered for longer than 30 days.\nIf you decide to turn on this setting, Twitter will be able to suggest accounts to you and show advertising based on the information gathered by the cookies.\nThe current state of this setting makes you less vulnerable.',NULL,0),
                                   (9,5,9,'You are able to receive Direct Messages from any Twitter User, even if you do not follow them.\nThe current state of this setting makes you more vulnerable.','If you want to change this setting using the mobile Twitter app, do the following:\n1. To access this setting, open the Twitter mobile app and tap on your profile picture on the top left corner of your screen\n2. Tap \'Settings and privacy\'\n3. Tap \'Privacy and safety\'\n4. Tap \'Direct Messages\' (setting is displayed with title \'Receive message requests\')\nIf you want to change this setting using the Twitter website www.twitter.com, do the following:\n1. To access this setting, open the Twitter website and click on your profile picture on the top right corner of your screen\n2. Click \'Privacy and safety\' (setting is displayed with title \'Receive Direct Messages from anyone\')\n3. Click Personalization and data (setting is displayed with title \'Track where you see Twitter content across the web\')',10),
-                                  (10,5,10,'Only people you follow can send you direct messages\nThe current state of this setting makes you less vulnerable.',NULL,0);
+                                  (10,5,10,'Only people you follow can send you direct messages\nThe current state of this setting makes you less vulnerable.',NULL,0),
+                                  (11,6,11,'future_posts implications Public','future_posts instructions Public',1),
+                                  (12,6,12,'future_posts implications Friends','future_posts instructions Friends',2),
+                                  (13,6,13,'future_posts implications Friends Except...','future_posts instructions Friends Except...',3),
+                                  (14,6,14,'future_posts implications Only Me ','future_posts instructions Only Me ',4),
+                                  (15,6,15,'future_posts implications Specific Friends ','future_posts instructions Specific Friends ',5),
+                                  (16,6,16,'future_posts implications Custom','future_posts instructions Custom',6),
+                                  (17,7,17,'friend_requests implications Everyone','friend_requests instructions Everyone',7),
+                                  (18,7,18,'friend_requests implications Friends of friends','friend_requests instructions Friends of friends',8),
+                                  (19,8,19,'friends_list implications Everyone','friends_list instructions Everyone',9),
+                                  (20,8,20,'friends_list implications Friends of friends','friends_list instructions Friends of friends',10),
+                                  (21,8,21,'friends_list implications Everyone','friends_list instructions Everyone',11),
+                                  (22,8,22,'friends_list implications Friends of friends','friends_list instructions Friends of friends',12),
+                                  (23,9,23,'discoverable_by_email implications Everyone','discoverable_by_email instructions Everyone',13),
+                                  (24,9,24,'discoverable_by_email implications Friends of friends','discoverable_by_email instructions Friends of friends',14),
+                                  (25,9,25,'discoverable_by_email implications Friends','discoverable_by_email instructions Friends',14),
+                                  (26,10,26,'discoverable_by_phone implications Everyone','discoverable_by_phone instructions Everyone',16),
+                                  (27,10,27,'discoverable_by_phone implications Friends of friends','discoverable_by_phone instructions Friends of friends',15),
+                                  (28,10,28,'discoverable_by_phone implications Friends','discoverable_by_phone instructions Friends',18),
+                                  (29,11,29,'discoverable_by_search_engine implications Yes','discoverable_by_search_engine instructions Yes',16),
+                                  (30,11,30,'discoverable_by_search_engine implications No','discoverable_by_search_engine instructions No',20);
 /*!40000 ALTER TABLE `implications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -71,7 +91,7 @@ CREATE TABLE `levels` (
 
 LOCK TABLES `levels` WRITE;
 /*!40000 ALTER TABLE `levels` DISABLE KEYS */;
-INSERT INTO `levels` VALUES (1,'A+',10),(2,'A',15),(3,'A-',20),(4,'B+',25),(5,'B',30),(6,'B-',35),(7,'C+',40),(8,'C',45),(9,'C-',50),(10,'D+',55),(11,'D',60),(12,'D-',65),(13,'F',70);
+INSERT INTO `levels` VALUES (1,'A+',10),(2,'A',15),(3,'A-',20),(4,'B+',25),(5,'B',30),(6,'B-',35),(7,'C+',40),(8,'C',45),(9,'C-',50),(10,'D+',55),(11,'D',60),(12,'D-',65),(13,'F',100);
 /*!40000 ALTER TABLE `levels` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -91,7 +111,7 @@ CREATE TABLE `score_types` (
 
 LOCK TABLES `score_types` WRITE;
 /*!40000 ALTER TABLE `score_types` DISABLE KEYS */;
-INSERT INTO `score_types` VALUES (1,'cumulative'),(2,'twitter');
+INSERT INTO `score_types` VALUES (1,'cumulative'),(2,'twitter'),(3,'facebook');
 /*!40000 ALTER TABLE `score_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,7 +163,10 @@ CREATE TABLE `setting_states` (
 LOCK TABLES `setting_states` WRITE;
 /*!40000 ALTER TABLE `setting_states` DISABLE KEYS */;
 INSERT INTO `setting_states` VALUES (1,1,'true'),(2,1,'false'),(3,2,'true'),(4,2,'false'),(5,3,'true'),(6,3,'false'),
-                                    (7,4,'true'),(8,4,'false'),(9,5,'true'),(10,5,'false');
+                                    (7,4,'true'),(8,4,'false'),(9,5,'true'),(10,5,'false'),(11,6,'Public'),(12,6,'Friends'),(13,6,'Friends Except...'),(14,6,'Only Me'),(15,6,'Specific Friends'),(16,6,'Custom'),
+                                    (17,7,'Everyone'),(18,7,'Friends of friends'),(19,7,'Public'),(20,7,'Friends'),(21,7,'Only Me'),(22,7,'Custom'),
+                                    (23,8,'Everyone'),(24,8,'Friends of friends'),(25,8,'Friends'),(26,9,'Everyone'),(27,9,'Friends of friends'),
+                                    (28,9,'Friends'),(29,10,'Yes'),(30,10,'No');
 /*!40000 ALTER TABLE `setting_states` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,7 +191,9 @@ CREATE TABLE `settings` (
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
 INSERT INTO `settings` VALUES (1,'discoverable_by_email',1),(2,'geo_enabled',1),(3,'protected',1),
-                              (4,'use_cookie_personalization',1),(5,'allow_dms_from',1);
+                              (4,'use_cookie_personalization',1),(5,'allow_dms_from',1),(6,'future_posts',2),
+                              (7,'friend_requests',2),(8,'friends_list',2),(9,'discoverable_by_email',2),(10,'discoverable_by_phone',2),
+                              (11,'discoverable_by_search_engine',2);;
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -189,7 +214,7 @@ CREATE TABLE `social_media` (
 
 LOCK TABLES `social_media` WRITE;
 /*!40000 ALTER TABLE `social_media` DISABLE KEYS */;
-INSERT INTO `social_media` VALUES (1,'twitter');
+INSERT INTO `social_media` VALUES (1,'twitter'),(2,'facebook');
 /*!40000 ALTER TABLE `social_media` ENABLE KEYS */;
 UNLOCK TABLES;
 
