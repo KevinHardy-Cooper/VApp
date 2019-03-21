@@ -24,7 +24,7 @@ function processForm(e) {
 			document.getElementById("invalidEmail").innerHTML = "User already exists for that email";
 			return false;
 		} else {
-			window.location = "/signin";
+			window.location = "/signin?account_status=new";
 		}
 	});
 }

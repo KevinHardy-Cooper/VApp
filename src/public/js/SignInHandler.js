@@ -1,3 +1,13 @@
+let url_string = window.location.href;
+let url = new URL(url_string);
+let account_status = url.searchParams.get("account_status");
+
+if (account_status === "new") {
+	document.getElementById("account_success_banner").style.display = "block";
+} else {
+	document.getElementById("account_success_banner").style.display = "none";
+}
+
 let form = document.getElementById("signinForm");
 
 if (form.attachEvent) {
