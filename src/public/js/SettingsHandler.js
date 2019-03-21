@@ -5,11 +5,13 @@ function delegate() {
 	let friendly_setting_names = [];
 	if (socialMedia === "twitter") {
 		$("body > div > div.text-center > h1").prepend("Twitter: ");
-		settings =  ["discoverable_by_email","geo_enabled", "protected"];
+		settings =  ["discoverable_by_email","geo_enabled", "protected", "use_cookie_personalization", "allow_dms_from"];
 		friendly_setting_names = {
 			"discoverable_by_email" : "Let others find you by your email address",
 			"geo_enabled" : "Tweet with a location (website), Precise Location (mobile app)",
-			"protected" : "Protect your tweets from the public"
+			"protected" : "Protect your tweets from the public",
+			"use_cookie_personalization" : "Track where you see Twitter content across the web",
+			"allow_dms_from" : "Receive Direct Messages from anyone (website), Receive message requests (mobile app)"
 		};
 	} else if (socialMedia === "facebook") {
 		$("body > div > div.text-center > h1").prepend("Facebook: ");

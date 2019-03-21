@@ -163,7 +163,7 @@ CREATE TABLE `setting_states` (
 LOCK TABLES `setting_states` WRITE;
 /*!40000 ALTER TABLE `setting_states` DISABLE KEYS */;
 INSERT INTO `setting_states` VALUES (1,1,'true'),(2,1,'false'),(3,2,'true'),(4,2,'false'),(5,3,'true'),(6,3,'false'),
-                                    (7,4,'true'),(8,4,'false'),(9,5,'true'),(10,5,'false'),(11,6,'Public'),(12,6,'Friends'),
+                                    (7,4,'true'),(8,4,'false'),(9,5,'following'),(10,5,'all'),(11,6,'Public'),(12,6,'Friends'),
                                     (13,6,'Friends Except...'),(14,6,'Only Me'),(15,6,'Specific Friends'),(16,6,'Custom'),
                                     (17,7,'Everyone'),(18,7,'Friends of friends'),(19,8,'Public'),(20,8,'Friends'),
                                     (21,8,'Only Me'),(22,8,'Custom'),(23,9,'Everyone'),(24,9,'Friends of friends'),
