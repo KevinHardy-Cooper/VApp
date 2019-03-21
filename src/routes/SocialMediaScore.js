@@ -38,9 +38,9 @@ class SocialMediaScore extends Score {
         if (socialMediaName === "twitter") {
             // Binding parameters
             inserts = [socialMediaName];
-            settingNames = ["geo_enabled", "protected", "discoverable_by_email"];
+            settingNames = ["geo_enabled", "protected", "discoverable_by_email", "use_cookie_personalization", "allow_dms_from"];
             // need to convert boolean values to strings
-            settingStates = [settings.geo_enabled+"", settings.protected+"", settings.discoverable_by_email+""];
+            settingStates = [settings.geo_enabled+"", settings.protected+"", settings.discoverable_by_email+"", settings.use_cookie_personalization+"", settings.allow_dms_from+""];
         } else if (socialMediaName === "facebook") {
             // Binding parameters
             inserts = [socialMediaName];
@@ -48,7 +48,13 @@ class SocialMediaScore extends Score {
                 "discoverable_by_phone", "discoverable_by_search_engine"];
             settingStates = [settings.future_posts, settings.friend_requests, settings.friends_list,
                 settings.discoverable_by_email, settings.discoverable_by_phone, settings.discoverable_by_search_engine];
-        } else {
+        } else if (socialMediaName === "instagram") {
+			// Binding parameters
+			inserts = [socialMediaName];
+			settingNames = ["account_privacy", "activity_status", "story_sharing", "usertag_review"];
+			settingStates = [settings.account_privacy, settings.activity_status, settings.story_sharing,
+				settings.usertag_review];
+		} else {
 			let obj = {
 				"code": 415,
 				"failed": "Unsupported social media type"

@@ -69,7 +69,15 @@ INSERT INTO `implications` VALUES (1,1,1,'If a hacker has your email, they can n
                                   (27,10,27,'discoverable_by_phone implications Friends of friends','discoverable_by_phone instructions Friends of friends',15),
                                   (28,10,28,'discoverable_by_phone implications Friends','discoverable_by_phone instructions Friends',18),
                                   (29,11,29,'discoverable_by_search_engine implications Yes','discoverable_by_search_engine instructions Yes',16),
-                                  (30,11,30,'discoverable_by_search_engine implications No','discoverable_by_search_engine instructions No',20);
+                                  (30,11,30,'discoverable_by_search_engine implications No','discoverable_by_search_engine instructions No',20),
+                                  (31,12,31,'account_privacy TRUE','account_privacy TRUE',5),
+                                  (32,12,32,'account_privacy FALSE','account_privacy FALSE',15),
+                                  (33,13,33,'activity_status TRUE','activity_status TRUE',5),
+                                  (34,13,34,'activity_status FALSE','activity_status FALSE',20),
+                                  (35,14,35,'story_sharing TRUE','story_sharing TRUE',15),
+                                  (36,14,36,'story_sharing FALSE','tory_sharing FALSE',10),
+                                  (37,15,37,'usertag_review AUTO','usertag_review AUTO',25),
+                                  (38,15,38,'usertag_review MANUAL','usertag_review MANUAL',10);
 /*!40000 ALTER TABLE `implications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,7 +119,7 @@ CREATE TABLE `score_types` (
 
 LOCK TABLES `score_types` WRITE;
 /*!40000 ALTER TABLE `score_types` DISABLE KEYS */;
-INSERT INTO `score_types` VALUES (1,'cumulative'),(2,'twitter'),(3,'facebook');
+INSERT INTO `score_types` VALUES (1,'cumulative'),(2,'twitter'),(3,'facebook'),(4,'instagram');
 /*!40000 ALTER TABLE `score_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,7 +176,8 @@ INSERT INTO `setting_states` VALUES (1,1,'true'),(2,1,'false'),(3,2,'true'),(4,2
                                     (17,7,'Everyone'),(18,7,'Friends of friends'),(19,8,'Public'),(20,8,'Friends'),
                                     (21,8,'Only Me'),(22,8,'Custom'),(23,9,'Everyone'),(24,9,'Friends of friends'),
                                     (25,9,'Friends'),(26,10,'Everyone'),(27,10,'Friends of friends'),(28,10,'Friends'),
-                                    (29,11,'Yes'),(30,11,'No');
+                                    (29,11,'Yes'),(30,11,'No'),(31,12,'true'),(32,12,'false'),(33,13,'true'),(34,13,'false'),
+                                    (35,14,'true'),(36,14,'false'),(37,15,'automatic'),(38,15,'manual');
 /*!40000 ALTER TABLE `setting_states` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -195,7 +204,8 @@ LOCK TABLES `settings` WRITE;
 INSERT INTO `settings` VALUES (1,'discoverable_by_email',1),(2,'geo_enabled',1),(3,'protected',1),
                               (4,'use_cookie_personalization',1),(5,'allow_dms_from',1),(6,'future_posts',2),
                               (7,'friend_requests',2),(8,'friends_list',2),(9,'discoverable_by_email',2),(10,'discoverable_by_phone',2),
-                              (11,'discoverable_by_search_engine',2);;
+                              (11,'discoverable_by_search_engine',2),(12,'account_privacy',3),(13,'activity_status',3),
+                              (14,'story_sharing',3),(15,'usertag_review',3);
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -216,7 +226,7 @@ CREATE TABLE `social_media` (
 
 LOCK TABLES `social_media` WRITE;
 /*!40000 ALTER TABLE `social_media` DISABLE KEYS */;
-INSERT INTO `social_media` VALUES (1,'twitter'),(2,'facebook');
+INSERT INTO `social_media` VALUES (1,'twitter'),(2,'facebook'),(3,'instagram');
 /*!40000 ALTER TABLE `social_media` ENABLE KEYS */;
 UNLOCK TABLES;
 

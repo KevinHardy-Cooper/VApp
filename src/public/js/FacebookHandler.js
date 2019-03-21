@@ -1,6 +1,6 @@
 function processFacebook() {
 	let data = document.getElementById("facebookText").value;
-	let splitData = data.split('\n');
+	let splitData = data.split("\n");
 	let whoCanSeeYourFuturePostsIndex = splitData.indexOf("Who can see your future posts?");
 	let whoCanSeeYourFuturePosts = splitData[whoCanSeeYourFuturePostsIndex+1];
 	
@@ -35,11 +35,11 @@ function processFacebook() {
 	
 	$.ajax( "/score/facebook", {
 		data : JSON.stringify({ "sessionId":getCookie("session_id"), "settings":settings } ),
-		contentType : 'application/json',
-		type : 'POST'}).done(function(response) {
-			if (response.code === 204) {
-				window.location = "/settings/facebook";
-			}
+		contentType : "application/json",
+		type : "POST"}).done(function(response) {
+		if (response.code === 200) {
+			window.location = "/settings/facebook";
+		}
 	});
 	
 }

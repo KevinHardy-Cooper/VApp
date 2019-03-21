@@ -72,10 +72,10 @@ router.get("/signup", function(req, res) {
 router.get("/settings/:socialMedia", function(req, res) {
 	if (req.params.socialMedia === "twitter" && req.session.oauthAccessToken === undefined) {
 		res.redirect("/connect/twitter");
-	} else if (req.params.socialMedia === "facebook") {
-		// TODO: handle if user clicks "Go to Facebook Settings", but has not logged in
-		logger.info("GET request for the Settings Page");
-		res.sendFile(path.join(__dirname, "/public/views/settings.html"));
+	} else if (req.params.socialMedia === "facebook" && req.session.facebookSettings === undefined) {
+		res.redirect("/facebook");
+	} else if (req.params.socialMedia === "instagram" && req.session.instagramSettings === undefined) {
+		res.redirect("/instagram");
 	} else {
 		logger.info("GET request for the Settings Page");
 		res.sendFile(path.join(__dirname, "/public/views/settings.html"));
@@ -87,9 +87,14 @@ router.get("/history", function(req, res) {
 	res.sendFile(path.join(__dirname, "/public/views/history.html"));
 });
 
-router.get('/facebook', function(req, res) {
+router.get("/facebook", function(req, res) {
 	logger.info("GET request for the Facebook Page");
-	res.sendFile(path.join(__dirname, '/public/views/facebook.html'));
+	res.sendFile(path.join(__dirname, "/public/views/facebook.html"));
+});
+
+router.get("/instagram", function(req, res) {
+	logger.info("GET request for the Instagram Page");
+	res.sendFile(path.join(__dirname, "/public/views/instagram.html"));
 });
 
 router.post("/signup", function(req, res) {
@@ -119,10 +124,10 @@ router.post("/signout", function(req, res) {
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
 		} else {
 			logger.info("Successful Sign Out");
-			delete req.session['oauthRequestToken'];
-			delete req.session['oauthRequestTokenSecret'];
-			delete req.session['oauthAccessToken'];
-			delete req.session['oauthAccessTokenSecret'];
+			delete req.session["oauthRequestToken"];
+			delete req.session["oauthRequestTokenSecret"];
+			delete req.session["oauthAccessToken"];
+			delete req.session["oauthAccessTokenSecret"];
 			res.sendStatus(200);
 		}
 	});
@@ -159,6 +164,9 @@ router.get("/user/settings/:socialMedia", function(req, res) {
 	} else if (req.params.socialMedia === "facebook") {
 		logger.info("There are no facebook user settings to retrieve upon refresh, so sending settings from initial post");
 		res.send(req.session.facebookSettings);
+	} else if (req.params.socialMedia === "instagram") {
+		logger.info("There are no instagram user settings to retrieve upon refresh, so sending settings from initial post");
+		res.send(req.session.instagramSettings);
 	} else {
 		logger.info("Social media not supported");
 		res.send({
@@ -199,7 +207,12 @@ router.get("/history/:userId/:socialMedia", function(req, res) {
 });
 
 router.post("/score/:socialMedia", function(req, res) {
-	req.session.facebookSettings = req.body.settings;
+	if (req.params.socialMedia === "facebook") {
+		req.session.facebookSettings = req.body.settings;
+	} else if (req.params.socialMedia === "instagram") {
+		req.session.instagramSettings = req.body.settings;
+	}
+
 	SocialMediaScore.calculateSocialMediaScore(req.params.socialMedia, req.body.sessionId, req.body.settings, function(err, obj) {
 		if (err !== null || obj === null) {
 			logger.error(inspect(err));

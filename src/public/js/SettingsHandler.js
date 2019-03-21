@@ -25,6 +25,16 @@ function delegate() {
 			"discoverable_by_phone" : "Who can look you up using the phone number you provided",
 			"discoverable_by_search_engine" : "Do you want search engines outside of Facebook to link to your profile"
 		};
+	} else if (socialMedia === "instagram") {
+		$("body > div > div.text-center > h1").prepend("Instagram: ");
+		settings = ["account_privacy", "activity_status", "story_sharing", "usertag_review"];
+
+		friendly_setting_names = {
+			"account_privacy" : "Account Privacy",
+			"activity_status" : "Activity Status",
+			"story_sharing" : "Allow Sharing",
+			"usertag_review" : "Photos of You"
+		};
 	} else {
 		$("body > div > div.text-center > h1").prepend("DNE: ");
 	}
@@ -75,11 +85,11 @@ function delegate() {
 			container.appendChild(cardDiv);
 		}
 	}).done(function(data) {
-		if (data.code && data.code === 200) { // facebook flow
+		if (data.code && data.code === 200) { // facebook and instagram flow
 			$.getJSON("/level/" + getCookie("session_id") + "/" + socialMedia, function (level) {
 				$("body > div > div.text-center > h1 > span").append("<strong>" + level[0].name + "</strong>");
 			});
-		} else if (!data.code) { // twitter flow
+		}  else if (!data.code) { // twitter flow
 			$.ajax("/score/" + socialMedia, {
 				data: JSON.stringify({"sessionId": getCookie("session_id"), "settings": data}),
 				contentType: "application/json",

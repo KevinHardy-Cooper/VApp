@@ -23,8 +23,8 @@ if (process.env.PORT) {
 	
 	// Options required for HTTPS authentication
 	let options = {
-		key: fs.readFileSync('./keys/privatekey.pem'),
-		cert: fs.readFileSync('./keys/server.crt')
+		key: fs.readFileSync("./keys/privatekey.pem"),
+		cert: fs.readFileSync("./keys/server.crt")
 	};
 	
 	// Firing the server up to whatever port the hosting service provides, or to 30$
