@@ -5,6 +5,7 @@
 // Imports
 const Score = require("./Score");
 const User = require("./User");
+const CumulativeScore = require("./CumulativeScore");
 const DatabaseConnection = require("../../config/DatabaseConnection");
 const logger = require("../../config/log.js");
 const inspect = require("util").inspect;
@@ -98,16 +99,32 @@ class SocialMediaScore extends Score {
 								logger.error(inspect(err));
 								callback(err, null);
 							} else if (obj.statusCode === 200) {
-								Score.insertScore(obj[0].id, typeId, score, function (err, obj) {
+								let userId = obj[0].id;
+								Score.insertScore(userId, typeId, score, function (err, obj) {
 									if (err) {
 										logger.error(inspect(err));
 										callback(err, null);
 									} else if (obj.statusCode === 200) {
-										obj = {
-											"code": 200,
-											"success": "Successfully inserted score in SocialMediaScore"
-										};
-										callback(null, obj);
+										CumulativeScore.calculateCumulativeScore(userId, function (err, obj) {
+											if (err) {
+												logger.error(inspect(err));
+												callback(err, null);
+											} else if (obj.code === 200) {
+												let cumulativeScore = obj.avg_score;
+												Score.insertScore(userId, 1, cumulativeScore, function (err, obj) {
+													if (err) {
+														logger.error(inspect(err));
+														callback(err, null);
+													} else if (obj.statusCode === 200) {
+														obj = {
+															"code": 204,
+															"success": "Successfully inserted score in SocialMediaScore"
+														};
+														callback(null, obj);
+													}
+												});
+											}
+										});
 									}
 								});
 							} else {

@@ -29,18 +29,19 @@ class History extends Score {
 		});
 	}
 
-	static getScoresByUserIdAndSocialMedia(userId, socialMedia, callback) {
-		Score.getScoreTypeBySocialMedia(socialMedia, function(err, obj) {
+	static getMostRecentScoresBySessionId(sessionId, callback) {
+		User.getUserBySessionId(sessionId, function(err, obj) {
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
-			} else if (obj.length > 0) {
-				let typeId = obj[0].id;
-				Score.getScoresByUserIdAndScoreType(userId, typeId, function(err, obj) {
+			} else if (obj.statusCode === 200) {
+				let userId = obj[0].id;
+				Score.getMostRecentScoresGivenUserId(userId, function (err, obj) {
 					if (err) {
 						logger.error(inspect(err));
 						callback(err, null);
 					}
+					logger.info("Successfully got scores given userId and socialMedia in History");
 					callback(null, obj);
 				});
 			} else {

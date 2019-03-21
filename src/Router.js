@@ -128,6 +128,8 @@ router.post("/signout", function(req, res) {
 			delete req.session["oauthRequestTokenSecret"];
 			delete req.session["oauthAccessToken"];
 			delete req.session["oauthAccessTokenSecret"];
+			delete req.session["facebookSettings"];
+			delete req.session["instagramSettings"];
 			res.sendStatus(200);
 		}
 	});
@@ -176,32 +178,24 @@ router.get("/user/settings/:socialMedia", function(req, res) {
 	}
 });
 
-router.get("/cumulativeScore", function(req, res) {
-	res.send("GET request for getting the users cumulative vulnerability score");
-});
-
-router.post("/cumulativeScore", function(req, res) {
-	res.send("POST request add the most recent cumulative score to a scores DB");
-});
-
 router.get("/history/:sessionId", function(req, res) {
 	History.getScoresBySessionId(req.params.sessionId, function(err, obj) {
 		if (err !== null || obj === null) {
 			logger.error(inspect(err));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
 		}
-		logger.info("Successful GET of score for userId");
+		logger.info("Successful GET of score for sessionId");
 		res.send(obj);
 	});
 });
 
-router.get("/history/:userId/:socialMedia", function(req, res) {
-	History.getScoresByUserIdAndSocialMedia(req.params.userId, req.params.socialMedia, function(err, obj) {
+router.get("/history/recent/:sessionId", function(req, res) {
+	History.getMostRecentScoresBySessionId(req.params.sessionId, function(err, obj) {
 		if (err !== null || obj === null) {
 			logger.error(inspect(err));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
 		}
-		logger.info("Successful GET of score for userId by socialMedia");
+		logger.info("Successful GET of score for sessionId by socialMedia");
 		res.send(obj);
 	});
 });

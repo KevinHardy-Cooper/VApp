@@ -26,7 +26,7 @@ function processInstagram() {
 		data : JSON.stringify({ "sessionId":getCookie("session_id"), "settings":settings } ),
 		contentType : "application/json",
 		type : "POST"}).done(function(response) {
-		if (response.code === 200) {
+		if (response.code === 204) {
 			window.location = "/settings/instagram";
 		}
 	});
