@@ -8,10 +8,6 @@ const logger = require("../../config/log.js");
 const inspect = require("util").inspect;
 
 class Implications {
-	static getImplicationsForGivenSocialMedia() {
-		// returns all implications for given social media
-	}
-
 	static getImplications(socialMedia, settingName, settingState, callback) {
 		let con = DatabaseConnection.createConnection();
 		let inserts = [socialMedia, settingName, settingState+""];
@@ -30,15 +26,10 @@ class Implications {
 				logger.error(inspect(err));
 				callback(err, null);
 			}
-			logger.info("Successfully got implications for given social media setting in Implications");
 			callback(null, result);
 		});
 	}
-
-	static getImplicationsForGivenSocialMediaSettingState() {
-		// returns implication for given social media, given setting, and given state
-	}
-
+	
 	static getInstructions(socialMedia, settingName, settingState, callback) {
 		let con = DatabaseConnection.createConnection();
 		let inserts = [socialMedia, settingName, settingState+""];
@@ -57,7 +48,6 @@ class Implications {
 				logger.error(inspect(err));
 				callback(err, null);
 			}
-			logger.info("Successfully got instructions for given implication in Implications");
 			callback(null, result);
 		});
 	}

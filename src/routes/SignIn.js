@@ -21,9 +21,9 @@ class SignIn extends User {
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
-			}
-			if (obj.statusCode === 200) {
-				User.setSessionId(email, encrypted_password, function(err, obj) {
+			} else if (obj.statusCode === 200) {
+				let session_id = crypto.randomBytes(20).toString("hex");
+				User.setSessionId(email, encrypted_password, session_id, function(err, obj) {
 					if (err) {
 						logger.error(inspect(err));
 						callback(err, null);

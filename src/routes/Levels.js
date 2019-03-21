@@ -12,7 +12,6 @@ class Levels {
 				logger.error(inspect(err));
 				callback(err, null);
 			}
-			logger.info("Successfully selected level in Level");
 			callback(null, result);
 		});
 	}

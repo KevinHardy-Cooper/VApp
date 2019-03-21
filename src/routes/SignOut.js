@@ -22,6 +22,8 @@ class SignOut extends User {
 					logger.info("Successfully signed out in SignOut");
 					callback(null, 200);
 				});
+			} else {
+				callback(null, 204);
 			}
 		});
 	}

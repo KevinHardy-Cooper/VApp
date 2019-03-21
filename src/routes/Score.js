@@ -18,12 +18,13 @@ class Score {
 				logger.error(inspect(err));
 				callback(err, null);
 			}
-			logger.info("Successfully inserted score in Score");
-			callback(null, 200);
+			result.statusCode = 200;
+			result.statusMessage = "New score inserted";
+			callback(null, result);
 		});
 	}
 
-	static getMostRecentScoreForGivenType(userId, typeId, callback) {
+	static getMostRecentScoreByUserIdAndScoreType(userId, typeId, callback) {
 		let inserts = [userId, typeId];
 		let con = DatabaseConnection.createConnection();
 		let sql = "SELECT *" +
@@ -36,12 +37,11 @@ class Score {
 				logger.error(inspect(err));
 				callback(err, null);
 			}
-			logger.info("Successfully got scores for given type in Score");
 			callback(null, result);
 		});
 	}
 
-	static getScoresForGivenType(userId, typeId, callback) {
+	static getScoresByUserIdAndScoreType(userId, typeId, callback) {
 		let inserts = [userId, typeId];
 		let con = DatabaseConnection.createConnection();
 		let sql = "SELECT * " +
@@ -53,7 +53,6 @@ class Score {
 				logger.error(inspect(err));
 				callback(err, null);
 			}
-			logger.info("Successfully got scores for given type in Score");
 			callback(null, result);
 		});
 	}
@@ -68,12 +67,11 @@ class Score {
 				logger.error(inspect(err));
 				callback(err, null);
 			}
-			logger.info("Successfully got scores by userId in Score");
 			callback(null, result);
 		});
 	}
 
-	static getScoreType(socialMedia, callback) {
+	static getScoreTypeBySocialMedia(socialMedia, callback) {
 		let con = DatabaseConnection.createConnection();
 		let sql = "SELECT id " +
                     "FROM Score_Types " +
@@ -83,8 +81,23 @@ class Score {
 				logger.error(inspect(err));
 				callback(err, null);
 			}
-			logger.info("Successfully got score type by social media in Score");
 			callback(null, result);
+		});
+	}
+	
+	// Only used in testing
+	static deleteScore(userId, callback) {
+		let con = DatabaseConnection.createConnection();
+		let sql = "DELETE FROM Scores " +
+			"WHERE user_id = ?";
+		let inserts = [userId];
+		con.query(sql, inserts, function (err, result) {
+			if (err) {
+				logger.error(inspect(err));
+				callback(err, null);
+			} else {
+				callback(null, 200);
+			}
 		});
 	}
 }

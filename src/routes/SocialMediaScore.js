@@ -48,7 +48,14 @@ class SocialMediaScore extends Score {
                 "discoverable_by_phone", "discoverable_by_search_engine"];
             settingStates = [settings.future_posts, settings.friend_requests, settings.friends_list,
                 settings.discoverable_by_email, settings.discoverable_by_phone, settings.discoverable_by_search_engine];
-        }
+        } else {
+			let obj = {
+				"code": 415,
+				"failed": "Unsupported social media type"
+			};
+			callback(null, obj);
+			return;
+		}
 
 		// Loop through given arrays
 		for (let i = 0; i < settingNames.length; i++){
@@ -70,37 +77,42 @@ class SocialMediaScore extends Score {
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
-			}
-			let score = result[0].score;
-			logger.info("Successfully calculated social media score");
-			Score.getScoreType(inserts[0], function (err, obj) {
-				if (err) {
-					logger.error(inspect(err));
-					callback(err, null);
-				}
-				logger.info("Successfully got the score type in SocialMediaScore");
-				let typeId = obj[0].id;
-				logger.info(sessionId);
-				User.getUserBySessionId(sessionId, function(err, obj) {
+			} else if (result.length > 0) {
+				let score = result[0].score;
+				logger.info("Successfully calculated social media score");
+				Score.getScoreTypeBySocialMedia(inserts[0], function (err, obj) {
 					if (err) {
 						logger.error(inspect(err));
 						callback(err, null);
-					} else if (obj.statusCode === 200) {
-						Score.insertScore(obj[0].id, typeId, score, function (err, obj) {
+					} else if (obj.length > 0) {
+						logger.info("Successfully got the score type in SocialMediaScore");
+						let typeId = obj[0].id;
+						User.getUserBySessionId(sessionId, function (err, obj) {
 							if (err) {
 								logger.error(inspect(err));
 								callback(err, null);
-							} else if (obj === 200) {
-								obj = {
-									"code": 204,
-									"success": "Successfully inserted score in SocialMediaScore"
-								};
+							} else if (obj.statusCode === 200) {
+								Score.insertScore(obj[0].id, typeId, score, function (err, obj) {
+									if (err) {
+										logger.error(inspect(err));
+										callback(err, null);
+									} else if (obj.statusCode === 200) {
+										obj = {
+											"code": 200,
+											"success": "Successfully inserted score in SocialMediaScore"
+										};
+										callback(null, obj);
+									}
+								});
+							} else {
 								callback(null, obj);
 							}
 						});
+					} else {
+						callback(null, obj);
 					}
 				});
-			});
+			}
 		});
 	}
 }

@@ -8,8 +8,6 @@ const bodyParser = require("body-parser");
 const SignUp = require("./routes/SignUp");
 const SignIn = require("./routes/SignIn");
 const SignOut = require("./routes/SignOut");
-const Settings = require("./routes/Settings");
-const CumulativeScore = require("./routes/CumulativeScore");
 const History = require("./routes/History");
 const SocialMediaScore = require("./routes/SocialMediaScore");
 const Implications = require("./routes/Implications");
@@ -84,9 +82,9 @@ router.get("/settings/:socialMedia", function(req, res) {
 	}
 });
 
-router.get('/history', function(req, res) {
+router.get("/history", function(req, res) {
 	logger.info("GET request for the History Page");
-	res.sendFile(path.join(__dirname, '/public/views/history.html'));
+	res.sendFile(path.join(__dirname, "/public/views/history.html"));
 });
 
 router.get('/facebook', function(req, res) {
@@ -246,7 +244,7 @@ router.get("/level/:amount", function(req, res) {
 });
 
 router.get("/level/:sessionId/:socialMedia", function(req, res) {
-	History.getUsersLevelGivenSocialMedia(req.params.sessionId, req.params.socialMedia, function(err, obj) {
+	History.getMostRecentLevelBySessionIdAndSocialMedia(req.params.sessionId, req.params.socialMedia, function(err, obj) {
 		if (err !== null || obj === null) {
 			logger.error(inspect(err));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));

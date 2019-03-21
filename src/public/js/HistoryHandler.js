@@ -23,34 +23,34 @@ function assignScoreType(scoreTypeId) {
 
 function assignLineColour(scoreTypeId) {
 	if (scoreTypeId === 1) { // Cumulative Score (Red)
-		return { backgroundColor: 'rgb(142,68,172)', borderColor: 'rgb(142,68,172)' };
+		return { backgroundColor: "rgb(142,68,172)", borderColor: "rgb(142,68,172)" };
 	} else if (scoreTypeId === 2) { // Twitter (twitter icon blue)
-		return { backgroundColor: 'rgb(29,161,242)', borderColor: 'rgb(29,161,242)' };
+		return { backgroundColor: "rgb(29,161,242)", borderColor: "rgb(29,161,242)" };
 	} else if (scoreTypeId === 3) { // Facebook (facebook logo blue)
-		return { backgroundColor: 'rgb(60,92,169)', borderColor: 'rgb(60,92,169)' };
+		return { backgroundColor: "rgb(60,92,169)", borderColor: "rgb(60,92,169)" };
 	} else if (scoreTypeId === 4) { // Instagram (instagram logo reddy-purple)
-		return { backgroundColor: 'rgb(158,71,108)', borderColor: 'rgb(158,71,108)' };
+		return { backgroundColor: "rgb(158,71,108)", borderColor: "rgb(158,71,108)" };
 	}
 }
 
 function buildGraphConfig(datasets) {
 	let yLabels = {
-		100: 'A+',
-		89: 'A  ',
-		84: 'A- ',
-		79: 'B+',
-		74: 'B  ',
-		69: 'B- ',
-		64: 'C+',
-		59: 'C  ',
-		54: 'C- ',
-		49: 'D+',
-		44: 'D  ',
-		39: 'D- ',
-		34: 'F  '
+		100: "A+",
+		89: "A  ",
+		84: "A- ",
+		79: "B+",
+		74: "B  ",
+		69: "B- ",
+		64: "C+",
+		59: "C  ",
+		54: "C- ",
+		49: "D+",
+		44: "D  ",
+		39: "D- ",
+		34: "F  "
 	};
 	let config = {
-		type: 'line',
+		type: "line",
 		data: {
 			datasets: datasets
 		},
@@ -58,15 +58,15 @@ function buildGraphConfig(datasets) {
 			responsive: true,
 			title: {
 				display: true,
-				text: 'Grade History',
+				text: "Grade History",
 				fontSize: 32
 			},
 			tooltips: {
-				mode: 'index',
+				mode: "index",
 				intersect: true
 			},
 			hover: {
-				mode: 'nearest',
+				mode: "nearest",
 				intersect: false
 			},
 			legend: {
@@ -77,18 +77,18 @@ function buildGraphConfig(datasets) {
 			scales: {
 				xAxes: [{
 					display: true,
-					type: 'time',
+					type: "time",
 					fontSize: 32,
 					scaleLabel: {
 						display: true,
-						labelString: 'Time'
+						labelString: "Time"
 					}
 				}],
 				yAxes: [{
 					display: true,
 					scaleLabel: {
 						display: true,
-						labelString: 'Grade'
+						labelString: "Grade"
 					},
 					ticks: {
 						suggestedMin: 34,
@@ -102,7 +102,7 @@ function buildGraphConfig(datasets) {
 			}
 		}
 	};
-	return config
+	return config;
 }
 
 function populateTable(data) {
@@ -121,7 +121,7 @@ function populateTable(data) {
 }
 
 window.onload = function() {
-	$.getJSON('/history/'+getCookie("session_id"), function(data) { // retrieve user settings
+	$.getJSON("/history/"+getCookie("session_id"), function(data) { // retrieve user settings
 		populateTable(data);
 		let datasets = chartDataParser(data);
 		for (let i = 0; i < datasets.length; i++) {
@@ -136,7 +136,7 @@ window.onload = function() {
 		}
 		let usableDatasets = datasets.filter(a => a.data.length !== 0);
 		let config = buildGraphConfig(usableDatasets);
-		let ctx = document.getElementById("scoreChart").getContext('2d');
+		let ctx = document.getElementById("scoreChart").getContext("2d");
 		window.myLine = new Chart(ctx, config);
 	});
 };
