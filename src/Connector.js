@@ -5,6 +5,7 @@ const session = require("express-session");
 const sensitiveInfo = require("../config/SensitiveInfo.json");
 const logger = require("../config/log.js");
 const inspect = require("util").inspect;
+const path = require("path");
 
 // Grouping route handlers together using express.Router object
 const connector = express.Router();
