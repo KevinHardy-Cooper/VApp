@@ -55,7 +55,7 @@ function delegate() {
 			cardDiv.className = "card";
 			cardDiv.style.margin = "30px";
 			let cardHeaderDiv = document.createElement("div");
-			cardHeaderDiv.className = "card-header text-white bg-primary";
+			cardHeaderDiv.className = "card-header text-white";
 			cardHeaderDiv.id = "setting-" + i;
 			let valueSpan = document.createElement("span");
 			valueSpan.className = "value";
@@ -103,12 +103,13 @@ function delegate() {
 			console.log("Social Media not supported");
 			return;
 		}
-		for (var i = 0; i < settings.length; i++){
+		for (let i = 0; i < settings.length; i++){
 			generateSettingsBody("setting-" + i + "-imp", "implications", settings[i] ,data[settings[i]]);
 			generateSettingsBody("setting-" + i + "-fix", "instructions", settings[i] ,data[settings[i]]);
+			changeCardColor(i, settings[i], data[settings[i]]);
 		}
 	});
-	
+
 	function generateSettingsBody(id, type, setting, value) {
 		let link = "/"+ type +"/" + socialMedia + "/"+setting+"/"+ value;
 		$.getJSON(link, function(data) { // retrieve user settings
@@ -127,5 +128,29 @@ function delegate() {
 			}
 		});
 	}
-	
+
+	function changeCardColor(id, setting, value) {
+		$.getJSON("/implicationWeights/" + socialMedia + "/" + setting, function (weights) {
+			let max = 0;
+			let min = Number.MAX_SAFE_INTEGER;
+			for (let i = 0; i < weights.length; i++) {
+				if (weights[i].weight > max) {
+					max = weights[i].weight;
+				}
+				if (weights[i].weight < min) {
+					min = weights[i].weight;
+				}
+			}
+
+			for (let i = 0; i < weights.length; i++) {
+				if (weights[i].state.toString().toLowerCase() === value.toString().toLowerCase() && weights[i].weight === max) {
+					$("#setting-" + id).addClass("bg-danger");
+				} else if (weights[i].state.toString().toLowerCase() === value.toString().toLowerCase() && weights[i].weight === min) {
+					$("#setting-" + id).addClass("bg-success");
+				} else if (weights[i].state.toString().toLowerCase() === value.toString().toLowerCase() && weights[i].weight !== min && weights[i].weight !== max) {
+					$("#setting-" + id).addClass("bg-warning");
+				}
+			}
+		});
+	}
 }

@@ -51,6 +51,28 @@ class Implications {
 			callback(null, result);
 		});
 	}
+
+	static getAllWeightsForSetting(socialMedia, settingName, callback) {
+		let con = DatabaseConnection.createConnection();
+		let inserts = [socialMedia, settingName];
+		let sql = `select Setting_States.state, Implications.weight
+                    from Implications
+                    inner join Setting_States
+                    on Setting_States.id = Implications.setting_state_id
+                    inner join Settings
+                    on Implications.setting_id = Settings.id
+                    inner join Social_Media
+                    on Settings.social_media_id = Social_Media.id
+                     where Social_Media.name = ?
+                     and Settings.name = ?`;
+		con.query(sql, inserts, function (err, result) {
+			if (err) {
+				logger.error(inspect(err));
+				callback(err, null);
+			}
+			callback(null, result);
+		});
+	}
 }
 
 module.exports = Implications;

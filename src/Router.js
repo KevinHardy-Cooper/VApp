@@ -233,6 +233,17 @@ router.get("/implications/:socialMedia/:settingName/:settingState", function(req
 	});
 });
 
+router.get("/implicationWeights/:socialMedia/:settingName", function(req, res) {
+	Implications.getAllWeightsForSetting(req.params.socialMedia, req.params.settingName, function(err, obj) {
+		if (err !== null || obj === null) {
+			logger.error(inspect(err));
+			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+		}
+		logger.info("Successful GET of all implication weights for a setting");
+		res.send(obj);
+	});
+});
+
 router.get("/instructions/:socialMedia/:settingName/:settingState", function(req, res) {
 	Implications.getInstructions(req.params.socialMedia, req.params.settingName, req.params.settingState, function(err, obj) {
 		if (err !== null || obj === null) {
