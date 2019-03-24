@@ -7,6 +7,9 @@ const express = require("express");
 const Router = require("./Router.js");
 const Connector = require("./Connector");
 const logger = require("../config/log.js");
+const YAML = require('yamljs');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = YAML.load('src/api-docs/swagger.yaml');
 
 // Creating the Express app
 const app = express();
@@ -14,6 +17,7 @@ const app = express();
 // Adding router and connector to the middleware handling path
 app.use("/", Router);
 app.use("/", Connector);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // If this environment variable has been set, then it is assumed that we are on a production machine
 if (process.env.PORT) {

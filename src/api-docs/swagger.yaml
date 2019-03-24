@@ -1,0 +1,661 @@
+swagger: "2.0"
+info:
+  description: "VApp API.  You can find out more about     Swagger at [http://VApp.com](http://VApp.com)."
+  version: "1.0.0"
+  title: "VApp"
+  termsOfService: "http://VApp.com)"
+  contact:
+    email: "omorogoa@mcmaster.ca"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "127.0.0.1:3000"
+basePath: "/"
+tags:
+- name: "static"
+  description: "Everything for static pages"
+- name: "settings"
+  description: "Everything you need to get Social Media Settings"
+- name: "registration"
+  description: "Everything you for your user accounts"
+- name: "score"
+  description: "Everything you for scoring"
+- name: "accessSocialMedia"
+  description: "Endpoints to access Twitter Social Media options"
+schemes:
+- "http"
+
+paths:
+  /:
+    get:
+      tags:
+      - "static"
+      summary: "Home page"
+      description: ""
+      produces:
+      - "application/html"
+      responses:
+        200:
+          description: "Home page loaded"
+
+  /dashboard:
+    get:
+      tags:
+      - "static"
+      summary: "Dashboard page"
+      description: ""
+      produces:
+      - "application/html"
+      responses:
+        200:
+          description: "Dashboard page loaded"
+
+  /facebook:
+    get:
+      tags:
+      - "static"
+      summary: "Facebook Input settings form page"
+      description: ""
+      produces:
+      - "application/html"
+      responses:
+        200:
+          description: "Facebook Input settings form page loaded"
+
+  /instagram:
+    get:
+      tags:
+      - "static"
+      summary: "Instagram Input settings form page"
+      description: ""
+      produces:
+      - "application/html"
+      responses:
+        200:
+          description: "Instagram Input settings form page loaded"
+
+
+  /settings/{socialMedia}:
+    get:
+      tags:
+      - "settings"
+      summary: "Settings page for given social media"
+      description: ""
+      produces:
+      - "application/html"
+      parameters:
+      - name: socialMedia
+        in: "path"
+        description: "Pick a social media"
+        required: true
+        type: "string"
+        enum:
+        - "Instagram"
+        - "Twitter"
+        - "Facebook"
+      responses:
+        200:
+          description: "Social media settings page loaded"
+
+  /implications/{socialMedia}/{settingName}/{settingState}:
+    get:
+      tags:
+      - "settings"
+      summary: "Gets implications by setting state"
+      description: ""
+      externalDocs:
+          description: "Details for available Social Media, Setting Name and Setting State values and mapping"
+          url: "http://api-docs.io"
+      produces:
+      - "application/json"
+      parameters:
+      - name: socialMedia
+        in: "path"
+        description: "Pick a social media"
+        required: true
+        type: "string"
+        enum:
+        - "instagram"
+        - "twitter"
+        - "facebook"
+      - name: settingName
+        in: "path"
+        description: "Settings available for all social media"
+        required: true
+        type: "string"
+      - name: settingState
+        in: "path"
+        description: "Pick a social media"
+        required: true
+        type: "string"
+
+      responses:
+        200:
+          description: "Implications for Social Media, Setting and Setting State combination"
+          schema:
+            $ref: "#/definitions/Implications"
+        400:
+          description: "Domain validation errors, missing data"
+        415:
+          description: "Invalid Social Media/Invalid Setting Name/Invalid Setting State social media type"
+
+  /implicationWeights/{socialMedia}/{settingName}:
+    get:
+      tags:
+      - "settings"
+      summary: "Gets implications by setting state"
+      description: ""
+      externalDocs:
+          description: "Details for available Social Media, Setting Name and Setting State values and mapping"
+          url: "http://api-docs.io"
+      produces:
+      - "application/json"
+      parameters:
+      - name: socialMedia
+        in: "path"
+        description: "Pick a social media"
+        required: true
+        type: "string"
+        enum:
+        - "instagram"
+        - "twitter"
+        - "facebook"
+      - name: settingName
+        in: "path"
+        description: "Settings available for all social media"
+        required: true
+        type: "string"
+
+      responses:
+        200:
+          description: "All implication weights for a setting"
+          schema:
+            $ref: "#/definitions/ImplicationWeights"
+        400:
+          description: "Domain validation errors, missing data"
+        415:
+          description: "Invalid Social Media/Invalid Setting Name"
+          
+  /instructions/{socialMedia}/{settingName}/{settingState}:
+    get:
+      tags:
+      - "settings"
+      summary: "Get score from the sessionID"
+      description: ""
+      externalDocs:
+          description: "Details for available Social Media, Setting Name and Setting State values and mapping"
+          url: "http://api-docs.io"
+      produces:
+      - "application/json"
+      parameters:
+      - name: socialMedia
+        in: "path"
+        description: "Pick a social media"
+        required: true
+        type: "string"
+        enum:
+        - "instagram"
+        - "twitter"
+        - "facebook"
+      - name: settingName
+        in: "path"
+        description: "Settings available for all social media"
+        required: true
+        type: "string"
+
+      - name: settingState
+        in: "path"
+        description: "Pick a social media"
+        required: true
+        type: "string"
+
+      responses:
+        200:
+          description: "Instructions for Social Media, Setting and Setting State combination"
+          schema:
+            $ref: "#/definitions/Instructions"
+        204:
+          description: "Invalid sessionId"
+        400:
+          description: "Domain validation errors, missing data"
+        415:
+          description: "Invalid Setting Name/Invalid Setting Name/Invalid Setting State social media type"
+
+  /signup:
+    post:
+      tags:
+      - "registration"
+      summary: "Sign up the user"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "List of user object"
+        required: true
+        schema:
+          $ref: "#/definitions/UserLogin"
+      responses:
+        200:
+          description: "Successful Sign Up Operation"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+        204:
+          description: "Conflict - This email is already in use"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+        400:
+          description: "Domain validation errors, missing data"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+    get:
+      tags:
+      - "static"
+      summary: "The signup page"
+      description: ""
+      produces:
+      - "application/html"
+      responses:
+        200:
+          description: "Sign Up Page loaded"
+
+  /signout:
+    post:
+      tags:
+      - "registration"
+      summary: "Sign out the user"
+      description: ""
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "List of user object"
+        required: true
+        schema:
+          $ref: "#/definitions/SessionId"
+      responses:
+        200:
+          description: "Sign Out operation completed"
+
+  /signin:
+    post:
+      tags:
+      - "registration"
+      summary: "Sign in the user"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "List of user object"
+        required: true
+        schema:
+          $ref: "#/definitions/UserLogin"
+      responses:
+        200:
+          description: "Successful Sign In Operation"
+          schema:
+            $ref: "#/definitions/UserResponseSignIn"
+        204:
+          description: "Unauthorized - Invalid email or password"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+        400:
+          description: "Domain validation errors, missing data"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+    get:
+      tags:
+      - "static"
+      summary: "The signin page"
+      description: ""
+      produces:
+      - "application/html"
+      responses:
+        200:
+          description: "Sign-in page loaded"
+
+  /user/settings/{socialMedia}:
+    get:
+      tags:
+      - "settings"
+      summary: "Settings page for given social media, settings are all saved as a cookie on the user browser"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: socialMedia
+        in: "path"
+        description: "Pick a social media"
+        required: true
+        type: "string"
+        enum:
+        - "instagram"
+        - "twitter"
+        - "facebook"
+      responses:
+        200:
+          description: "User Settings for Social Media retrieved"
+          schema:
+            $ref: "#/definitions/Settings"
+        400:
+          description: "Domain validation errors, missing data"
+        415:
+          description: "Unsupported social media type"
+
+  /score/all/{sessionId}:
+    get:
+      tags:
+      - "score"
+      summary: "Get all scores for a user by a specific sessionId"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: sessionId
+        in: "path"
+        description: "Current session ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "All users scores have been retrieved"
+          schema:
+            $ref: "#/definitions/Score"
+        204:
+          description: "Invalid sessionId"
+        400:
+          description: "Domain validation errors, missing data"
+
+  /score/recent/{sessionId}:
+    get:
+      tags:
+      - "score"
+      summary: "Get most recent scores by unique type by sessionId"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: sessionId
+        in: "path"
+        description: "Current session ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "All most recent users scores have been retrieved"
+          schema:
+            $ref: "#/definitions/Score"
+        204:
+          description: "Invalid sessionId"
+        400:
+          description: "Domain validation errors, missing data"
+
+  /score/{socialMedia}:
+    post:
+      tags:
+      - "score"
+      summary: " Inserts user's social media score"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: socialMedia
+        in: "path"
+        description: "Pick a social media"
+        required: true
+        type: "string"
+        enum:
+        - "instagram"
+        - "twitter"
+        - "facebook"
+      - in: "body"
+        name: "body"
+        description: "List of user object"
+        required: true
+        schema:
+          $ref: "#/definitions/ScoreRequest"
+      responses:
+        200:
+          description: "New score successful inserted into the database"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+        400:
+          description: "Domain validation errors, missing data"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+        415:
+          description: "Unsupported social media type"
+
+  /grade/{sessionId}/{socialMedia}:
+    get:
+      tags:
+      - "score"
+      summary: "Get grade for sessionId's most recent score given social media"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: sessionId
+        in: "path"
+        description: "Current session ID"
+        required: true
+        type: "string"
+      - name: socialMedia
+        in: "path"
+        description: "Pick a social media"
+        required: true
+        type: "string"
+        enum:
+        - "instagram"
+        - "twitter"
+        - "facebook"
+      responses:
+        200:
+          description: "Grade for most recent user score for a given social media was retrieved"
+          schema:
+            $ref: "#/definitions/Grade"
+        204:
+          description: "Invalid sessionId"
+        400:
+          description: "Domain validation errors, missing data"
+        415:
+          description: "Unsupported social media type"
+
+  /connect/{socialMedia}:
+    get:
+      tags:
+      - "accessSocialMedia"
+      summary: "Gateway for social media connections that require OAuth"
+      description: ""
+      parameters:
+      - name: socialMedia
+        in: "path"
+        description: "Pick a social media"
+        required: true
+        type: "string"
+        enum:
+        - "instagram"
+        - "twitter"
+        - "facebook"
+      responses:
+        200:
+          description: "Successfully connected to social media"
+        400:
+          description: "Domain validation errors, missing data"
+        415:
+          description: "Unsupported social media type"
+
+
+  /oauth:
+    get:
+      tags:
+      - "accessSocialMedia"
+      summary: "Start OAuth process"
+      description: ""
+      responses:
+        200:
+          description: "Successfully started OAuth"
+        400:
+          description: "Domain validation errors, missing data"
+
+  /oauth/callback:
+    get:
+      tags:
+      - "accessSocialMedia"
+      summary: "Receives access tokens from Twitter"
+      description: ""
+      responses:
+        200:
+          description: "Successfully retrieved tokens"
+        400:
+          description: "Domain validation errors, missing data"
+
+  /oauth/{socialMedia}:
+    get:
+      tags:
+      - "accessSocialMedia"
+      summary: "Requests Social Media login page"
+      description: ""
+      parameters:
+      - name: socialMedia
+        in: "path"
+        description: "Pick a social media"
+        required: true
+        type: "string"
+        enum:
+        - "instagram"
+        - "twitter"
+        - "facebook"
+      responses:
+        200:
+          description: "Successfully requested Social Media page with OAuth"
+        400:
+          description: "Domain validation errors, missing data"
+        415:
+          description: "Unsupported social media type"
+
+definitions:
+  Settings:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      description:
+        type: "string"
+      socialMedia:
+        type: "string"
+        description: "Social Media name"
+      setting_A:
+        type: "string"
+        description: "Setting name"
+
+  UserLogin:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
+
+  SessionId:
+    type: "object"
+    properties:
+      sessionId:
+        type: "string"
+        format: "Random 20-bit Hex Hash"
+
+  UserResponseSignIn:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message:
+        type: "string"
+      sessionId:
+        type: "string"
+        format: "Random 20-bit Hex Hash"
+
+  GenericResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message:
+        type: "string"
+
+  ScoreRequest:
+    type: "object"
+    properties:
+      sessionId:
+        type: "string"
+        format: "Random 20-bit Hex Hash"
+      settings:
+        $ref: "#/definitions/Settings"
+
+  ScoreRow:
+    type: "object"
+    properties:
+      type_id:
+        type: "integer"
+      score:
+        type: "integer"
+      time:
+        type: "string"
+        format: "date-time"
+
+  Score:
+    type: "array"
+    items:
+      $ref: "#/definitions/ScoreRow"
+
+  Implications:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message:
+        type: "string"
+      implications:
+        type: "string"
+
+  ImplicationWeights:
+    type: "object"
+    properties:
+      state:
+        type: "string"
+      weight:
+        type: "string"
+        
+  Instructions:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message:
+        type: "string"
+      instructions:
+        type: "string"
+
+  Grade:
+    type: "object"
+    properties:
+      grade:
+        type: "string"
