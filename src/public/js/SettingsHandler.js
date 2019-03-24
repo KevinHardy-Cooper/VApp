@@ -8,10 +8,10 @@ function delegate() {
 		settings =  ["discoverable_by_email","geo_enabled", "protected", "use_cookie_personalization", "allow_dms_from"];
 		friendly_setting_names = {
 			"discoverable_by_email" : "Let others find you by your email address",
-			"geo_enabled" : "Tweet with a location (website), Precise Location (mobile app)",
+			"geo_enabled" : "Tweet with a location (website), Precise location (mobile app)",
 			"protected" : "Protect your tweets from the public",
 			"use_cookie_personalization" : "Track where you see Twitter content across the web",
-			"allow_dms_from" : "Receive Direct Messages from anyone (website), Receive message requests (mobile app)"
+			"allow_dms_from" : "Receive direct messages from anyone (website), Receive message requests (mobile app)"
 		};
 	} else if (socialMedia === "facebook") {
 		$("body > div > div.text-center > h1").prepend("Facebook: ");
@@ -30,10 +30,10 @@ function delegate() {
 		settings = ["account_privacy", "activity_status", "story_sharing", "usertag_review"];
 
 		friendly_setting_names = {
-			"account_privacy" : "Account Privacy",
-			"activity_status" : "Activity Status",
-			"story_sharing" : "Allow Sharing",
-			"usertag_review" : "Photos of You"
+			"account_privacy" : "Make account private",
+			"activity_status" : "Show activity status",
+			"story_sharing" : "Allow sharing of story photos and videos",
+			"usertag_review" : "Add tagged photos and videos to your profile automatically"
 		};
 	} else {
 		$("body > div > div.text-center > h1").prepend("DNE: ");
