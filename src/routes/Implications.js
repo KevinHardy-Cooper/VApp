@@ -22,6 +22,7 @@ class Implications {
                      where Social_Media.name = ? 
                      and Settings.name = ? and Setting_States.state = ?`;
 		con.query(sql, inserts , function (err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
@@ -44,6 +45,7 @@ class Implications {
                      where Social_Media.name = ? 
                      and Settings.name = ? and Setting_States.state = ?`;
 		con.query(sql, inserts, function (err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);

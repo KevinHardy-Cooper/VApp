@@ -80,6 +80,7 @@ class SocialMediaScore extends Score {
 
 		// Execute query
 		con.query(sql, inserts, function (err, result) {
+			con.end();
 			// Log success or error
 			if (err) {
 				logger.error(inspect(err));

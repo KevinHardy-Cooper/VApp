@@ -19,6 +19,7 @@ class CumulativeScore extends Score {
 			" (SELECT MAX(t2.time) from Scores t2 WHERE t2.type_id = t1.type_id and user_id = ? group by type_id)" +
 			" and t1.type_id != 1";
 		con.query(sql, inserts, function (err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);

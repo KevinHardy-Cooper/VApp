@@ -12,6 +12,7 @@ class User {
 		let con = DatabaseConnection.createConnection();
 		let sql = "SELECT * FROM Users WHERE email = ? LIMIT 1";
 		con.query(sql, email, function(err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
@@ -34,6 +35,7 @@ class User {
 		let inserts = [email, password];
 		let sql = "SELECT * FROM Users WHERE email = ? AND password = ? LIMIT 1";
 		con.query(sql, inserts, function (err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
@@ -59,6 +61,7 @@ class User {
 		};
 		let sql = "INSERT INTO Users SET ?";
 		con.query(sql, inserts, function (err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
@@ -75,6 +78,7 @@ class User {
 		let insert = { "session_id": session_id };
 		let sql = "SELECT * FROM Users WHERE ?";
 		con.query(sql, insert, function(err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
@@ -98,6 +102,7 @@ class User {
 		let inserts = [session_id, email, password];
 		let sql = "UPDATE Users SET session_id = ? WHERE email = ? AND password = ?";
 		con.query(sql, inserts, function (err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
@@ -120,6 +125,7 @@ class User {
             "WHERE email = ? AND password = ?";
 		let inserts = [email, password];
 		con.query(sql, inserts, function (err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
@@ -142,6 +148,7 @@ class User {
 			"WHERE email = ? AND password = ?";
 		let inserts = [email, password];
 		con.query(sql, inserts, function (err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);

@@ -14,6 +14,7 @@ class Score {
 		let sql = "INSERT INTO Scores (user_id, type_id, score) " +
                     "VALUES (?, ?, ?)";
 		con.query(sql, inserts, function (err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
@@ -32,6 +33,7 @@ class Score {
 			" WHERE t1.time =" +
 			" (SELECT MAX(t2.time) from Scores t2 WHERE t2.type_id = t1.type_id and user_id = ? group by type_id)";
 		con.query(sql, inserts, function (err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
@@ -49,6 +51,7 @@ class Score {
                     " AND type_id = ?" +
 					" ORDER BY id DESC LIMIT 1";
 		con.query(sql, inserts, function (err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
@@ -63,6 +66,7 @@ class Score {
                     "FROM Scores " +
                     "WHERE user_id = ?";
 		con.query(sql, userId, function (err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
@@ -77,6 +81,7 @@ class Score {
                     "FROM Score_Types " +
                     "WHERE name = ?";
 		con.query(sql, socialMedia, function (err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
@@ -92,6 +97,7 @@ class Score {
 			"WHERE user_id = ?";
 		let inserts = [userId];
 		con.query(sql, inserts, function (err, result) {
+			con.end();
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
