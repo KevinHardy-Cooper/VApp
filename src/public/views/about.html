@@ -7,20 +7,14 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>History</title>
+    <title>About</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
-    <link href="css/history.css" rel="stylesheet">
+    <link href="css/about.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-
-    <!-- Script used for ajax -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-    <!-- Script used for the graph -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
 
     <!-- Script to handle cookies -->
     <script type="text/javascript" src="../js/CookieHandler.js"></script>
@@ -38,51 +32,79 @@
             <li class="nav-item">
                 <a class="nav-link" href="/dashboard">HOME</a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="/history">HISTORY</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">ACCOUNT</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="/about">ABOUT</a>
             </li>
             <li class="nav-item">
-                <a id="signout" class="nav-link" href="#">SIGN OUT</a>
+                <a id="signout" class="nav-link" href="/signout">SIGN OUT</a>
             </li>
         </ul>
     </div>
 </nav>
-
+<div class="container">
+    <div class="row">
+        <div class="col-sm" style="text-align: center;">
+            <span style="font-size: 100px;"> <b>Meet The Team</b> </span>
+        </div>
+    </div>
+    <hr style="margin: 50px">
+</div>
 <div class="container-fluid">
     <div class="row">
-        <main role="main" class="col-md-12 ml-sm-auto">
-            <div class="container">
-                <div class="row">
-                    <canvas id="scoreChart" width="300" height="150"></canvas>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row text-center">
-                </div>
-            </div>
-        </main>
+        <div class="col-md-2 cold-lg-2">
+            <img src="../img/abe.svg" width="100%">
+        </div>
+        <div class="col-md-2 cold-lg-2">
+            <img src="../img/jay.svg" width="100%">
+        </div>
+        <div class="col-md-2 cold-lg-2">
+            <img src="../img/kevin.svg" width="100%">
+        </div>
+        <div class="col-md-2 cold-lg-2">
+            <img src="../img/ratna.svg" width="100%">
+        </div>
+        <div class="col-md-2 cold-lg-2">
+            <img src="../img/shane.svg" width="100%">
+        </div>
+        <div class="col-md-2 cold-lg-2">
+            <img src="../img/terin.svg" width="100%">
+        </div>
     </div>
-    <div id="scoreTableDiv">
-        <table id="scoreTable" class="table">
-            <thead>
-                <tr>
-                    <th>Number</th>
-                    <th>Date</th>
-                    <th>Social Media</th>
-                    <th>Grade</th>
-                </tr>
-            </thead>
-        </table>
+    <div class="row" style="text-align:center">
+        <div class="col-md-2 col-lg-2">
+            <p><strong>Abe</strong></p>
+            <p>Privacy Oracle</p>
+        </div>
+        <div class="col-md-2 col-lg-2">
+            <p><strong>Jay</strong></p>
+            <p>Janitor</p>
+        </div>
+        <div class="col-md-2 col-lg-2">
+            <p><strong>Kevin</strong></p>
+            <p>Software Engigod</p>
+        </div>
+        <div class="col-md-2 col-lg-2">
+            <p><strong>Ratna</strong></p>
+            <p>Score Master</p>
+        </div>
+        <div class="col-md-2 col-lg-2">
+            <p><strong>Shane</strong></p>
+            <p>Poster Boy</p>
+        </div>
+        <div class="col-md-2 col-lg-2">
+            <p><strong>Terin</strong></p>
+            <p>Project Manager</p>
+        </div>
     </div>
 </div>
 <div id="copyright" class="container">
-    <p>Made with 🍌🔥 in Hamilton, Ontario by Script Kitties. &copy; 2019.</p>
+    <p>Made with 🍌🔥 in Hamilton, ON by Script Kitties. &copy; 2019.</p>
 </div>
 </body>
 <!-- Script to implement navbar functionality-->

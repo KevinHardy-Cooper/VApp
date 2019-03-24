@@ -97,6 +97,11 @@ router.get("/instagram", function(req, res) {
 	res.sendFile(path.join(__dirname, "/public/views/instagram.html"));
 });
 
+router.get('/about', function(req, res) {
+	logger.info("GET request for the About Page");
+	res.sendFile(path.join(__dirname, '/public/views/about.html'));
+});
+
 router.post("/signup", function(req, res) {
 	SignUp.delegate(req.body.email, req.body.password, function(err, obj) {
 		if (err !== null || obj === null) {
