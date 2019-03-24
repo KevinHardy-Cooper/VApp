@@ -46,7 +46,8 @@ class Score {
 		let sql = "SELECT * " +
                     "FROM Scores " +
                     "WHERE user_id = ?" +
-                    " AND type_id = ?";
+                    " AND type_id = ?" +
+					" ORDER BY id DESC LIMIT 1";
 		con.query(sql, inserts, function (err, result) {
 			if (err) {
 				logger.error(inspect(err));
