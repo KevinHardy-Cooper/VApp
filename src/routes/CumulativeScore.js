@@ -18,18 +18,23 @@ class CumulativeScore extends Score {
 			" WHERE t1.time =" +
 			" (SELECT MAX(t2.time) from Scores t2 WHERE t2.type_id = t1.type_id and user_id = ? group by type_id)" +
 			" and t1.type_id != 1";
-		con.query(sql, inserts, function (err, result) {
+		con.query(sql, inserts, function (error, result) {
 			con.end();
-			if (err) {
-				logger.error(inspect(err));
-				callback(err, null);
+			if (error) {
+				logger.error(inspect(error));
+				let response = {
+					"code": 400,
+					"message": "Domain validation errors, missing data"
+				};
+				callback(response, null);
+			} else {
+				let response = {
+					"code" : 200,
+					"message": "Successfully calculated cumulative score",
+					"avgScore": result[0].avg_score
+				};
+				callback(null, response);
 			}
-			logger.info("Successfully calculated cumulative score in CumulativeScore");
-			let obj = {
-				"avg_score": result[0].avg_score,
-				"code" : 200
-			};
-			callback(null, obj);
 		});
 	}
 }

@@ -9,21 +9,36 @@ const inspect = require("util").inspect;
 
 class SignOut extends User {
 	static delegate(session_id, callback) {
-		User.getUserBySessionId(session_id, function(err, obj) {
-			if (err) {
-				logger.error(inspect(err));
-				callback(err, null);
-			} else if (obj.statusCode === 200) {
-				User.nullifySessionId(obj[0].email, obj[0].password, function (err, obj) {
-					if (err) {
-						logger.error(inspect(err));
-						callback(err, null);
+		User.getUserBySessionId(session_id, function(error, result) {
+			if (error) {
+				logger.error(inspect(error));
+				callback(error, null);
+			} else if (result.code === 200) {
+				let userId = result.userId;
+				User.nullifySessionIdByUserId(userId, function (error, result) {
+					if (error) {
+						logger.error(inspect(error));
+						callback(error, null);
+					} else if (result.code === 200) {
+						let response = {
+							"code": 200,
+							"message": "Sign out operation completed"
+						};
+						callback(null, response);
+					} else if (result.code === 204) {
+						let response = {
+							"code": 204,
+							"message": "User does not exist for given userId in SignOut"
+						};
+						callback(null, response);
 					}
-					logger.info("Successfully signed out in SignOut");
-					callback(null, 200);
 				});
-			} else {
-				callback(null, 204);
+			} else if (result.code === 204) {
+				let response = {
+					"code": 204,
+					"message": "User does not exist for sessionId in SignOut"
+				};
+				callback(null, response);
 			}
 		});
 	}

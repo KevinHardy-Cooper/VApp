@@ -13,8 +13,8 @@ const inspect = require("util").inspect;
 class SocialMediaScore extends Score {
 
 	// Calculates score for given social media given setting
-	// Receives a string for socialMediaName and arrays for settingNames and settingStates
-	static calculateSocialMediaScore(socialMediaName, sessionId, settings, callback) {
+	// Receives a string for socialMedia and arrays for settingNames and settingStates
+	static calculateSocialMediaScore(socialMedia, sessionId, settings, callback) {
 
 		// Establish database connection
 		let con = DatabaseConnection.createConnection();
@@ -36,31 +36,31 @@ class SocialMediaScore extends Score {
 		let settingNames = [];
 		let settingStates = [];
 
-        if (socialMediaName === "twitter") {
+        if (socialMedia === "twitter") {
             // Binding parameters
-            inserts = [socialMediaName];
+            inserts = [socialMedia];
             settingNames = ["geo_enabled", "protected", "discoverable_by_email", "use_cookie_personalization", "allow_dms_from"];
             // need to convert boolean values to strings
             settingStates = [settings.geo_enabled+"", settings.protected+"", settings.discoverable_by_email+"", settings.use_cookie_personalization+"", settings.allow_dms_from+""];
-        } else if (socialMediaName === "facebook") {
+        } else if (socialMedia === "facebook") {
             // Binding parameters
-            inserts = [socialMediaName];
+            inserts = [socialMedia];
             settingNames = ["future_posts", "friend_requests", "friends_list", "discoverable_by_email",
                 "discoverable_by_phone", "discoverable_by_search_engine"];
             settingStates = [settings.future_posts, settings.friend_requests, settings.friends_list,
                 settings.discoverable_by_email, settings.discoverable_by_phone, settings.discoverable_by_search_engine];
-        } else if (socialMediaName === "instagram") {
+        } else if (socialMedia === "instagram") {
 			// Binding parameters
-			inserts = [socialMediaName];
+			inserts = [socialMedia];
 			settingNames = ["account_privacy", "activity_status", "story_sharing", "usertag_review"];
 			settingStates = [settings.account_privacy, settings.activity_status, settings.story_sharing,
 				settings.usertag_review];
 		} else {
-			let obj = {
+			let result = {
 				"code": 415,
 				"failed": "Unsupported social media type"
 			};
-			callback(null, obj);
+			callback(null, result);
 			return;
 		}
 
@@ -79,63 +79,75 @@ class SocialMediaScore extends Score {
 		sql += "))";
 
 		// Execute query
-		con.query(sql, inserts, function (err, result) {
+		con.query(sql, inserts, function (error, result) {
 			con.end();
 			// Log success or error
-			if (err) {
-				logger.error(inspect(err));
-				callback(err, null);
+			if (error) {
+				logger.error(inspect(error));
+				callback(error, null);
 			} else if (result.length > 0) {
 				let score = result[0].score;
-				logger.info("Successfully calculated social media score");
-				Score.getScoreTypeBySocialMedia(inserts[0], function (err, obj) {
-					if (err) {
-						logger.error(inspect(err));
-						callback(err, null);
-					} else if (obj.length > 0) {
-						logger.info("Successfully got the score type in SocialMediaScore");
-						let typeId = obj[0].id;
-						User.getUserBySessionId(sessionId, function (err, obj) {
-							if (err) {
-								logger.error(inspect(err));
-								callback(err, null);
-							} else if (obj.statusCode === 200) {
-								let userId = obj[0].id;
-								Score.insertScore(userId, typeId, score, function (err, obj) {
-									if (err) {
-										logger.error(inspect(err));
-										callback(err, null);
-									} else if (obj.statusCode === 200) {
-										CumulativeScore.calculateCumulativeScore(userId, function (err, obj) {
-											if (err) {
-												logger.error(inspect(err));
+				Score.getScoreTypeBySocialMedia(inserts[0], function (error, result) {
+					if (error) {
+						logger.error(inspect(error));
+						callback(error, null);
+					} else if (result.code === 200) {
+						let typeId = result.scoreType;
+						User.getUserBySessionId(sessionId, function (error, result) {
+							if (error) {
+								logger.error(inspect(error));
+								callback(error, null);
+							} else if (result.code === 200) {
+								let userId = result.userId;
+								Score.insertScore(userId, typeId, score, function (error, result) {
+									if (error) {
+										logger.error(inspect(error));
+										callback(error, null);
+									} else if (result.code === 200) {
+										CumulativeScore.calculateCumulativeScore(userId, function (error, result) {
+											if (error) {
+												logger.error(inspect(error));
 												callback(err, null);
-											} else if (obj.code === 200) {
-												let cumulativeScore = obj.avg_score;
-												Score.insertScore(userId, 1, cumulativeScore, function (err, obj) {
+											} else if (result.code === 200) {
+												let cumulativeScore = result.avgScore;
+												Score.insertScore(userId, 1, cumulativeScore, function (err, result) {
 													if (err) {
 														logger.error(inspect(err));
 														callback(err, null);
-													} else if (obj.statusCode === 200) {
-														obj = {
-															"code": 204,
-															"success": "Successfully inserted score in SocialMediaScore"
+													} else if (result.code === 200) {
+														result = {
+															"code": 200,
+															"success": "Successful calculation of social media score"
 														};
-														callback(null, obj);
+														callback(null, result);
 													}
 												});
 											}
 										});
 									}
 								});
-							} else {
-								callback(null, obj);
+							} else if (result.code === 204) {
+								let response = {
+									"code": 204,
+									"message": "User does not exist for sessionId in SocialMediaScore"
+								};
+								callback(null, response);
 							}
 						});
-					} else {
-						callback(null, obj);
+					} else if (result.code === 204) {
+						let response = {
+							"code": 204,
+							"message": "Score type not returned for social media in SocialMediaScore"
+						};
+						callback(null, response);
 					}
 				});
+			} else if (result.length === 0) {
+				let response = {
+					"code": 204,
+					"message": "Weight of implications not calculated in SocialMediaScore"
+				};
+				callback(null, response);
 			}
 		});
 	}

@@ -113,7 +113,7 @@ function populateTable(data) {
 		let date = row.insertCell(1);
 		let socialMedia = row.insertCell(2);
 		let grade = row.insertCell(3);
-		num.innerHTML = data[i].id;
+		num.innerHTML = i;
 		date.innerHTML = data[i].time;
 		socialMedia.innerHTML = assignScoreType(data[i].type_id);
 		grade.innerHTML = 100-data[i].score;
@@ -121,9 +121,10 @@ function populateTable(data) {
 }
 
 window.onload = function() {
-	$.getJSON("/history/"+getCookie("session_id"), function(data) { // retrieve user settings
-		populateTable(data);
-		let datasets = chartDataParser(data);
+	$.getJSON("/score/all/"+getCookie("session_id"), function(data) { // retrieve user settings
+		let scores = data.scores;
+		populateTable(scores);
+		let datasets = chartDataParser(scores);
 		for (let i = 0; i < datasets.length; i++) {
 			datasets[i].label = assignScoreType(i);
 			datasets[i].fill = false;

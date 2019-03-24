@@ -11,7 +11,6 @@ const SignOut = require("./routes/SignOut");
 const History = require("./routes/History");
 const SocialMediaScore = require("./routes/SocialMediaScore");
 const Implications = require("./routes/Implications");
-const Levels = require("./routes/Levels");
 const oauth = require("oauth");
 const session = require("express-session");
 const sensitiveInfo = require("../config/SensitiveInfo.json");
@@ -103,50 +102,40 @@ router.get('/about', function(req, res) {
 });
 
 router.post("/signup", function(req, res) {
-	SignUp.delegate(req.body.email, req.body.password, function(err, obj) {
-		if (err !== null || obj === null) {
-			logger.error(inspect(err));
+	SignUp.delegate(req.body.email, req.body.password, function(error, result) {
+		if (error !== null || result === null) {
+			logger.error(inspect(error));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
 		} else {
-			if(obj.statusCode === 200) {
-				let response = {
-					"code": obj.statusCode,
-					"success": obj.statusMessage
-				};
-				res.send(response);
-				// TODO: show banner on front end regarding new user successfully created
-			} else {
-				res.send(obj);
-			}
+			res.send(result);
 		}
 	});
 });
 
 router.post("/signout", function(req, res) {
-	SignOut.delegate(req.body.session_id, function(err, obj) {
-		if (err !== null || obj === null) {
-			logger.error(inspect(err));
+	SignOut.delegate(req.body.session_id, function(error, result) {
+		if (error !== null || result === null) {
+			logger.error(inspect(error));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
 		} else {
-			logger.info("Successful Sign Out");
 			delete req.session["oauthRequestToken"];
 			delete req.session["oauthRequestTokenSecret"];
 			delete req.session["oauthAccessToken"];
 			delete req.session["oauthAccessTokenSecret"];
 			delete req.session["facebookSettings"];
 			delete req.session["instagramSettings"];
-			res.sendStatus(200);
+			res.send(result);
 		}
 	});
 });
 
 router.post("/signin", function(req, res) {
-	SignIn.delegate(req.body.email, req.body.password, function(err, obj) {
-		if (err !== null || obj === null) {
-			logger.error(inspect(err));
+	SignIn.delegate(req.body.email, req.body.password, function(error, result) {
+		if (error !== null || result === null) {
+			logger.error(inspect(error));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
-		}else{
-			res.send(obj);
+		} else {
+			res.send(result);
 		}
 	});
 });
@@ -159,49 +148,82 @@ router.get("/user/settings/:socialMedia", function(req, res) {
 			"https://api.twitter.com/1.1/account/settings.json",
 			req.session.oauthAccessToken,
 			req.session.oauthAccessTokenSecret,
-			function (err, data) {
-				if (err !== null) {
-					logger.error(inspect(err));
+			function (error, data) {
+				if (error !== null) {
+					logger.error(inspect(error));
 					res.sendFile(path.join(__dirname, "/public/views/error.html"));
 				} else {
-					logger.info("Successful Pull of User Settings from Twitter");
-					res.send(data);
+					let data_json = JSON.parse(data);
+					let response = {
+						"code": 200,
+						"message": "User Settings for Twitter retrieved",
+						"socialMedia": "twitter",
+						"protected": data_json.protected,
+						"geo_enabled": data_json.geo_enabled,
+						"discoverable_by_email": data_json.discoverable_by_email,
+						"allow_dms_from": data_json.allow_dms_from,
+						"use_cookie_personalization": data_json.use_cookie_personalization
+					};
+					res.send(response);
 				}
 			});
 	} else if (req.params.socialMedia === "facebook") {
+		// TODO: since no updated facebook settings, require different way to handle refresh
 		logger.info("There are no facebook user settings to retrieve upon refresh, so sending settings from initial post");
-		res.send(req.session.facebookSettings);
+		let response = {
+			"code": 200,
+			"message": "User Settings for Facebook retrieved",
+			"socialMedia": "facebook",
+			"future_posts": req.session.facebookSettings.future_posts,
+			"friend_requests": req.session.facebookSettings.friend_requests,
+			"friends_list": req.session.facebookSettings.friends_list,
+			"discoverable_by_email": req.session.facebookSettings.discoverable_by_email,
+			"discoverable_by_phone": req.session.facebookSettings.discoverable_by_phone,
+			"discoverable_by_search_engine": req.session.facebookSettings.discoverable_by_search_engine
+		};
+		res.send(response);
 	} else if (req.params.socialMedia === "instagram") {
+		// TODO: since no updated instagram settings, require different way to handle refresh
 		logger.info("There are no instagram user settings to retrieve upon refresh, so sending settings from initial post");
-		res.send(req.session.instagramSettings);
+		let response = {
+			"code": 200,
+			"message": "User Settings for Instagram retrieved",
+			"socialMedia": "instagram",
+			"account_privacy": req.session.instagramSettings.account_privacy,
+			"activity_status": req.session.instagramSettings.activity_status,
+			"story_sharing": req.session.instagramSettings.story_sharing,
+			"usertag_review": req.session.instagramSettings.usertag_review
+		};
+		res.send(response);
 	} else {
 		logger.info("Social media not supported");
-		res.send({
-			"code":204,
-			"success":"Social media not supported"
-		});
+		let response = {
+			"code": 415,
+			"message": "Unsupported social media type"
+		};
+		res.send(response);
 	}
 });
 
-router.get("/history/:sessionId", function(req, res) {
-	History.getScoresBySessionId(req.params.sessionId, function(err, obj) {
-		if (err !== null || obj === null) {
-			logger.error(inspect(err));
+router.get("/score/all/:sessionId", function(req, res) {
+	History.getScoresBySessionId(req.params.sessionId, function(error, result) {
+		if (error !== null || result === null) {
+			logger.error(inspect(error));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+		} else {
+			res.send(result);
 		}
-		logger.info("Successful GET of score for sessionId");
-		res.send(obj);
 	});
 });
 
-router.get("/history/recent/:sessionId", function(req, res) {
-	History.getMostRecentScoresBySessionId(req.params.sessionId, function(err, obj) {
-		if (err !== null || obj === null) {
-			logger.error(inspect(err));
+router.get("/score/recent/:sessionId", function(req, res) {
+	History.getMostRecentScoresBySessionId(req.params.sessionId, function(error, result) {
+		if (error !== null || result === null) {
+			logger.error(inspect(error));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+		} else {
+			res.send(result);
 		}
-		logger.info("Successful GET of score for sessionId by socialMedia");
-		res.send(obj);
 	});
 });
 
@@ -212,24 +234,24 @@ router.post("/score/:socialMedia", function(req, res) {
 		req.session.instagramSettings = req.body.settings;
 	}
 
-	SocialMediaScore.calculateSocialMediaScore(req.params.socialMedia, req.body.sessionId, req.body.settings, function(err, obj) {
-		if (err !== null || obj === null) {
-			logger.error(inspect(err));
+	SocialMediaScore.calculateSocialMediaScore(req.params.socialMedia, req.body.sessionId, req.body.settings, function(error, result) {
+		if (error !== null || result === null) {
+			logger.error(inspect(error));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+		} else {
+			res.send(result);
 		}
-		logger.info("Successful POST of score for socialMedia");
-		res.send(obj);
 	});
 });
 
 router.get("/implications/:socialMedia/:settingName/:settingState", function(req, res) {
-	Implications.getImplications(req.params.socialMedia, req.params.settingName, req.params.settingState, function(err, obj) {
-		if (err !== null || obj === null) {
-			logger.error(inspect(err));
+	Implications.getImplications(req.params.socialMedia, req.params.settingName, req.params.settingState, function(error, result) {
+		if (error !== null || result === null) {
+			logger.error(inspect(error));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+		} else {
+			res.send(result);
 		}
-		logger.info("Successful GET of implications for settingId");
-		res.send(obj);
 	});
 });
 
@@ -245,35 +267,24 @@ router.get("/implicationWeights/:socialMedia/:settingName", function(req, res) {
 });
 
 router.get("/instructions/:socialMedia/:settingName/:settingState", function(req, res) {
-	Implications.getInstructions(req.params.socialMedia, req.params.settingName, req.params.settingState, function(err, obj) {
-		if (err !== null || obj === null) {
-			logger.error(inspect(err));
+	Implications.getInstructions(req.params.socialMedia, req.params.settingName, req.params.settingState, function(error, result) {
+		if (error !== null || result === null) {
+			logger.error(inspect(error));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+		} else {
+			res.send(result);
 		}
-		logger.info("Sucessful GET of instructions for implicationId");
-		res.send(obj);
 	});
 });
 
-router.get("/level/:amount", function(req, res) {
-	Levels.getLevel(req.params.amount, function(err, obj) {
-		if (err !== null || obj === null) {
-			logger.error(inspect(err));
+router.get("/grade/:sessionId/:socialMedia", function(req, res) {
+	History.getMostRecentGradeBySessionIdAndSocialMedia(req.params.sessionId, req.params.socialMedia, function(error, result) {
+		if (error !== null || result === null) {
+			logger.error(inspect(error));
 			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+		} else {
+			res.send(result);
 		}
-		logger.info("Successful GET of level for amount");
-		res.send(obj);
-	});
-});
-
-router.get("/level/:sessionId/:socialMedia", function(req, res) {
-	History.getMostRecentLevelBySessionIdAndSocialMedia(req.params.sessionId, req.params.socialMedia, function(err, obj) {
-		if (err !== null || obj === null) {
-			logger.error(inspect(err));
-			res.sendFile(path.join(__dirname, "/public/views/error.html"));
-		}
-		logger.info("Successful GET of score for userId by socialMedia");
-		res.send(obj);
 	});
 });
 

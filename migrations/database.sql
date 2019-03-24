@@ -82,11 +82,11 @@ INSERT INTO `implications` VALUES (1,1,1,'If a hacker has your email, they can n
 UNLOCK TABLES;
 
 --
--- Table structure for table `levels`
+-- Table structure for table `grades`
 --
 
-DROP TABLE IF EXISTS `levels`;
-CREATE TABLE `levels` (
+DROP TABLE IF EXISTS `grades`;
+CREATE TABLE `grades` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `amount` int(11) DEFAULT NULL,
@@ -94,13 +94,13 @@ CREATE TABLE `levels` (
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `levels`
+-- Dumping data for table `grades`
 --
 
-LOCK TABLES `levels` WRITE;
-/*!40000 ALTER TABLE `levels` DISABLE KEYS */;
-INSERT INTO `levels` VALUES (1,'A+',10),(2,'A',15),(3,'A-',20),(4,'B+',25),(5,'B',30),(6,'B-',35),(7,'C+',40),(8,'C',45),(9,'C-',50),(10,'D+',55),(11,'D',60),(12,'D-',65),(13,'F',100);
-/*!40000 ALTER TABLE `levels` ENABLE KEYS */;
+LOCK TABLES `grades` WRITE;
+/*!40000 ALTER TABLE `grades` DISABLE KEYS */;
+INSERT INTO `grades` VALUES (1,'A+',10),(2,'A',15),(3,'A-',20),(4,'B+',25),(5,'B',30),(6,'B-',35),(7,'C+',40),(8,'C',45),(9,'C-',50),(10,'D+',55),(11,'D',60),(12,'D-',65),(13,'F',100);
+/*!40000 ALTER TABLE `grades` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

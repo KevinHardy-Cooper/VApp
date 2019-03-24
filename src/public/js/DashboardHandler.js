@@ -1,21 +1,25 @@
 window.onload = function() {
-	$.getJSON("/history/recent/" + getCookie("session_id"), function(data) {
+	$.getJSON("/score/recent/" + getCookie("session_id"), function(data) {
 		let cumulativeScore = "Welcome to VApp!";
 		let twitterScore = "Log in to get a Grade!";
 		let facebookScore = "Log in to get a Grade!";
 		let instagramScore = "Log in to get a Grade!";
-		for (let i = 0; i < data.length; i++) {
-			if (data[i].type_id === 1) {
-				let inverseScore = 100 - data[i].score;
+
+		let scores = data.scores;
+		for (let i = 0; i < scores.length; i++) {
+			let score_type = scores[i].type_id;
+			let score = scores[i].score;
+			if (score_type === 1) {
+				let inverseScore = 100 - score;
 				cumulativeScore = convertToGrade(inverseScore);
-			} else if (data[i].type_id === 2) {
-				let inverseScore = 100 - data[i].score;
+			} else if (score_type === 2) {
+				let inverseScore = 100 - score;
 				twitterScore = "Most Recent Grade: " + convertToGrade(inverseScore);
-			} else if (data[i].type_id === 3) {
-				let inverseScore = 100 - data[i].score;
+			} else if (score_type === 3) {
+				let inverseScore = 100 - score;
 				facebookScore = "Most Recent Grade: " + convertToGrade(inverseScore);
-			} else if (data[i].type_id === 4) {
-				let inverseScore = 100 - data[i].score;
+			} else if (score_type === 4) {
+				let inverseScore = 100 - score;
 				instagramScore = "Most Recent Grade: " + convertToGrade(inverseScore);
 			}
 		}

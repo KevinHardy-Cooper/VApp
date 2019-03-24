@@ -85,21 +85,21 @@ function delegate() {
 			container.appendChild(cardDiv);
 		}
 	}).done(function(data) {
-		if (data.code && data.code === 200) { // facebook and instagram flow
-			$.getJSON("/level/" + getCookie("session_id") + "/" + socialMedia, function (level) {
-				$("body > div > div.text-center > h1 > span").append("<strong>" + level[0].name + "</strong>");
+		if (data.code === 200 && (data.socialMedia === "facebook" || data.socialMedia === "instagram")) { // facebook and instagram flow
+			$.getJSON("/grade/" + getCookie("session_id") + "/" + socialMedia, function (grade) {
+				$("body > div > div.text-center > h1 > span").append("<strong>" + grade.grade + "</strong>");
 			});
-		}  else if (!data.code) { // twitter flow
+		}  else if (data.code === 200 && data.socialMedia === "twitter") { // twitter flow
 			$.ajax("/score/" + socialMedia, {
 				data: JSON.stringify({"sessionId": getCookie("session_id"), "settings": data}),
 				contentType: "application/json",
 				type: "POST"
 			}).done(function () {
-				$.getJSON("/level/" + getCookie("session_id") + "/" + socialMedia, function (level) {
-					$("body > div > div.text-center > h1 > span").append("<strong>" + level[0].name + "</strong>");
+				$.getJSON("/grade/" + getCookie("session_id") + "/" + socialMedia, function (grade) {
+					$("body > div > div.text-center > h1 > span").append("<strong>" + grade.grade + "</strong>");
 				});
 			});
-		} else {
+		} else if (data.code === 415) {
 			console.log("Social Media not supported");
 			return;
 		}
@@ -113,8 +113,8 @@ function delegate() {
 	function generateSettingsBody(id, type, setting, value) {
 		let link = "/"+ type +"/" + socialMedia + "/"+setting+"/"+ value;
 		$.getJSON(link, function(data) { // retrieve user settings
-			let implications = data[0].description;
-			let instructions = data[0].instructions;
+			let implications = data.implications;
+			let instructions = data.instructions;
 			if(type === "implications"){
 				$("#"+id).append("<strong>"+ implications + "</strong>");
 				$("#"+id).css("white-space","pre-wrap");
@@ -130,9 +130,10 @@ function delegate() {
 	}
 
 	function changeCardColor(id, setting, value) {
-		$.getJSON("/implicationWeights/" + socialMedia + "/" + setting, function (weights) {
+		$.getJSON("/implicationWeights/" + socialMedia + "/" + setting, function (response) {
 			let max = 0;
 			let min = Number.MAX_SAFE_INTEGER;
+			let weights = response.weights;
 			for (let i = 0; i < weights.length; i++) {
 				if (weights[i].weight > max) {
 					max = weights[i].weight;

@@ -35,11 +35,12 @@ connector.get("/connect/:socialMedia", function(req, res) {
 		logger.info("Attempting to connect to Twitter");
 		res.redirect("/oauth"); // send to /oauth endpoint
 	} else {
+		let response = {
+			"code": 415,
+			"message": "Unsupported social media type"
+		};
 		logger.info("Social media not supported");
-		res.send({
-			"code":204,
-			"success":"Social media not supported"
-		});
+		res.send(response);
 	}
 });
 
@@ -55,8 +56,13 @@ connector.get("/oauth", function(req, res) {
 					logger.info("Good Error for OAuth, User has not authorized app");
 					res.redirect("/oauth/twitter"); // send to /oauth/:socialMedia endpoint
 				} else {
+					logger.info("Not good error for OAuth");
 					logger.error(inspect(err));
-					res.status(err.statusCode).send(err);
+					let response = {
+						"code": 400,
+						"message": "Domain validation errors, missing data"
+					};
+					res.send(response);
 				}
 			} else {
 				// no error means that user has authorized app
@@ -76,7 +82,6 @@ connector.get("/oauth/callback", function(req, res) {
 			req.session.oauthRequestTokenSecret,
 			req.query.oauth_verifier,
 			function (err, oauthAccessToken, oauthAccessTokenSecret, results) {
-
 				if (err) {
 					logger.error(inspect(err));
 					res.sendFile(path.join(__dirname, "/public/views/error.html"));
@@ -91,18 +96,26 @@ connector.get("/oauth/callback", function(req, res) {
 });
 
 connector.get("/oauth/:socialMedia", function(req, res) {
-	consumer.getOAuthRequestToken(
-		function(err, oauthToken, oauthTokenSecret, results) {
-			if (err) {
-				logger.error(inspect(err));
-				res.sendFile(path.join(__dirname, "/public/views/error.html"));
-			} else {
-				req.session.oauthRequestToken = oauthToken;
-				req.session.oauthRequestTokenSecret = oauthTokenSecret;
-				logger.info("Request for Twitter login page successful");
-				res.redirect("https://twitter.com/oauth/authorize?force_login=true&oauth_token=" + req.session.oauthRequestToken);
-			}
-		});
+	if (req.params.socialMedia === "twitter") {
+		consumer.getOAuthRequestToken(
+			function(err, oauthToken, oauthTokenSecret, results) {
+				if (err) {
+					logger.error(inspect(err));
+					res.sendFile(path.join(__dirname, "/public/views/error.html"));
+				} else {
+					req.session.oauthRequestToken = oauthToken;
+					req.session.oauthRequestTokenSecret = oauthTokenSecret;
+					logger.info("Request for Twitter login page successful");
+					res.redirect("https://twitter.com/oauth/authorize?force_login=true&oauth_token=" + req.session.oauthRequestToken);
+				}
+			});
+	} else {
+		let response = {
+			"code": 415,
+			"message": "Unsupported social media type"
+		};
+		res.send(response);
+	}
 });
 
 module.exports = connector;

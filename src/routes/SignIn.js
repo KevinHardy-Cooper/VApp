@@ -17,26 +17,38 @@ class SignIn extends User {
 		let encrypted_password = cipher.update(password,"utf8","hex");
 		encrypted_password += cipher.final("hex");
 
-		User.getUser(email, encrypted_password, function(err, obj) {
+		User.getUser(email, encrypted_password, function(err, result) {
 			if (err) {
 				logger.error(inspect(err));
 				callback(err, null);
-			} else if (obj.statusCode === 200) {
-				let session_id = crypto.randomBytes(20).toString("hex");
-				User.setSessionId(email, encrypted_password, session_id, function(err, obj) {
+			} else if (result.code === 200) {
+				let sessionId = crypto.randomBytes(20).toString("hex");
+				let userId = result.userId;
+				User.setSessionIdByUserId(userId, sessionId, function(err, result) {
 					if (err) {
 						logger.error(inspect(err));
 						callback(err, null);
+					} else if (result.code === 200) {
+						let response = {
+							"code": 200,
+							"message": "Successful Sign In Operation",
+							"sessionId": result.sessionId
+						};
+						callback(null, response);
+					} else if (result.code === 204) {
+						let response = {
+							"code": 204,
+							"message": "SessionId was not updated for User in SignIn"
+						};
+						callback(null, response);
 					}
-					let response = {
-						"code" : obj.statusCode,
-						"success" : "User exists for given email and password",
-						"cookie": obj.statusMessage
-					};
-					callback(null, response);
 				});
-			} else {
-				callback(null, obj);
+			} else if (result.code === 204) {
+				let response = {
+					"code": 204,
+					"message": "User does not exist for given email and password in SignIn"
+				};
+				callback(null, response);
 			}
 		});
 	}
