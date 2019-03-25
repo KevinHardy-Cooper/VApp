@@ -12,6 +12,7 @@ window.onload = function() {
 			if (score_type === 1) {
 				let inverseScore = 100 - score;
 				cumulativeScore = convertToGrade(inverseScore);
+				document.getElementById("privacyGaugeTitle").style.display = "block";
 				let g = new JustGage({
 					id: "gauge",
 					value: inverseScore,
