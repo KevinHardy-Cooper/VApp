@@ -172,3 +172,46 @@ For Database development, we will follow the following naming conventions:
 `GET /oauth/callback` - Receives access tokens from Twitter
 
 `GET /oauth/:socialMedia` - Requests Twitter login page
+
+### Social Media, Settings, States Combinations
+
+| Social Media  |Settings                  | States  |
+| ------------- |-------------            | -----   |
+| twitter       | discoverable_by_email   | true  |
+|               |                         |   false   |
+|               | geo_enabled             |    true   |
+|               |                         |   false   |
+|               | protected               |    true   |
+|               |                         |   false   |
+|               | use_cookie_personalization |    true   |
+|               |                         |   false   |
+|               | allow_dms_from          |    following   |
+|               |                         |   all   |
+| facebook      | future_posts            |    Public   |
+|               |                         |   Friends   |
+|               |                         |   Friends Except...   |
+|               |                         |   Only Me   |
+|               |                         |   Specific Friends   |
+|               |                         |   Custom   |
+|               | friend_requests         |   Everyone   |
+|               |       |   Friends of friends   |
+|               | friends_list         |   Public   |
+|               |          |   Friends   |
+|               |          |   Only Me   |
+|               |          |   Custom   |
+|               | discoverable_by_email        |  Everyone   |
+|               |          |   Friends of friends  |
+|               |          |  Friends   |
+|               | discoverable_by_phone        |  Everyone   |
+|               |          |   Friends of friends  |
+|               |          |  Friends   |
+|               | discoverable_by_search_engine       |  Yes   |
+|               |          |   No  |
+| instagram       | account_privacy   | true  |
+|               |                         |   false   |
+|               | activity_status            |    true   |
+|               |                         |   false   |
+|               | story_sharing               |    true   |
+|               |                         |   false   |
+|               | usertag_review |    automatic  |
+|               |                         |   manual   |
