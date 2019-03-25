@@ -20,6 +20,10 @@
   <!-- Script used for ajax -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+  <!-- Script used for gauge-->
+  <script src="../js/vendor/raphael-2.1.4.min.js"></script>
+  <script src="../js/vendor/justgage.js"></script>
+
   <!-- Script to handle cookies -->
   <script type="text/javascript" src="../js/CookieHandler.js"></script>
   <script type="text/javascript">checkCookie()</script>
@@ -60,7 +64,9 @@
       <div class="container">
         <div class="row">
           <div class="col-sm" style="text-align: center;">
+            <h3>Current Social Media Privacy Grade</h3>
             <span id="cumulativeScore" style="font-size: 100px;"></span>
+            <div id="gauge"></div>
           </div>
         </div>
         <hr style="margin: 50px">

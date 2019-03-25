@@ -88,6 +88,8 @@ function delegate() {
 		if (data.code === 200 && (data.socialMedia === "facebook" || data.socialMedia === "instagram")) { // facebook and instagram flow
 			$.getJSON("/grade/" + getCookie("session_id") + "/" + socialMedia, function (grade) {
 				$("body > div > div.text-center > h1 > span").append("<strong>" + grade.grade + "</strong>");
+				let titleCaseName = socialMedia.charAt(0).toUpperCase() + socialMedia.substring(1, socialMedia.length);
+				getGauge(grade.score,titleCaseName);// Create gauge
 			});
 		}  else if (data.code === 200 && data.socialMedia === "twitter") { // twitter flow
 			$.ajax("/score/" + socialMedia, {
@@ -97,6 +99,8 @@ function delegate() {
 			}).done(function () {
 				$.getJSON("/grade/" + getCookie("session_id") + "/" + socialMedia, function (grade) {
 					$("body > div > div.text-center > h1 > span").append("<strong>" + grade.grade + "</strong>");
+					let titleCaseName = socialMedia.charAt(0).toUpperCase() + socialMedia.substring(1, socialMedia.length);
+					getGauge(grade.score, titleCaseName);// Create gauge
 				});
 			});
 		} else if (data.code === 415) {
@@ -154,4 +158,25 @@ function delegate() {
 			}
 		});
 	}
+
+	 function getGauge(score, socialMedia){
+		 let inverseScore = 100 - score;
+		 let g = new JustGage({
+			 id: "gauge",
+			 value: inverseScore,
+			 gaugeWidthScale: 0.4,
+			 min: 0,
+			 minTxt: "F",
+			 max: 100,
+			 maxTxt: "A+",
+			 label: "Secure on "+ socialMedia,
+			 symbol:"%",
+			 valueMinFontSize: 40,
+			 labelMinFontSize:15,
+			 levelColors:["#ff0000", "#f9c802", "#a9d70b"],
+			 hideMinMax: true,
+			 counter: true,
+			 pointer: true
+		 });
+	 }
 }

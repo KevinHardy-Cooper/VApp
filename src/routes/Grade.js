@@ -6,7 +6,7 @@ const inspect = require("util").inspect;
 class Grade {
 	static getGrade(amount, callback) {
 		let con = DatabaseConnection.createConnection();
-		let sql = "SELECT name FROM Grades WHERE amount >= ? LIMIT 1";
+		let sql = "SELECT name, amount FROM Grades WHERE amount >= ? LIMIT 1";
 		con.query(sql, amount, function (error, result) {
 			con.end();
 			if (error) {
@@ -20,7 +20,8 @@ class Grade {
 				let response = {
 					"code": 200,
 					"message": "Grade returned for amount",
-					"grade": result[0].name
+					"grade": result[0].name,
+					"score": result[0].amount
 				};
 				callback(null, response);
 			} else if (result.length === 0) {

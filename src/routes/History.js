@@ -98,7 +98,8 @@ class History extends Score {
 										let response = {
 											"code": 200,
 											"message": "Grade for most recent user score for a given social media was retrieved",
-											"grade": result.grade
+											"grade": result.grade,
+											"score": result.score
 										};
 										callback(null, response);
 									} else if (result.code === 204) {

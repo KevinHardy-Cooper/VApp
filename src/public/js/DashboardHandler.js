@@ -12,6 +12,23 @@ window.onload = function() {
 			if (score_type === 1) {
 				let inverseScore = 100 - score;
 				cumulativeScore = convertToGrade(inverseScore);
+				let g = new JustGage({
+					id: "gauge",
+					value: inverseScore,
+					gaugeWidthScale: 0.4,
+					min: 0,
+					minTxt: "F",
+					max: 100,
+					maxTxt: "A+",
+					label: "Secure",
+					symbol:"%",
+					valueMinFontSize: 40,
+					labelMinFontSize:15,
+					levelColors:["#ff0000", "#f9c802", "#a9d70b"],
+					hideMinMax: true,
+					counter: true,
+					pointer: true
+				});
 			} else if (score_type === 2) {
 				let inverseScore = 100 - score;
 				twitterScore = "Most Recent Grade: " + convertToGrade(inverseScore);
