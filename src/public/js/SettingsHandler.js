@@ -55,7 +55,7 @@ function delegate() {
 			cardDiv.className = "card";
 			cardDiv.style.margin = "30px";
 			let cardHeaderDiv = document.createElement("div");
-			cardHeaderDiv.className = "card-header text-white";
+			cardHeaderDiv.className = "card-header";
 			cardHeaderDiv.id = "setting-" + i;
 			let valueSpan = document.createElement("span");
 			valueSpan.className = "value";
@@ -149,9 +149,9 @@ function delegate() {
 
 			for (let i = 0; i < weights.length; i++) {
 				if (weights[i].state.toString().toLowerCase() === value.toString().toLowerCase() && weights[i].weight === max) {
-					$("#setting-" + id).addClass("bg-danger");
+					$("#setting-" + id).addClass("text-white bg-danger");
 				} else if (weights[i].state.toString().toLowerCase() === value.toString().toLowerCase() && weights[i].weight === min) {
-					$("#setting-" + id).addClass("bg-success");
+					$("#setting-" + id).addClass("text-white bg-success");
 				} else if (weights[i].state.toString().toLowerCase() === value.toString().toLowerCase() && weights[i].weight !== min && weights[i].weight !== max) {
 					$("#setting-" + id).addClass("bg-warning");
 				}
