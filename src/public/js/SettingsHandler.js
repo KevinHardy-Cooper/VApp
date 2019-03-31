@@ -1,8 +1,11 @@
 function delegate() {
 	// grabbing the type of settings page ie either facebook, twitter, etc
 	let socialMedia = location.pathname.match(/\/settings\/(.*)/)[1];
+	let titleCaseSocialMediaName = socialMedia.charAt(0).toUpperCase() + socialMedia.substring(1, socialMedia.length);
 	let settings = [];
 	let friendly_setting_names = [];
+	// Getting the link for social media privacy pages
+	let socialMediaPrivacyPage = "";
 	if (socialMedia === "twitter") {
 		$("body > div > div.text-center > h1").prepend("Twitter: ");
 		settings =  ["discoverable_by_email","geo_enabled", "protected", "use_cookie_personalization", "allow_dms_from"];
@@ -13,6 +16,7 @@ function delegate() {
 			"use_cookie_personalization" : "Track where you see Twitter content across the web",
 			"allow_dms_from" : "Receive direct messages from anyone (website), Receive message requests (mobile app)"
 		};
+		socialMediaPrivacyPage = "https://twitter.com/settings/safety";
 	} else if (socialMedia === "facebook") {
 		$("body > div > div.text-center > h1").prepend("Facebook: ");
 		settings =  ["future_posts","friend_requests", "friends_list", "discoverable_by_email",
@@ -25,6 +29,7 @@ function delegate() {
 			"discoverable_by_phone" : "Who can look you up using the phone number you provided",
 			"discoverable_by_search_engine" : "Do you want search engines outside of Facebook to link to your profile"
 		};
+		socialMediaPrivacyPage = "https://www.facebook.com/settings?tab=privacy";
 	} else if (socialMedia === "instagram") {
 		$("body > div > div.text-center > h1").prepend("Instagram: ");
 		settings = ["account_privacy", "activity_status", "story_sharing", "usertag_review"];
@@ -35,6 +40,7 @@ function delegate() {
 			"story_sharing" : "Allow sharing of story photos and videos",
 			"usertag_review" : "Add tagged photos and videos to your profile automatically"
 		};
+		socialMediaPrivacyPage = "https://www.instagram.com/accounts/privacy_and_security/";
 	} else {
 		$("body > div > div.text-center > h1").prepend("DNE: ");
 	}
@@ -49,6 +55,12 @@ function delegate() {
 				<p class="card-text" id="setting-0-fix"></p>
 			</div>
 		</div>*/
+		
+		// Added View Social Media Settings Link
+		$("#socialMedia-link").attr("href", socialMediaPrivacyPage);
+		$("#socialMedia-link").attr("target", "blank");
+		$("#socialMedia-link").attr("rel", "noopener noreferrer");
+		$("#socialMedia-link").append("Visit "+titleCaseSocialMediaName+" Settings Page");
 		let container = document.getElementById("cards");
 		for (let i = 0; i < settings.length; i++) {
 			let cardDiv = document.createElement("div");
@@ -61,6 +73,10 @@ function delegate() {
 			valueSpan.className = "value";
 			valueSpan.innerHTML = friendly_setting_names[settings[i]] + ": <strong>"+ data[settings[i]] + "</strong>";
 			cardHeaderDiv.appendChild(valueSpan);
+			let updateSettingButton = document.createElement("span");
+			updateSettingButton.className = "badge badge-dark float-right";
+			updateSettingButton.innerHTML = "<a target='_blank' rel='noopener noreferrer' style='color: #fff' href=" + socialMediaPrivacyPage + ">Update Setting</a>";
+			cardHeaderDiv.appendChild(updateSettingButton);
 			cardDiv.appendChild(cardHeaderDiv);
 			let cardBodyDiv = document.createElement("div");
 			cardBodyDiv.className = "card-body";
@@ -88,8 +104,7 @@ function delegate() {
 		if (data.code === 200 && (data.socialMedia === "facebook" || data.socialMedia === "instagram")) { // facebook and instagram flow
 			$.getJSON("/grade/" + getCookie("session_id") + "/" + socialMedia, function (grade) {
 				$("body > div > div.text-center > h1 > span").append("<strong>" + grade.grade + "</strong>");
-				let titleCaseName = socialMedia.charAt(0).toUpperCase() + socialMedia.substring(1, socialMedia.length);
-				getGauge(grade.score,titleCaseName);// Create gauge
+				getGauge(grade.score, titleCaseSocialMediaName); // Create gauge
 			});
 		}  else if (data.code === 200 && data.socialMedia === "twitter") { // twitter flow
 			$.ajax("/score/" + socialMedia, {
@@ -99,8 +114,7 @@ function delegate() {
 			}).done(function () {
 				$.getJSON("/grade/" + getCookie("session_id") + "/" + socialMedia, function (grade) {
 					$("body > div > div.text-center > h1 > span").append("<strong>" + grade.grade + "</strong>");
-					let titleCaseName = socialMedia.charAt(0).toUpperCase() + socialMedia.substring(1, socialMedia.length);
-					getGauge(grade.score, titleCaseName);// Create gauge
+					getGauge(grade.score, titleCaseSocialMediaName);// Create gauge
 				});
 			});
 		} else if (data.code === 415) {
@@ -152,6 +166,7 @@ function delegate() {
 					$("#setting-" + id).addClass("text-white bg-danger");
 				} else if (weights[i].state.toString().toLowerCase() === value.toString().toLowerCase() && weights[i].weight === min) {
 					$("#setting-" + id).addClass("text-white bg-success");
+					$("#setting-" + id +" > span.badge.badge-dark.float-right").remove();
 				} else if (weights[i].state.toString().toLowerCase() === value.toString().toLowerCase() && weights[i].weight !== min && weights[i].weight !== max) {
 					$("#setting-" + id).addClass("bg-warning");
 				}
