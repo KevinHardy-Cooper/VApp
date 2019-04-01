@@ -1,3 +1,22 @@
+function convertToDeveloperFriendly(userFriendlyName) {
+	let developerFriendlyNames = {
+		"only me": "only_me",
+		"public": "public",
+		"everyone": "everyone",
+		"friends": "friends",
+		"friends of friends": "friends_of_friends",
+		"specific friends": "specific_friends",
+		"friends except...": "friends_except",
+		"custom": "custom",
+		"yes": "yes",
+		"no": "no"
+	};
+	let lowerCaseUserFriendlyName = (""+userFriendlyName).toLowerCase();
+	if (developerFriendlyNames[lowerCaseUserFriendlyName]) {
+		return developerFriendlyNames[lowerCaseUserFriendlyName];
+	}
+}
+
 function processFacebook() {
 	let data = document.getElementById("facebookText").value;
 	let splitData = data.split("\n");
@@ -25,12 +44,12 @@ function processFacebook() {
 	let doYouWantSearchEnginesOutsideOfFacebookToLinkToYourProfile = splitData[doYouWantSearchEnginesOutsideOfFacebookToLinkToYourProfileIndex+1];
 	
 	let settings = {
-		"future_posts":	whoCanSeeYourFuturePosts,
-		"friend_requests": whoCanSendYouFriendRequests,
-		"friends_list": whoCanSeeYourFriendsList,
-		"discoverable_by_email": whoCanLookYouUpUsingTheEmailAddressYouProvided,
-		"discoverable_by_phone": whoCanLookYouUpUsingThePhoneNumberYouProvided,
-		"discoverable_by_search_engine": doYouWantSearchEnginesOutsideOfFacebookToLinkToYourProfile
+		"future_posts":	convertToDeveloperFriendly(whoCanSeeYourFuturePosts),
+		"friend_requests": convertToDeveloperFriendly(whoCanSendYouFriendRequests),
+		"friends_list": convertToDeveloperFriendly(whoCanSeeYourFriendsList),
+		"discoverable_by_email": convertToDeveloperFriendly(whoCanLookYouUpUsingTheEmailAddressYouProvided),
+		"discoverable_by_phone": convertToDeveloperFriendly(whoCanLookYouUpUsingThePhoneNumberYouProvided),
+		"discoverable_by_search_engine": convertToDeveloperFriendly(doYouWantSearchEnginesOutsideOfFacebookToLinkToYourProfile)
 	};
 	
 	$.ajax( "/score/facebook", {
@@ -41,5 +60,5 @@ function processFacebook() {
 			window.location = "/settings/facebook";
 		}
 	});
-	
 }
+

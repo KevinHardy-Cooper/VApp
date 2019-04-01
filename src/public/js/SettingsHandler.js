@@ -1,3 +1,29 @@
+function convertToUserFriendly(developerFriendlyName) {
+	let userFriendlyNames = {
+		"only_me": "Only Me",
+		"public": "Public",
+		"everyone": "Everyone",
+		"friends": "Friends",
+		"friends_of_friends": "Friends of Friends",
+		"specific_friends": "Specific Friends",
+		"friends_except": "Friends Except...",
+		"custom": "Custom",
+		"yes": "Yes",
+		"no": "No",
+		"true": "True",
+		"false": "False",
+		"manual": "Manual",
+		"automatic": "Automatic",
+		"following": "Following",
+		"all": "All"
+	};
+	console.log(developerFriendlyName);
+	let lowerCaseDeveloperFriendlyName = (""+developerFriendlyName).toLowerCase();
+	if (userFriendlyNames[lowerCaseDeveloperFriendlyName]) {
+		return userFriendlyNames[lowerCaseDeveloperFriendlyName];
+	}
+}
+
 function delegate() {
 	// grabbing the type of settings page ie either facebook, twitter, etc
 	let socialMedia = location.pathname.match(/\/settings\/(.*)/)[1];
@@ -71,7 +97,7 @@ function delegate() {
 			cardHeaderDiv.id = "setting-" + i;
 			let valueSpan = document.createElement("span");
 			valueSpan.className = "value";
-			valueSpan.innerHTML = friendly_setting_names[settings[i]] + ": <strong>"+ data[settings[i]] + "</strong>";
+			valueSpan.innerHTML = friendly_setting_names[settings[i]] + ": <strong>"+ convertToUserFriendly(data[settings[i]]) + "</strong>";
 			cardHeaderDiv.appendChild(valueSpan);
 			let updateSettingButton = document.createElement("span");
 			updateSettingButton.className = "badge badge-dark float-right";
