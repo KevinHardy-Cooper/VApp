@@ -61,14 +61,6 @@ function buildGraphConfig(datasets) {
 				text: "Grade History",
 				fontSize: 32
 			},
-			tooltips: {
-				mode: "index",
-				intersect: true
-			},
-			hover: {
-				mode: "nearest",
-				intersect: false
-			},
 			legend: {
 				labels: {
 					fontSize: 18
