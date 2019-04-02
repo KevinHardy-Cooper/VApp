@@ -28,8 +28,8 @@ function assignLineColour(scoreTypeId) {
 		return { backgroundColor: "rgb(29,161,242)", borderColor: "rgb(29,161,242)" };
 	} else if (scoreTypeId === 3) { // Facebook (facebook logo blue)
 		return { backgroundColor: "rgb(60,92,169)", borderColor: "rgb(60,92,169)" };
-	} else if (scoreTypeId === 4) { // Instagram (instagram logo reddy-purple)
-		return { backgroundColor: "rgb(158,71,108)", borderColor: "rgb(158,71,108)" };
+	} else if (scoreTypeId === 4) { // Instagram (instagram logo reddy)
+		return { backgroundColor: "rgb(245,0,1)", borderColor: "rgb(245,0,1)" };
 	}
 }
 
