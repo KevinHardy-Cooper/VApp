@@ -36,20 +36,20 @@ class SocialMediaScore extends Score {
 		let settingNames = [];
 		let settingStates = [];
 
-        if (socialMedia === "twitter") {
-            // Binding parameters
-            inserts = [socialMedia];
-            settingNames = ["geo_enabled", "protected", "discoverable_by_email", "use_cookie_personalization", "allow_dms_from"];
-            // need to convert boolean values to strings
-            settingStates = [settings.geo_enabled+"", settings.protected+"", settings.discoverable_by_email+"", settings.use_cookie_personalization+"", settings.allow_dms_from+""];
-        } else if (socialMedia === "facebook") {
-            // Binding parameters
-            inserts = [socialMedia];
-            settingNames = ["future_posts", "friend_requests", "friends_list", "discoverable_by_email",
-                "discoverable_by_phone", "discoverable_by_search_engine"];
-            settingStates = [settings.future_posts, settings.friend_requests, settings.friends_list,
-                settings.discoverable_by_email, settings.discoverable_by_phone, settings.discoverable_by_search_engine];
-        } else if (socialMedia === "instagram") {
+		if (socialMedia === "twitter") {
+			// Binding parameters
+			inserts = [socialMedia];
+			settingNames = ["geo_enabled", "protected", "discoverable_by_email", "use_cookie_personalization", "allow_dms_from"];
+			// need to convert boolean values to strings
+			settingStates = [settings.geo_enabled+"", settings.protected+"", settings.discoverable_by_email+"", settings.use_cookie_personalization+"", settings.allow_dms_from+""];
+		} else if (socialMedia === "facebook") {
+			// Binding parameters
+			inserts = [socialMedia];
+			settingNames = ["future_posts", "friend_requests", "friends_list", "discoverable_by_email",
+				"discoverable_by_phone", "discoverable_by_search_engine"];
+			settingStates = [settings.future_posts, settings.friend_requests, settings.friends_list,
+				settings.discoverable_by_email, settings.discoverable_by_phone, settings.discoverable_by_search_engine];
+		} else if (socialMedia === "instagram") {
 			// Binding parameters
 			inserts = [socialMedia];
 			settingNames = ["account_privacy", "activity_status", "story_sharing", "usertag_review"];

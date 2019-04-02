@@ -96,14 +96,14 @@ router.get("/instagram", function(req, res) {
 	res.sendFile(path.join(__dirname, "/public/views/instagram.html"));
 });
 
-router.get('/about', function(req, res) {
+router.get("/about", function(req, res) {
 	logger.info("GET request for the About Page");
-	res.sendFile(path.join(__dirname, '/public/views/about.html'));
+	res.sendFile(path.join(__dirname, "/public/views/about.html"));
 });
 
-router.get('/faqs', function(req, res) {
+router.get("/faqs", function(req, res) {
 	logger.info("GET request for the FAQS Page");
-	res.sendFile(path.join(__dirname, '/public/views/faqs.html'));
+	res.sendFile(path.join(__dirname, "/public/views/faqs.html"));
 });
 
 router.post("/signup", function(req, res) {
