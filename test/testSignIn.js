@@ -16,12 +16,12 @@ describe("SignIn", function() {
 	encrypted_password += cipher.final("hex");
 
 	context("setUp", function() {
-		it("shall insert a test user into the database", function (done) {
-			User.insertUser(valid_email, encrypted_password, function (err, obj) {
-				if (err) done(err);
+		it("shall insert a test user into the database", function(done) {
+			User.insertUser(valid_email, encrypted_password, function(error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj.statusCode, 200);
-					assert.deepStrictEqual(obj.statusMessage, "New user inserted");
+					assert.deepStrictEqual(result.code, 200);
+					assert.deepStrictEqual(result.message, "New user inserted");
 					done();
 				}
 			});
@@ -29,33 +29,35 @@ describe("SignIn", function() {
 	});
 	context("delegate", function() {
 		it("shall test delegate for valid user", function (done) {
-			SignIn.delegate(valid_email, valid_password, function (err, obj) {
-				if (err) done(err);
+			SignIn.delegate(valid_email, valid_password, function (error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj.code, 200);
-					assert.deepStrictEqual(obj.success, "User exists for given email and password");
-					assert.deepStrictEqual(typeof obj.cookie, typeof "");
+					assert.deepStrictEqual(result.code, 200);
+					assert.deepStrictEqual(result.message, "Successful Sign In Operation");
+					assert.deepStrictEqual(typeof result.sessionId, typeof "");
 					done();
 				}
 			});
 		});
 		it("shall test delegate for handling invalid user", function (done) {
-			SignIn.delegate(invalid_email, valid_password, function (err, obj) {
-				if (err) done(err);
+			SignIn.delegate(invalid_email, valid_password, function (error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj.statusCode, 204);
-					assert.deepStrictEqual(obj.statusMessage, "User does not exist for given email and password");
+					assert.deepStrictEqual(result.code, 204);
+					assert.deepStrictEqual(result.message, "User does not exist for given email and password in SignIn");
 					done();
 				}
 			});
 		});
 	});
-	context("cleanUp", function() {
+	// Cleaning up
+	context("deleteUser", function() {
 		it("shall delete test user", function(done) {
-			User.deleteUser(valid_email, encrypted_password, function (err, obj) {
-				if (err) done(err);
+			User.deleteUser(valid_email, valid_password, function (error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj, 200);
+					assert.deepStrictEqual(result.code, 200);
+					assert.deepStrictEqual(result.message, "User was deleted");
 					done();
 				}
 			});

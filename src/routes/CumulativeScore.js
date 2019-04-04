@@ -27,6 +27,12 @@ class CumulativeScore extends Score {
 					"message": "Domain validation errors, missing data"
 				};
 				callback(response, null);
+			} else if (result[0].avg_score === null) {
+				let response = {
+					"code" : 204,
+					"message": "Cumulative score not calculated given invalid user id"
+				};
+				callback(null, response);
 			} else {
 				let response = {
 					"code" : 200,

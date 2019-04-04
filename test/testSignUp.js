@@ -7,7 +7,7 @@ const crypto = require("crypto");
 
 // This is testing the SignUp module
 describe("SignUp", function() {
-	let valid_email = "test@email.com";
+	let valid_email = "hithere@email.com";
 	let valid_password = "test_password";
 	
 	// hash user password using AES
@@ -17,32 +17,34 @@ describe("SignUp", function() {
 	
 	context("delegate", function() {
 		it("shall test delegate for valid user", function (done) {
-			SignUp.delegate(valid_email, valid_password, function (err, obj) {
-				if (err) done(err);
+			SignUp.delegate(valid_email, valid_password, function (error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj.statusCode, 200);
-					assert.deepStrictEqual(obj.statusMessage, "New user inserted");
+					assert.deepStrictEqual(result.code, 200);
+					assert.deepStrictEqual(result.message, "Successful Sign Up Operation");
 					done();
 				}
 			});
 		});
 		it("shall test delegate for handling invalid user (where email already exists)", function (done) {
-			SignUp.delegate(valid_email, valid_password, function (err, obj) {
-				if (err) done(err);
+			SignUp.delegate(valid_email, valid_password, function (error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj.code, 204);
-					assert.deepStrictEqual(obj.failed, "New user not inserted, user already exists for email");
+					assert.deepStrictEqual(result.code, 204);
+					assert.deepStrictEqual(result.message, "Conflict - This email is already in use");
 					done();
 				}
 			});
 		});
 	});
-	context("cleanUp", function() {
+	// Cleaning up
+	context("deleteUser", function() {
 		it("shall delete test user", function(done) {
-			User.deleteUser(valid_email, encrypted_password, function (err, obj) {
-				if (err) done(err);
+			User.deleteUser(valid_email, encrypted_password, function (error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj, 200);
+					assert.deepStrictEqual(result.code, 200);
+					assert.deepStrictEqual(result.message, "User was deleted");
 					done();
 				}
 			});

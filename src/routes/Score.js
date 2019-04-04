@@ -76,7 +76,13 @@ class Score {
 					"message": "Domain validation errors, missing data"
 				};
 				callback(response, null);
-			} else {
+			} else if (result.length == 0) {
+				let response = {
+					"code": 204,
+					"message": "Invalid userId or typeId"
+				};
+				callback(null, response);
+			} else if (result.length === 1) {
 				let response = {
 					"code": 200,
 					"message": "User's most recent score have been retrieved for given score type",
@@ -101,7 +107,13 @@ class Score {
 					"message": "Domain validation errors, missing data"
 				};
 				callback(response, null);
-			} else {
+			} else if (result.length === 0) {
+				let response = {
+					"code": 204,
+					"message": "Invalid userId used to get scores"
+				};
+				callback(null, response);
+			} else if (result.length > 0) {
 				let response = {
 					"code": 200,
 					"message": "Scores returned for userId",
@@ -159,7 +171,11 @@ class Score {
 				};
 				callback(response, null);
 			} else {
-				callback(null, 200);
+				let response = {
+					"code": 200,
+					"message": "Score was deleted"
+				};
+				callback(null, response);
 			}
 		});
 	}

@@ -58,7 +58,7 @@ class SocialMediaScore extends Score {
 		} else {
 			let result = {
 				"code": 415,
-				"failed": "Unsupported social media type"
+				"message": "Unsupported social media type"
 			};
 			callback(null, result);
 			return;
@@ -85,6 +85,12 @@ class SocialMediaScore extends Score {
 			if (error) {
 				logger.error(inspect(error));
 				callback(error, null);
+			} else if (result[0].score === null) {
+				let response = {
+					"code": 415,
+					"message": "Weight of implications not calculated in SocialMediaScore"
+				};
+				callback(response, null);
 			} else if (result.length > 0) {
 				let score = result[0].score;
 				Score.getScoreTypeBySocialMedia(inserts[0], function (error, result) {
@@ -137,17 +143,11 @@ class SocialMediaScore extends Score {
 					} else if (result.code === 204) {
 						let response = {
 							"code": 204,
-							"message": "Score type not returned for social media in SocialMediaScore"
+							"message": "Score type does not exist for social media in SocialMediaScore"
 						};
 						callback(null, response);
 					}
 				});
-			} else if (result.length === 0) {
-				let response = {
-					"code": 204,
-					"message": "Weight of implications not calculated in SocialMediaScore"
-				};
-				callback(null, response);
 			}
 		});
 	}

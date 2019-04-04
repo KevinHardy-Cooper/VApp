@@ -3,19 +3,21 @@ const User = require("../src/routes/User");
 
 // This is testing the User module
 describe("User", function() {
-	let valid_email = "test@email.com";
+	let valid_email = "hey@email.com";
 	let valid_password = "test_password";
 	let invalid_email = "imnotreal@email.com";
 	let valid_session_id = "test_session_id";
 	let invalid_session_id = "not_real_session_id";
-    
+	let valid_user_id = 0;
+	let invalid_user_id = 0;
+	
 	context("insertUser", function() {
 		it("shall insert a test user into the database", function(done) {
-			User.insertUser(valid_email, valid_password, function(err, obj) {
-				if (err) done(err);
+			User.insertUser(valid_email, valid_password, function(error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj.statusCode, 200);
-					assert.deepStrictEqual(obj.statusMessage, "New user inserted");
+					assert.deepStrictEqual(result.code, 200);
+					assert.deepStrictEqual(result.message, "New user inserted");
 					done();
 				}
 			});
@@ -23,23 +25,21 @@ describe("User", function() {
 	});
 	context("getUserByEmail", function() {
 		it("shall get the test user by email from the database", function(done) {
-			User.getUserByEmail(valid_email, function(err, obj) {
-				if (err) done(err);
+			User.getUserByEmail(valid_email, function(error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj.statusCode, 200);
-					assert.deepStrictEqual(obj[0].email, valid_email);
-					assert.deepStrictEqual(obj[0].password, valid_password);
-					assert.deepStrictEqual(obj[0].session_id, null);
+					assert.deepStrictEqual(result.code, 200);
+					assert.deepStrictEqual(result.message, "User exists for email");
 					done();
 				}
 			});
 		});
 		it("shall handle attempting to retrieve nonexistent user by email from the database", function(done) {
-			User.getUserByEmail(invalid_email, function(err, obj) {
-				if (err) done(err);
+			User.getUserByEmail(invalid_email, function(error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj.statusCode, 204);
-					assert.deepStrictEqual(obj.statusMessage, "User does not exist for email");
+					assert.deepStrictEqual(result.code, 204);
+					assert.deepStrictEqual(result.message, "Unauthorized - Invalid email");
 					done();
 				}
 			});
@@ -47,43 +47,46 @@ describe("User", function() {
 	});
 	context("getUser", function() {
 		it("shall get the test user by email and password from the database", function (done) {
-			User.getUser(valid_email, valid_password, function (err, obj) {
-				if (err) done(err);
+			User.getUser(valid_email, valid_password, function (error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj.statusCode, 200);
-					assert.deepStrictEqual(obj.statusMessage, "User exists for given email and password");
+					assert.deepStrictEqual(result.code, 200);
+					assert.deepStrictEqual(result.message, "User exists for given email and password");
+					assert.ok(result.userId>0);
+					valid_user_id = result.userId;
 					done();
 				}
 			});
 		});
 		it("shall handle attempting to retrieve nonexistent user by email and password from the database", function (done) {
-			User.getUser(invalid_email, valid_password, function (err, obj) {
-				if (err) done(err);
+			User.getUser(invalid_email, valid_password, function (error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj.statusCode, 204);
-					assert.deepStrictEqual(obj.statusMessage, "User does not exist for given email and password");
+					assert.deepStrictEqual(result.code, 204);
+					assert.deepStrictEqual(result.message, "Unauthorized - Invalid email or password");
 					done();
 				}
 			});
 		});
 	});
-	context("setSessionId", function() {
+	context("setSessionIdByUserId", function() {
 		it("shall set session id for valid user", function(done) {
-			User.setSessionId(valid_email, valid_password, valid_session_id, function(err, obj) {
-				if (err) done(err);
+			User.setSessionIdByUserId(valid_user_id, valid_session_id, function(error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj.statusCode, 200);
-					assert.deepStrictEqual(obj.statusMessage, valid_session_id);
+					assert.deepStrictEqual(result.code, 200);
+					assert.deepStrictEqual(result.message, "SessionId has been updated for User");
+					assert.deepStrictEqual(result.sessionId, valid_session_id);
 					done();
 				}
 			});
 		});
 		it("shall handle attempting to set session id for nonexistent user", function(done) {
-			User.setSessionId(invalid_email, valid_password, valid_session_id, function(err, obj) {
-				if (err) done(err);
+			User.setSessionIdByUserId(invalid_user_id, valid_session_id, function(error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj.statusCode, 204);
-					assert.deepStrictEqual(obj.statusMessage, "User does not exist for given email and password");
+					assert.deepStrictEqual(result.code, 204);
+					assert.deepStrictEqual(result.message, "SessionId was not updated for User");
 					done();
 				}
 			});
@@ -91,56 +94,57 @@ describe("User", function() {
 	});
 	context("getUserBySessionId", function() {
 		it("shall get user for valid session id", function(done) {
-			User.getUserBySessionId(valid_session_id, function(err, obj) {
-				if (err) done(err);
+			User.getUserBySessionId(valid_session_id, function(error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj[0].email, valid_email);
-					assert.deepStrictEqual(obj[0].password, valid_password);
-					assert.deepStrictEqual(obj[0].session_id, valid_session_id);
+					assert.deepStrictEqual(result.code, 200);
+					assert.deepStrictEqual(result.message, "User exists for sessionId");
+					assert.deepStrictEqual(result.userId, valid_user_id);
 					done();
 				}
 			});
 		});
 		it("shall handle attempting to get user for invalid session id", function(done) {
-			User.getUserBySessionId(invalid_session_id, function(err, obj) {
-				if (err) done(err);
+			User.getUserBySessionId(invalid_session_id, function(error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj.statusCode, 204);
-					assert.deepStrictEqual(obj.statusMessage, "User does not exist for session_id");
+					assert.deepStrictEqual(result.code, 204);
+					assert.deepStrictEqual(result.message, "User does not exist for sessionId");
 					done();
 				}
 			});
 		});
 	});
-	context("nullifySessionId", function() {
+	context("nullifySessionIdByUserId", function() {
 		it("shall set session id to null for valid user", function(done) {
-			User.nullifySessionId(valid_email, valid_password, function(err, obj) {
-				if (err) done(err);
+			User.nullifySessionIdByUserId(valid_user_id, function(error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj.statusCode, 200);
-					assert.deepStrictEqual(obj.statusMessage, "Successful nullification");
+					assert.deepStrictEqual(result.code, 200);
+					assert.deepStrictEqual(result.message, "Successful nullification");
 					done();
 				}
 			});
 		});
 		it("shall handle attempting to set session id to null for nonexistent user", function(done) {
-			User.nullifySessionId(invalid_email, valid_password, function(err, obj) {
-				if (err) done(err);
+			User.nullifySessionIdByUserId(invalid_user_id, function(error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj.statusCode, 204);
-					assert.deepStrictEqual(obj.statusMessage, "User does not exist");
+					assert.deepStrictEqual(result.code, 204);
+					assert.deepStrictEqual(result.message, "User does not exist for given userId");
 					done();
 				}
 			});
 		});
 	});
 	// Cleaning up
-	context("deleteUser", function() {
+	context("cleanUp", function() {
 		it("shall delete test user", function(done) {
-			User.deleteUser(valid_email, valid_password, function (err, obj) {
-				if (err) done(err);
+			User.deleteUser(valid_email, valid_password, function (error, result) {
+				if (error) done(error);
 				else {
-					assert.deepStrictEqual(obj, 200);
+					assert.deepStrictEqual(result.code, 200);
+					assert.deepStrictEqual(result.message, "User was deleted");
 					done();
 				}
 			});

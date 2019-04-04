@@ -120,7 +120,7 @@ class History extends Score {
 						callback(null, response);
 					}
 				});
-			} else if (result.code === 200) {
+			} else if (result.code === 204) {
 				let response = {
 					"code": 204,
 					"message": "Score type not returned for social media in History"
