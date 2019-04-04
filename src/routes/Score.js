@@ -21,12 +21,14 @@ class Score {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else if (result.affectedRows === 1) {
 				let response = {
 					"code": 200,
 					"message": "New score inserted"
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
@@ -47,6 +49,7 @@ class Score {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else {
 				let response = {
@@ -54,6 +57,7 @@ class Score {
 					"message": "User's most recent scores have been retrieved",
 					"scores": result
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
@@ -75,6 +79,7 @@ class Score {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else if (result.length == 0) {
 				let response = {
@@ -88,6 +93,7 @@ class Score {
 					"message": "User's most recent score have been retrieved for given score type",
 					"score": result[0].score
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
@@ -106,6 +112,7 @@ class Score {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else if (result.length === 0) {
 				let response = {
@@ -119,6 +126,7 @@ class Score {
 					"message": "Scores returned for userId",
 					"scores": result
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
@@ -137,6 +145,7 @@ class Score {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else if (result.length > 0) {
 				let response = {
@@ -144,12 +153,14 @@ class Score {
 					"message": "Score type returned for social media",
 					"scoreType": result[0].id
 				};
+				logger.info(response);
 				callback(null, response);
 			} else if (result.length === 0) {
 				let response = {
 					"code": 204,
 					"message": "Score type not returned for social media"
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
@@ -169,6 +180,7 @@ class Score {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else {
 				let response = {

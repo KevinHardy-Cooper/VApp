@@ -24,12 +24,14 @@ class SignOut extends User {
 							"code": 200,
 							"message": "Sign out operation completed"
 						};
+						logger.info(response);
 						callback(null, response);
 					} else if (result.code === 204) {
 						let response = {
 							"code": 204,
 							"message": "User does not exist for given userId in SignOut"
 						};
+						logger.info(response);
 						callback(null, response);
 					}
 				});
@@ -38,6 +40,7 @@ class SignOut extends User {
 					"code": 204,
 					"message": "User does not exist for sessionId in SignOut"
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});

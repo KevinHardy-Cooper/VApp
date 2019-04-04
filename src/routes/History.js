@@ -27,6 +27,7 @@ class History extends Score {
 							"message": "All user's scores have been retrieved",
 							"scores": result.scores
 						};
+						logger.info(response);
 						callback(null, response);
 					}
 				});
@@ -36,6 +37,7 @@ class History extends Score {
 					"message": "User does not exist for sessionId in History",
 					"scores": result
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
@@ -58,6 +60,7 @@ class History extends Score {
 							"message": "All most recent users scores have been retrieved",
 							"scores": result.scores
 						};
+						logger.info(response);
 						callback(null, response);
 					}
 				});
@@ -66,6 +69,7 @@ class History extends Score {
 					"code": 204,
 					"message": "User does not exist for sessionId in History"
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
@@ -101,12 +105,14 @@ class History extends Score {
 											"grade": result.grade,
 											"score": result.score
 										};
+										logger.info(response);
 										callback(null, response);
 									} else if (result.code === 204) {
 										let response = {
 											"code": 200,
 											"message": "Grade not returned for amount in History"
 										};
+										logger.info(response);
 										callback(null, response);
 									}
 								});
@@ -117,6 +123,7 @@ class History extends Score {
 							"code": 204,
 							"message": "User does not exist for sessionId in History"
 						};
+						logger.info(response);
 						callback(null, response);
 					}
 				});
@@ -125,6 +132,7 @@ class History extends Score {
 					"code": 204,
 					"message": "Score type not returned for social media in History"
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});

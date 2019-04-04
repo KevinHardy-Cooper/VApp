@@ -19,18 +19,21 @@ class User {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else if (result.length === 1) {
 				let response = {
 					"code": 200,
 					"message": "User exists for email"
 				};
+				logger.info(response);
 				callback(null, response);
 			} else if (result.length === 0) {
 				let response = {
 					"code": 204,
-					"message": "Unauthorized - Invalid email"
+					"message": "User does not exist for email"
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
@@ -48,6 +51,7 @@ class User {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else if (result.length === 1) {
 				let response = {
@@ -55,12 +59,14 @@ class User {
 					"message": "User exists for given email and password",
 					"userId": result[0].id
 				};
+				logger.info(response);
 				callback(null, response);
 			} else if (result.length === 0) {
 				let response = {
 					"code": 204,
 					"message": "Unauthorized - Invalid email or password"
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
@@ -81,12 +87,14 @@ class User {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else if (result.affectedRows === 1) {
 				let response = {
 					"code": 200,
 					"message": "New user inserted"
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
@@ -104,6 +112,7 @@ class User {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else if (result.length === 1) {
 				let response = {
@@ -111,12 +120,14 @@ class User {
 					"message": "User exists for sessionId",
 					"userId": result[0].id
 				};
+				logger.info(response);
 				callback(null, response);
 			} else {
 				let response = {
 					"code": 204,
 					"message": "User does not exist for sessionId"
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
@@ -134,6 +145,7 @@ class User {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else if (result.affectedRows === 1) { // when a successful update takes place
 				let response = {
@@ -141,12 +153,14 @@ class User {
 					"message": "SessionId has been updated for User",
 					"sessionId": sessionId
 				};
+				logger.info(response);
 				callback(null, response);
 			} else if (result.affectedRows === 0) { // user does not exist
 				let response = {
 					"code": 204,
 					"message": "SessionId was not updated for User"
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
@@ -166,18 +180,21 @@ class User {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else if (result.affectedRows === 1) { // when a successful update takes place
 				let response = {
 					"code": 200,
 					"message": "Successful nullification"
 				};
+				logger.info(response);
 				callback(null, response);
 			} else if (result.affectedRows === 0 ) { // update didn't take place
 				let response = {
 					"code": 204,
 					"message": "User does not exist for given userId"
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
@@ -197,12 +214,14 @@ class User {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else {
 				let response = {
 					"code": 200,
 					"message": "User was deleted"
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});

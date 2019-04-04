@@ -31,6 +31,7 @@ class SignUp extends User {
 							"code": 200,
 							"message": "Successful Sign Up Operation"
 						};
+						logger.info(response);
 						callback(null, response);
 					}
 				});
@@ -39,6 +40,7 @@ class SignUp extends User {
 					"code": 204,
 					"message": "Conflict - This email is already in use"
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});

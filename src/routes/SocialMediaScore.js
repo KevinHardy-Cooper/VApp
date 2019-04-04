@@ -60,6 +60,7 @@ class SocialMediaScore extends Score {
 				"code": 415,
 				"message": "Unsupported social media type"
 			};
+			logger.info(result);
 			callback(null, result);
 			return;
 		}
@@ -121,11 +122,12 @@ class SocialMediaScore extends Score {
 														logger.error(inspect(err));
 														callback(err, null);
 													} else if (result.code === 200) {
-														result = {
+														let response = {
 															"code": 200,
 															"success": "Successful calculation of social media score"
 														};
-														callback(null, result);
+														logger.info(response);
+														callback(null, response);
 													}
 												});
 											}
@@ -137,6 +139,7 @@ class SocialMediaScore extends Score {
 									"code": 204,
 									"message": "User does not exist for sessionId in SocialMediaScore"
 								};
+								logger.info(response);
 								callback(null, response);
 							}
 						});
@@ -145,6 +148,7 @@ class SocialMediaScore extends Score {
 							"code": 204,
 							"message": "Score type does not exist for social media in SocialMediaScore"
 						};
+						logger.info(response);
 						callback(null, response);
 					}
 				});

@@ -69,6 +69,7 @@ router.get("/signup", function(req, res) {
 });
 
 router.get("/settings/:socialMedia", function(req, res) {
+	logger.info("GET request for the Settings Page for " + req.params.socialMedia);
 	if (req.params.socialMedia === "twitter" && req.session.oauthAccessToken === undefined) {
 		res.redirect("/connect/twitter");
 	} else if (req.params.socialMedia === "facebook" && req.session.facebookSettings === undefined) {
@@ -76,7 +77,6 @@ router.get("/settings/:socialMedia", function(req, res) {
 	} else if (req.params.socialMedia === "instagram" && req.session.instagramSettings === undefined) {
 		res.redirect("/instagram");
 	} else {
-		logger.info("GET request for the Settings Page");
 		res.sendFile(path.join(__dirname, "/public/views/settings.html"));
 	}
 });
@@ -107,6 +107,7 @@ router.get("/faqs", function(req, res) {
 });
 
 router.post("/signup", function(req, res) {
+	logger.info("POST request for SignUp");
 	SignUp.delegate(req.body.email, req.body.password, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
@@ -118,6 +119,7 @@ router.post("/signup", function(req, res) {
 });
 
 router.post("/signout", function(req, res) {
+	logger.info("POST request for SignOut");
 	SignOut.delegate(req.body.session_id, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
@@ -135,6 +137,7 @@ router.post("/signout", function(req, res) {
 });
 
 router.post("/signin", function(req, res) {
+	logger.info("POST request for SignIn");
 	SignIn.delegate(req.body.email, req.body.password, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
@@ -146,6 +149,7 @@ router.post("/signin", function(req, res) {
 });
 
 router.get("/user/settings/:socialMedia", function(req, res) {
+	logger.info("GET request for user settings for " + req.params.socialMedia);
 	// if the user tries to see their settings without going through oauth
 	if (req.params.socialMedia === "twitter" && req.session.oauthAccessToken !== undefined) {
 		// if the user tries to see their settings and have already gone through oauth
@@ -211,6 +215,7 @@ router.get("/user/settings/:socialMedia", function(req, res) {
 });
 
 router.get("/score/all/:sessionId", function(req, res) {
+	logger.info("GET request for all scores for the sessionId " + req.params.sessionId);
 	History.getScoresBySessionId(req.params.sessionId, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
@@ -222,6 +227,7 @@ router.get("/score/all/:sessionId", function(req, res) {
 });
 
 router.get("/score/recent/:sessionId", function(req, res) {
+	logger.info("GET request for recent scores for the sessionId " + req.params.sessionId);
 	History.getMostRecentScoresBySessionId(req.params.sessionId, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
@@ -233,6 +239,7 @@ router.get("/score/recent/:sessionId", function(req, res) {
 });
 
 router.post("/score/:socialMedia", function(req, res) {
+	logger.info("POST request for new score for " + req.params.socialMedia);
 	if (req.params.socialMedia === "facebook") {
 		req.session.facebookSettings = req.body.settings;
 	} else if (req.params.socialMedia === "instagram") {
@@ -250,6 +257,7 @@ router.post("/score/:socialMedia", function(req, res) {
 });
 
 router.get("/implications/:socialMedia/:settingName/:settingState", function(req, res) {
+	logger.info("GET request for implications");
 	Implications.getImplications(req.params.socialMedia, req.params.settingName, req.params.settingState, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
@@ -261,6 +269,7 @@ router.get("/implications/:socialMedia/:settingName/:settingState", function(req
 });
 
 router.get("/implicationWeights/:socialMedia/:settingName", function(req, res) {
+	logger.info("GET request for implication weights");
 	Implications.getAllWeightsForSetting(req.params.socialMedia, req.params.settingName, function(err, obj) {
 		if (err !== null || obj === null) {
 			logger.error(inspect(err));
@@ -272,6 +281,7 @@ router.get("/implicationWeights/:socialMedia/:settingName", function(req, res) {
 });
 
 router.get("/instructions/:socialMedia/:settingName/:settingState", function(req, res) {
+	logger.info("GET request for instructions");
 	Implications.getInstructions(req.params.socialMedia, req.params.settingName, req.params.settingState, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
@@ -283,6 +293,7 @@ router.get("/instructions/:socialMedia/:settingName/:settingState", function(req
 });
 
 router.get("/grade/:sessionId/:socialMedia", function(req, res) {
+	logger.info("GET request for grade for " + req.params.sessionId + " for most recent " + req.params.socialMedia + " grade");
 	History.getMostRecentGradeBySessionIdAndSocialMedia(req.params.sessionId, req.params.socialMedia, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));

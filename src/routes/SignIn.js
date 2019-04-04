@@ -34,12 +34,14 @@ class SignIn extends User {
 							"message": "Successful Sign In Operation",
 							"sessionId": result.sessionId
 						};
+						logger.info(response);
 						callback(null, response);
 					} else if (result.code === 204) {
 						let response = {
 							"code": 204,
 							"message": "SessionId was not updated for User in SignIn"
 						};
+						logger.info(response);
 						callback(null, response);
 					}
 				});
@@ -48,6 +50,7 @@ class SignIn extends User {
 					"code": 204,
 					"message": "User does not exist for given email and password in SignIn"
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});

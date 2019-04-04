@@ -114,6 +114,7 @@ connector.get("/oauth/:socialMedia", function(req, res) {
 			"code": 415,
 			"message": "Unsupported social media type"
 		};
+		logger.info(response);
 		res.send(response);
 	}
 });

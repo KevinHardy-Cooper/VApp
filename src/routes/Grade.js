@@ -15,6 +15,7 @@ class Grade {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else if (result.length > 0) {
 				let response = {
@@ -23,12 +24,14 @@ class Grade {
 					"grade": result[0].name,
 					"score": result[0].amount
 				};
+				logger.info(response);
 				callback(null, response);
 			} else if (result.length === 0) {
 				let response = {
 					"code": 204,
 					"message": "Grade not returned for amount"
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});

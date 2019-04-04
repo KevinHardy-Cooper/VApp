@@ -29,12 +29,14 @@ class Implications {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else if (result.length === 0) {
 				let response = {
 					"code": 415,
 					"message": "Invalid Setting Name/Invalid Setting Name/Invalid Setting State social media type"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else {
 				let response = {
@@ -42,6 +44,7 @@ class Implications {
 					"message": "Implications for Social Media, Setting and Setting State combination",
 					"implications": result[0].implications
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
@@ -68,12 +71,14 @@ class Implications {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else if (result.length === 0) {
 				let response = {
 					"code": 415,
 					"message": "Invalid Setting Name/Invalid Setting Name/Invalid Setting State social media type"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else {
 				let response = {
@@ -81,6 +86,7 @@ class Implications {
 					"message": "Instructions for Social Media, Setting and Setting State combination",
 					"instructions": result[0].instructions
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
@@ -107,12 +113,14 @@ class Implications {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else if (result.length === 0) {
 				let response = {
 					"code": 415,
 					"message": "Invalid Social Media/Invalid Setting Name"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else {
 				let response = {
@@ -120,6 +128,7 @@ class Implications {
 					"message": "All implication weights for a setting",
 					"weights": result
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});

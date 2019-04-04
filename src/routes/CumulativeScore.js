@@ -26,6 +26,7 @@ class CumulativeScore extends Score {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
+				logger.info(response);
 				callback(response, null);
 			} else if (result[0].avg_score === null) {
 				let response = {
@@ -39,6 +40,7 @@ class CumulativeScore extends Score {
 					"message": "Successfully calculated cumulative score",
 					"avgScore": result[0].avg_score
 				};
+				logger.info(response);
 				callback(null, response);
 			}
 		});
