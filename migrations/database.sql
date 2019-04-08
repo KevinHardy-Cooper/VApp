@@ -171,12 +171,12 @@ CREATE TABLE `setting_states` (
 LOCK TABLES `setting_states` WRITE;
 /*!40000 ALTER TABLE `setting_states` DISABLE KEYS */;
 INSERT INTO `setting_states` VALUES (1,1,'true'),(2,1,'false'),(3,2,'true'),(4,2,'false'),(5,3,'true'),(6,3,'false'),
-                                    (7,4,'true'),(8,4,'false'),(9,5,'all'),(10,5,'following'),(11,6,'Public'),(12,6,'Friends'),
-                                    (13,6,'Friends Except...'),(14,6,'Only Me'),(15,6,'Specific Friends'),(16,6,'Custom'),
-                                    (17,7,'Everyone'),(18,7,'Friends of friends'),(19,8,'Public'),(20,8,'Friends'),
-                                    (21,8,'Only Me'),(22,8,'Custom'),(23,9,'Everyone'),(24,9,'Friends of friends'),
-                                    (25,9,'Friends'),(26,10,'Everyone'),(27,10,'Friends of friends'),(28,10,'Friends'),
-                                    (29,11,'Yes'),(30,11,'No'),(31,12,'true'),(32,12,'false'),(33,13,'true'),(34,13,'false'),
+                                    (7,4,'true'),(8,4,'false'),(9,5,'all'),(10,5,'following'),(11,6,'public'),(12,6,'friends'),
+                                    (13,6,'friends_except'),(14,6,'only_me'),(15,6,'specific_friends'),(16,6,'custom'),
+                                    (17,7,'everyone'),(18,7,'friends_of_friends'),(19,8,'public'),(20,8,'friends'),
+                                    (21,8,'only_me'),(22,8,'custom'),(23,9,'everyone'),(24,9,'friends_of_friends'),
+                                    (25,9,'friends'),(26,10,'everyone'),(27,10,'friends_of_friends'),(28,10,'friends'),
+                                    (29,11,'yes'),(30,11,'no'),(31,12,'true'),(32,12,'false'),(33,13,'true'),(34,13,'false'),
                                     (35,14,'true'),(36,14,'false'),(37,15,'automatic'),(38,15,'manual');
 /*!40000 ALTER TABLE `setting_states` ENABLE KEYS */;
 UNLOCK TABLES;
