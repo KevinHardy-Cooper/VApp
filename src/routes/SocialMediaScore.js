@@ -94,6 +94,8 @@ class SocialMediaScore extends Score {
 				callback(response, null);
 			} else if (result.length > 0) {
 				let score = result[0].score;
+				// There are cases when the score can be over 100 due to rounding errors
+				if (score > 100) score = 100;
 				Score.getScoreTypeBySocialMedia(inserts[0], function (error, result) {
 					if (error) {
 						logger.error(inspect(error));

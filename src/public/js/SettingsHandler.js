@@ -17,7 +17,6 @@ function convertToUserFriendly(developerFriendlyName) {
 		"following": "Following",
 		"all": "All"
 	};
-	console.log(developerFriendlyName);
 	let lowerCaseDeveloperFriendlyName = (""+developerFriendlyName).toLowerCase();
 	if (userFriendlyNames[lowerCaseDeveloperFriendlyName]) {
 		return userFriendlyNames[lowerCaseDeveloperFriendlyName];
