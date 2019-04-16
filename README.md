@@ -1,6 +1,7 @@
-# SFWRENG_4G06
-This will be the private repo for our SFWR ENG 4G06 capstone project. The group members for the project will be able to 
-commit to the repo.
+# VApp
+This will be the private repo for our SFWR ENG 4G06 capstone project, affectionately named Vulnerability App or VApp for 
+short. The group members for the project will be able to commit to the repo over the course of the year, and the project 
+will go public in May 2019. 
 
 ## How To Setup The Whole Thing Locally
 1. Make sure you have [NodeJS](https://nodejs.org/en/) and MySQL (see How To Setup The Database -> Local Database -> Installation below) installed.
@@ -10,25 +11,11 @@ commit to the repo.
 5. Create the database (see How To Setup The Database -> Local Database -> Getting Started below)
 6. Start the local MySQL server: `mysql -u root -p` for Mac/Linux, `winpty mysql -u root -p` for Windows.
 7. Run `npm install`
-8. Run `node src/App.js` to actually run the application.
-9. Visit [http://localhost:3000/setting/twitter](http://localhost:3000/setting/twitter) or another endpoint of your choice
+8. Run `npm start` to actually run the application.
+9. Visit [http://localhost:3000/](http://localhost:3000/) or another endpoint of your choice.
 10. All done!
 
 ## How To Setup The Database
-### Remote Database
-1. Log into [Azure Portal](https://portal.azure.com/).
-2. Create a new Web App + MySQL resource by downloading the resource [here](https://azuremarketplace.microsoft.com/en-/marketplace/apps/Microsoft.WebSiteMySQLDatabase?tab=Overview).
-3. Make sure you name the Database VApp, and create your credentials.
-4. After the resources are created, navigate to the My SQL resource and find the connection string
-5. Update the SensitiveInfo.json with credential found in the connection string.
-#### Creating Database Tables
-1. Figure out a way to create table in remote DB.... I just run the SQL script in `migrations/database.sql` file with [RazorSQL](https://razorsql.com/).
-2. Using Razor to login into the remote DB and run SQL Queries with Razor GUI
-3. Explore newly created tables with Razor GUI (As a test, check if Users Table exists)
-#### Deploying App
-1. Deploy the App with VSCode. [Follow Steps to install Azure App Service extension](https://code.visualstudio.com/tutorials/app-service-extension/getting-started).
-2. When Azure Extension is configured, you will be able to see the Web App you created on Azure. Right click and hit Deploy to Web App.
-
 ### Local Database
 #### Installation
 1. Download [MySQL](https://www.mysql.com) for your respective machine. 
@@ -66,15 +53,21 @@ If you have made change to a table, such as inserted Implications or Settings, e
  updated file.
 
  ## Database Migrations
- To manage our database we will be using database migrations. This is pretty standard for web applications. This is the basic idea: instead of manually updating the database (by using a tool like MySQL Workbench or having to run SQL queries manually in the terminal) we can create migration scripts. These scripts will make the updates to the database for us and they are very easy to use. Also, it will support upgrading and rolling back the database. For new developers, they can simply import the database.sql file and run the migration command and be good to go.
+ To manage our database we will be using database migrations. This is pretty standard for web applications. This is the 
+ basic idea: instead of manually updating the database (by using a tool like MySQL Workbench or having to run SQL queries 
+ manually in the terminal) we can create migration scripts. These scripts will make the updates to the database for us 
+ and they are very easy to use. Also, it will support upgrading and rolling back the database. For new developers, they 
+ can simply import the database.sql file and run the migration command and be good to go.
 
  For an overview of how database migrations work in NodeJS, read [this](https://itnext.io/updating-an-sql-database-schema-using-node-js-6c58173a455a) article.
 
- We will be using [db-migrate](https://www.npmjs.com/package/db-migrate) and [db-migrate-mysql](https://www.npmjs.com/package/db-migrate-mysql). You should install these packages globally for convenience by using the following command:
+ We will be using [db-migrate](https://www.npmjs.com/package/db-migrate) and [db-migrate-mysql](https://www.npmjs.com/package/db-migrate-mysql). 
+ You should install these packages globally for convenience by using the following command:
 
  `npm install -g db-migrate db-migrate-mysql`
 
- You will need to make sure have a `database.json` file. Simply copy the `database-sample.json` file, rename it to `database.json` and edit the contents as necessary (or ask someone)!
+ You will need to make sure have a `database.json` file. Simply copy the `database-sample.json` file, rename it to 
+ `database.json` and edit the contents as necessary (or ask someone)!
 
  To update your database to the latest version, simply run:
 
@@ -114,57 +107,59 @@ account. More information can be found [here](https://developer.twitter.com/en/d
 `"aes_key" : ""` This is the key that will be used in the one-way encryption of the user's password.
 
 ## Linting
-For JavaScript development, we will follow the following naming conventions:
-* Classes and files are to be named in UpperCamelCase
-* Variables, functions and objects are to be named in lowerCamelCase
-* Literal constants are to be named in ALLCAPITALS, such as `const PI = 3.14` or `const DATABASE = 'VApp`
-* Non-literal constants are to be named in UpperCamelCase
+`eslint src/` in order to find everything wrong code-style wise
 
-For Database development, we will follow the following naming conventions:
-* Database and tables will be named in Upper_Snake_Case
-* Columns will be named in lower_snake_case
+`eslint src/ --fix` to fix what can be fixed automatically
+
+## Testing
+`npm test` in order to run unit-testing scripts on backend code
 
 ## Endpoints
+All of these endpoints, requests, and responses can be found in detail at the Swagger [endpoint](http://localhost:3000/api-docs/) `/api-docs/` once you `npm start`.
 ### In Router
+#### Static
 `GET /` - Home page
 
 `GET /dashboard` - Dashboard page
+
+`GET /facebook` - Facebook input settings form page
+
+`GET /instagram` - Instagram input settings form page
 
 `GET /signin` - Sign in page
 
 `GET /signup` - Sign up page
 
-`GET /settings/:socialMedia` - Settings page for given social media
+#### Settings
+`GET /settings/{socialMedia}` - Settings page for given social media
 
-`GET /facebook` - Facebook page
+`GET /implications/{socialMedia}/{settingName}/{settingState}` - Gets implications by setting state
 
+`GET /implicationWeights/{socialMedia}/{settingName}` - Gets implication weights by setting name
+
+`GET /instructions/{socialMedia}/{settingName}/{settingState}` - Gets instructions by setting state
+
+`GET /user/settings/{socialMedia}` - Gets user's settings for given social media, either from OAuth or from a cookie
+
+#### Registration
 `POST /signup` - Sign up the user
 
 `POST /signout` - Sign out the user
 
 `POST /signin` - Sign in the user
 
-`GET /user/settings/:socialMedia` - Gets user's settings for given social media
+#### Score
+`GET /score/all/{sessionId}` - Get all scores for a user by a specific sessionId
 
-`GET /cumulativeScore` - Gets user's cumulative score
+`GET /score/recent/{sessionId}` - Get most recent scores by unique type by sessionId
 
-`POST /cumulativeScore` - Inserts user's cumulative score
+`POST /score/{socialMedia}` - Inserts user's social media score
 
-`GET /history/:userId` - Get all scores by userId
+`GET /grade/{sessionId}/{socialMedia}` - Get grade for sessionId's most recent score given social media 
 
-`GET /history/:userId/:socialMedia` - Get all scores by userId and by socialMedia
-
-`POST /score/:socialMedia` - Inserts user's social media score
-
-`GET /implications/:socialMedia/:settingName/:settingState` - Gets implications by setting state
-
-`GET /instructions/:socialMedia/:settingName/:settingState` - Gets instructions by implication
-
-`GET /level/:amount` - Get a grade based on a value
-
-`GET /level/:userId/:socialMedia` - Get grade for userId's most recent score given social media
 
 ### In Connector
+#### Access Social Media through OAuth
 `GET /connect/:socialMedia` - Gateway for social media connections that require OAuth
 
 `GET /oauth` - Start OAuth process 
@@ -173,7 +168,7 @@ For Database development, we will follow the following naming conventions:
 
 `GET /oauth/:socialMedia` - Requests Twitter login page
 
-### Social Media, Settings, States Combinations
+## Social Media, Settings, States Combinations
 
 | Social Media  |Settings                  | States  |
 | ------------- |-------------            | -----   |
@@ -187,26 +182,26 @@ For Database development, we will follow the following naming conventions:
 |               |                         |   false   |
 |               | allow_dms_from          |    following   |
 |               |                         |   all   |
-| facebook      | future_posts            |    Public   |
-|               |                         |   Friends   |
-|               |                         |   Friends Except...   |
-|               |                         |   Only Me   |
-|               |                         |   Specific Friends   |
-|               |                         |   Custom   |
-|               | friend_requests         |   Everyone   |
-|               |       |   Friends of friends   |
-|               | friends_list         |   Public   |
-|               |          |   Friends   |
-|               |          |   Only Me   |
-|               |          |   Custom   |
-|               | discoverable_by_email        |  Everyone   |
-|               |          |   Friends of friends  |
-|               |          |  Friends   |
-|               | discoverable_by_phone        |  Everyone   |
-|               |          |   Friends of friends  |
-|               |          |  Friends   |
-|               | discoverable_by_search_engine       |  Yes   |
-|               |          |   No  |
+| facebook      | future_posts            |    public   |
+|               |                         |   friends   |
+|               |                         |   friends_except   |
+|               |                         |   only_me   |
+|               |                         |   specific_friends   |
+|               |                         |   custom   |
+|               | friend_requests         |   everyone   |
+|               |       |   friends_of_friends   |
+|               | friends_list         |   public   |
+|               |          |   friends   |
+|               |          |   only_me   |
+|               |          |   custom   |
+|               | discoverable_by_email        |  everyone   |
+|               |          |   friends_of_friends  |
+|               |          |  friends   |
+|               | discoverable_by_phone        |  everyone   |
+|               |          |   friends_of_friends  |
+|               |          |  friends   |
+|               | discoverable_by_search_engine       |  yes   |
+|               |          |   no  |
 | instagram       | account_privacy   | true  |
 |               |                         |   false   |
 |               | activity_status            |    true   |
