@@ -114,22 +114,32 @@ function populateTable(data) {
 
 window.onload = function() {
 	$.getJSON("/score/all/"+getCookie("session_id"), function(data) { // retrieve user settings
-		let scores = data.scores;
-		populateTable(scores);
-		let datasets = chartDataParser(scores);
-		for (let i = 0; i < datasets.length; i++) {
-			datasets[i].label = assignScoreType(i);
-			datasets[i].fill = false;
-			datasets[i].tension = 0;
-			let colours = assignLineColour(i);
-			if (colours) {
-				datasets[i].backgroundColor = colours.backgroundColor;
-				datasets[i].borderColor = colours.borderColor;
+		console.log(data);
+		if (data.code === 200) {
+			let scores = data.scores;
+			populateTable(scores);
+			let datasets = chartDataParser(scores);
+			for (let i = 0; i < datasets.length; i++) {
+				datasets[i].label = assignScoreType(i);
+				datasets[i].fill = false;
+				datasets[i].tension = 0;
+				let colours = assignLineColour(i);
+				if (colours) {
+					datasets[i].backgroundColor = colours.backgroundColor;
+					datasets[i].borderColor = colours.borderColor;
+				}
 			}
+			let usableDatasets = datasets.filter(a => a.data.length !== 0);
+			let config = buildGraphConfig(usableDatasets);
+			let ctx = document.getElementById("scoreChart").getContext("2d");
+			window.myLine = new Chart(ctx, config);
+		} else if (data.code === 400) {
+			window.location = "/error";
+			return;
+		} else {
+			// not sure what would trigger this, but gotta cover everything
+			window.location = "/error";
+			return;
 		}
-		let usableDatasets = datasets.filter(a => a.data.length !== 0);
-		let config = buildGraphConfig(usableDatasets);
-		let ctx = document.getElementById("scoreChart").getContext("2d");
-		window.myLine = new Chart(ctx, config);
 	});
 };

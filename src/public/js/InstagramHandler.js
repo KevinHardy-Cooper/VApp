@@ -28,6 +28,12 @@ function processInstagram() {
 		type : "POST"}).done(function(response) {
 		if (response.code === 200) {
 			window.location = "/settings/instagram";
+		} else if (response.code === 400) {
+			window.location = "/error";
+			return;
+		} else {
+			window.location = "/error";
+			return;
 		}
 	});
 }

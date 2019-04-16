@@ -1,5 +1,10 @@
 window.onload = function() {
 	$.getJSON("/score/recent/" + getCookie("session_id"), function(data) {
+		if (data.code === 400) {
+			window.location = "/error";
+			return;
+		}
+		
 		let cumulativeScore = "Welcome to VApp!";
 		let twitterScore = "Log in to get a Grade!";
 		let facebookScore = "Log in to get a Grade!";

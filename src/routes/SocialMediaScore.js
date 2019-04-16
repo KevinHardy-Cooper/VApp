@@ -61,7 +61,7 @@ class SocialMediaScore extends Score {
 				"message": "Unsupported social media type"
 			};
 			logger.info(result);
-			callback(null, result);
+			callback(result, null);
 			return;
 		}
 

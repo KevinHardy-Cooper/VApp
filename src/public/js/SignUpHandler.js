@@ -23,6 +23,9 @@ function processForm(e) {
 		if (res.code === 204) {
 			document.getElementById("invalidEmail").innerHTML = "User already exists for that email";
 			return false;
+		} else if (res.code === 400) {
+			window.location = "/error";
+			return;
 		} else {
 			window.location = "/signin?account_status=new";
 		}

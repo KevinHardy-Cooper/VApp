@@ -106,12 +106,17 @@ router.get("/faqs", function(req, res) {
 	res.sendFile(path.join(__dirname, "/public/views/faqs.html"));
 });
 
+router.get('/error', function(req, res) {
+	logger.info("GET request for the Error Page");
+	res.sendFile(path.join(__dirname, '/public/views/error.html'));
+});
+
 router.post("/signup", function(req, res) {
 	logger.info("POST request for SignUp");
 	SignUp.delegate(req.body.email, req.body.password, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
-			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+			res.send(error);
 		} else {
 			res.send(result);
 		}
@@ -121,16 +126,16 @@ router.post("/signup", function(req, res) {
 router.post("/signout", function(req, res) {
 	logger.info("POST request for SignOut");
 	SignOut.delegate(req.body.session_id, function(error, result) {
+		delete req.session["oauthRequestToken"];
+		delete req.session["oauthRequestTokenSecret"];
+		delete req.session["oauthAccessToken"];
+		delete req.session["oauthAccessTokenSecret"];
+		delete req.session["facebookSettings"];
+		delete req.session["instagramSettings"];
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
-			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+			res.send(error);
 		} else {
-			delete req.session["oauthRequestToken"];
-			delete req.session["oauthRequestTokenSecret"];
-			delete req.session["oauthAccessToken"];
-			delete req.session["oauthAccessTokenSecret"];
-			delete req.session["facebookSettings"];
-			delete req.session["instagramSettings"];
 			res.send(result);
 		}
 	});
@@ -141,7 +146,7 @@ router.post("/signin", function(req, res) {
 	SignIn.delegate(req.body.email, req.body.password, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
-			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+			res.send(error);
 		} else {
 			res.send(result);
 		}
@@ -219,7 +224,7 @@ router.get("/score/all/:sessionId", function(req, res) {
 	History.getScoresBySessionId(req.params.sessionId, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
-			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+			res.send(error);
 		} else {
 			res.send(result);
 		}
@@ -231,7 +236,7 @@ router.get("/score/recent/:sessionId", function(req, res) {
 	History.getMostRecentScoresBySessionId(req.params.sessionId, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
-			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+			res.send(error);
 		} else {
 			res.send(result);
 		}
@@ -249,7 +254,7 @@ router.post("/score/:socialMedia", function(req, res) {
 	SocialMediaScore.calculateSocialMediaScore(req.params.socialMedia, req.body.sessionId, req.body.settings, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
-			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+			res.send(error);
 		} else {
 			res.send(result);
 		}
@@ -261,7 +266,7 @@ router.get("/implications/:socialMedia/:settingName/:settingState", function(req
 	Implications.getImplications(req.params.socialMedia, req.params.settingName, req.params.settingState, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
-			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+			res.send(error);
 		} else {
 			res.send(result);
 		}
@@ -270,13 +275,14 @@ router.get("/implications/:socialMedia/:settingName/:settingState", function(req
 
 router.get("/implicationWeights/:socialMedia/:settingName", function(req, res) {
 	logger.info("GET request for implication weights");
-	Implications.getAllWeightsForSetting(req.params.socialMedia, req.params.settingName, function(err, obj) {
-		if (err !== null || obj === null) {
-			logger.error(inspect(err));
-			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+	Implications.getAllWeightsForSetting(req.params.socialMedia, req.params.settingName, function(error, result) {
+		if (error !== null || result === null) {
+			logger.error(inspect(error));
+			res.send(error);
+		} else {
+			logger.info("Successful GET of all implication weights for a setting");
+			res.send(result);
 		}
-		logger.info("Successful GET of all implication weights for a setting");
-		res.send(obj);
 	});
 });
 
@@ -285,7 +291,7 @@ router.get("/instructions/:socialMedia/:settingName/:settingState", function(req
 	Implications.getInstructions(req.params.socialMedia, req.params.settingName, req.params.settingState, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
-			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+			res.send(error);
 		} else {
 			res.send(result);
 		}
@@ -297,7 +303,7 @@ router.get("/grade/:sessionId/:socialMedia", function(req, res) {
 	History.getMostRecentGradeBySessionIdAndSocialMedia(req.params.sessionId, req.params.socialMedia, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
-			res.sendFile(path.join(__dirname, "/public/views/error.html"));
+			res.send(error);
 		} else {
 			res.send(result);
 		}

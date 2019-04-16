@@ -109,7 +109,7 @@ class History extends Score {
 										callback(null, response);
 									} else if (result.code === 204) {
 										let response = {
-											"code": 200,
+											"code": 204,
 											"message": "Grade not returned for amount in History"
 										};
 										logger.info(response);

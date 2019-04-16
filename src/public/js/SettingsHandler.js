@@ -70,6 +70,11 @@ function delegate() {
 		$("body > div > div.text-center > h1").prepend("DNE: ");
 	}
 	$.getJSON("/user/settings/" + socialMedia, function(data) { // retrieve user settings
+		if (data.code === 415) {
+			window.location = "/error";
+			return;
+		}
+		
 		// Dynamically build setting cards
 		/*<div class="card" style="margin: 30px">
 			<div class="card-header text-white bg-primary" id="setting-0" ><span class="value"></span></div>
@@ -128,23 +133,35 @@ function delegate() {
 	}).done(function(data) {
 		if (data.code === 200 && (data.socialMedia === "facebook" || data.socialMedia === "instagram")) { // facebook and instagram flow
 			$.getJSON("/grade/" + getCookie("session_id") + "/" + socialMedia, function (grade) {
-				$("body > div > div.text-center > h1 > span").append("<strong>" + grade.grade + "</strong>");
-				getGauge(grade.score, titleCaseSocialMediaName); // Create gauge
+				if (grade.code === 200) {
+					$("body > div > div.text-center > h1 > span").append("<strong>" + grade.grade + "</strong>");
+					getGauge(grade.score, titleCaseSocialMediaName); // Create gauge
+				} else {
+					window.location = "/error";
+					return;
+				}
 			});
 		}  else if (data.code === 200 && data.socialMedia === "twitter") { // twitter flow
 			$.ajax("/score/" + socialMedia, {
 				data: JSON.stringify({"sessionId": getCookie("session_id"), "settings": data}),
 				contentType: "application/json",
 				type: "POST"
-			}).done(function () {
-				$.getJSON("/grade/" + getCookie("session_id") + "/" + socialMedia, function (grade) {
-					$("body > div > div.text-center > h1 > span").append("<strong>" + grade.grade + "</strong>");
-					getGauge(grade.score, titleCaseSocialMediaName);// Create gauge
-				});
+			}).done(function (data) {
+				if (data.code === 400) {
+					window.location = "/error";
+					return;
+				} else {
+					$.getJSON("/grade/" + getCookie("session_id") + "/" + socialMedia, function (grade) {
+						if (grade.code === 200) {
+							$("body > div > div.text-center > h1 > span").append("<strong>" + grade.grade + "</strong>");
+							getGauge(grade.score, titleCaseSocialMediaName);// Create gauge
+						} else {
+							window.location = "/error";
+							return;
+						}
+					});
+				}
 			});
-		} else if (data.code === 415) {
-			console.log("Social Media not supported");
-			return;
 		}
 		for (let i = 0; i < settings.length; i++){
 			generateSettingsBody("setting-" + i + "-imp", "implications", settings[i] ,data[settings[i]]);
@@ -156,6 +173,10 @@ function delegate() {
 	function generateSettingsBody(id, type, setting, value) {
 		let link = "/"+ type +"/" + socialMedia + "/"+setting+"/"+ value;
 		$.getJSON(link, function(data) { // retrieve user settings
+			if (data.code === 415 || data.code === 400) {
+				window.location = "/error";
+				return;
+			}
 			let implications = data.implications;
 			let instructions = data.instructions;
 			if(type === "implications"){
@@ -174,6 +195,10 @@ function delegate() {
 
 	function changeCardColor(id, setting, value) {
 		$.getJSON("/implicationWeights/" + socialMedia + "/" + setting, function (response) {
+			if (response.code === 415 || response.code === 400) {
+				window.location = "/error";
+				return;
+			}
 			let max = 0;
 			let min = Number.MAX_SAFE_INTEGER;
 			let weights = response.weights;

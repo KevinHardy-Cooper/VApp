@@ -58,6 +58,12 @@ function processFacebook() {
 		type : "POST"}).done(function(response) {
 		if (response.code === 200) {
 			window.location = "/settings/facebook";
+		} else if (response.code === 400) {
+			window.location = "/error";
+			return;
+		} else {
+			window.location = "/error";
+			return;
 		}
 	});
 }

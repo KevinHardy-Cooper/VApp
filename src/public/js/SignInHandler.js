@@ -33,6 +33,9 @@ function processForm(e) {
 		if (res.code === 200) {
 			setCookie("session_id", res.sessionId, 14); // setting expiry date to 14 days
 			window.location = "/dashboard";
+		} else if (res.code === 400) {
+			window.location = "/error";
+			return;
 		} else {
 			document.getElementById("invalidCredentials").innerHTML = "Invalid Credentials";
 			return false;
