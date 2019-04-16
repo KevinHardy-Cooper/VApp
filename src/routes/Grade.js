@@ -4,10 +4,10 @@ const logger = require("../../config/log.js");
 const inspect = require("util").inspect;
 
 class Grade {
-	static getGrade(amount, callback) {
+	static getGrade(personalScore, callback) {
 		let con = DatabaseConnection.createConnection();
-		let sql = "SELECT name, amount FROM Grades WHERE amount >= ? LIMIT 1";
-		con.query(sql, amount, function (error, result) {
+		let sql = "SELECT name FROM Grades WHERE amount >= ? LIMIT 1";
+		con.query(sql, personalScore, function (error, result) {
 			con.end();
 			if (error) {
 				logger.error(inspect(error));
@@ -15,23 +15,20 @@ class Grade {
 					"code": 400,
 					"message": "Domain validation errors, missing data"
 				};
-				logger.info(response);
 				callback(response, null);
 			} else if (result.length > 0) {
 				let response = {
 					"code": 200,
 					"message": "Grade returned for amount",
 					"grade": result[0].name,
-					"score": result[0].amount
+					"score": personalScore
 				};
-				logger.info(response);
 				callback(null, response);
 			} else if (result.length === 0) {
 				let response = {
 					"code": 204,
 					"message": "Grade not returned for amount"
 				};
-				logger.info(response);
 				callback(null, response);
 			}
 		});
