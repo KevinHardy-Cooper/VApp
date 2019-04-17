@@ -23,3 +23,17 @@
     left: 50%;
     transform: translateY(-50%) translateX(-50%);
 }
+
+.error-template {
+    padding: 100px;
+    text-align: center;
+}
+
+.error-actions { 
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.error-actions .btn { 
+    margin-right: 20px; 
+}
