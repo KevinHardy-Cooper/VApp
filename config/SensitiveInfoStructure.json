@@ -8,5 +8,6 @@
   "consumer_secret_key" : "",
   "callback_url" : "",
   "cookie_signer" : "",
-  "aes_key" : ""
+  "aes_password_key" : "",
+  "aes_email_key": ""
 }

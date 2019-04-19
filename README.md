@@ -104,7 +104,9 @@ account. More information can be found [here](https://developer.twitter.com/en/d
 
 `"cookie_signer" : ""` This is the secret used to sign the session ID cookie.
 
-`"aes_key" : ""` This is the key that will be used in the one-way encryption of the user's password.
+`"aes_password_key" : ""` This is the key that will be used in the one-way encryption of the user's password.
+
+`"aes_email_key" : ""` This is the key that will be used in the one-way encryption of the user's email.
 
 ## Linting
 `eslint src/` in order to find everything wrong code-style wise
