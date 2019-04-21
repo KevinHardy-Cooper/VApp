@@ -28,9 +28,9 @@
 <form id="signinForm" class="form-signin">
   <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
   <label for="inputEmail" class="sr-only">Email address</label>
-  <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+  <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" maxlength="50" required autofocus>
   <label for="inputPassword" class="sr-only">Password</label>
-  <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+  <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" maxlength="50" required>
   <div id="invalidCredentials" class="invalid-credentials"></div>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     <a href="/signup"><span style="margin-top:5px" class="btn btn-lg btn-secondary btn-block">Sign Up</span></a>

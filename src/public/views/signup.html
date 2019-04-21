@@ -25,11 +25,11 @@
     <form id="signupForm" class="form-signin">
       <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
-      <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+      <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" maxlength="50" required autofocus>
       <label for="inputPassword" class="sr-only">Password</label>
-      <input style="margin-bottom: -1px;" name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+      <input style="margin-bottom: -1px;" name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" maxlength="50" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
       <label for="inputConfirmPassword" class="sr-only">Password</label>
-      <input name="confirmpassword" type="password" id="inputConfirmPassword" class="form-control" placeholder="Confirm Password" required>
+      <input name="confirmpassword" type="password" id="inputConfirmPassword" class="form-control" placeholder="Confirm Password" maxlength="50" required>
       <div id="message">
         <p>Password Requirements:</p>
         <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
