@@ -180,8 +180,40 @@ function delegate() {
 			let implications = data.implications;
 			let instructions = data.instructions;
 			if(type === "implications"){
-				$("#"+id).append("<strong>"+ implications + "</strong>");
-				$("#"+id).css("white-space","pre-wrap");
+				let implicationsArray = implications.split("\n");
+				for (let j = 0; j < implicationsArray.length; j+=3) {
+					let imageRow = document.createElement("div");
+					imageRow.className = "row";
+					let implicationRow = document.createElement("div");
+					implicationRow.className = "row";
+					for (let i = j; i < j+3; i++) {
+						if (i >= implicationsArray.length){
+							return;
+						}
+						let imageAndText = implicationsArray[i].split("&&&");
+						if (imageAndText.length === 1) {
+							// creating empty column to fill space
+							let imageColumn = document.createElement("div");
+							imageColumn.className = "col-lg-4 text-center";
+							imageRow.appendChild(imageColumn);
+							let implicationColumn = document.createElement("div");
+							implicationColumn.className = "col-lg-4";
+							implicationColumn.innerHTML = "<strong>" + imageAndText[0] + "</strong>";
+							implicationRow.appendChild(implicationColumn);
+						} else {
+							let imageColumn = document.createElement("div");
+							imageColumn.className = "col-lg-4 text-center";
+							imageColumn.innerHTML = "<img width='60%' src='../img/implication_icons/" + imageAndText[0] + "'>";
+							imageRow.appendChild(imageColumn);
+							let implicationColumn = document.createElement("div");
+							implicationColumn.className = "col-lg-4";
+							implicationColumn.innerHTML = "<strong>" + imageAndText[1] + "</strong>";
+							implicationRow.appendChild(implicationColumn);
+						}
+						document.getElementById(id).appendChild(imageRow);
+						document.getElementById(id).appendChild(implicationRow);
+					}
+				}
 			} else if (type === "instructions" && instructions !== null){
 				$("#"+id).append("<strong>"+ instructions + "</strong>");
 				$("#"+id).css("white-space","pre-wrap");
