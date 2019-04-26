@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Tweets</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/tweets.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Script used for ajax -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Script to handle cookies -->
+    <script type="text/javascript" src="../js/CookieHandler.js"></script>
+    <script type="text/javascript">checkCookie()</script>
+</head>
+
+<body onload="delegate()">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/dashboard" style='color:#9C27B0'><i class='fa fa-shield'></i> VApp</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/dashboard">HOME</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/history">HISTORY</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">ACCOUNT</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/about">ABOUT</a>
+            </li>
+            <li class="nav-item">
+                <a id="signout" class="nav-link" href="/signout">SIGN OUT</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="text-center">
+    <h1>Flagged Tweets</h1>
+</div>
+<div id="cards" class="container"></div>
+<ul id="pagination" class="pagination justify-content-center">
+    <li class="page-item"><a class="page-link" href="/tweets?whereto=next">Next</a></li>
+</ul>
+<div id="fyi" class="text-center"></div>
+
+
+<div id="copyright" class="container">
+    <p>Made with 🍌🔥 in Hamilton, Ontario by Script Kitties. &copy; 2019.</p>
+</div>
+</body>
+<!-- Script used to import the settings text from database-->
+<script type="text/javascript" src="../js/TweetHandler.js"></script>
+<!-- Script to implement navbar functionality-->
+<script type="text/javascript" src="../js/Navbar.js"></script>
+</html>

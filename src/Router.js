@@ -72,6 +72,7 @@ router.get("/signup", function(req, res) {
 router.get("/settings/:socialMedia", function(req, res) {
 	logger.info("GET request for the Settings Page for " + req.params.socialMedia);
 	if (req.params.socialMedia === "twitter" && req.session.oauthAccessToken === undefined) {
+		req.session.whereto = "/settings/twitter";
 		res.redirect("/connect/twitter");
 	} else if (req.params.socialMedia === "facebook" && req.session.facebookSettings === undefined) {
 		res.redirect("/facebook");
@@ -115,6 +116,16 @@ router.get("/account", function(req, res) {
 router.get("/error", function(req, res) {
 	logger.info("GET request for the Error Page");
 	res.sendFile(path.join(__dirname, "/public/views/error.html"));
+});
+
+router.get("/tweets", function(req, res) {
+	logger.info("GET request for the Tweets Page");
+	if (req.session.oauthAccessToken !== undefined) {
+		res.sendFile(path.join(__dirname, "/public/views/tweets.html"));
+	} else {
+		req.session.whereto = "/tweets";
+		res.redirect("/connect/twitter");
+	}
 });
 
 router.post("/signup", function(req, res) {
@@ -171,7 +182,7 @@ router.get("/user/settings/:socialMedia", function(req, res) {
 			function (error, data) {
 				if (error !== null) {
 					logger.error(inspect(error));
-					res.sendFile(path.join(__dirname, "/public/views/error.html"));
+					res.send(error);
 				} else {
 					let data_json = JSON.parse(data);
 					let response = {
@@ -224,6 +235,40 @@ router.get("/user/settings/:socialMedia", function(req, res) {
 		res.send(response);
 	}
 });
+
+router.get("/user/tweets/:maxId", function(req, res) {
+	logger.info("GET request for user's tweets");
+	// if the user has landed on the initial tweets page
+	if (req.params.maxId !== "-1") {
+		consumer.get(
+			"https://api.twitter.com/1.1/statuses/user_timeline.json?count=100&max_id=" + req.params.maxId,
+			req.session.oauthAccessToken,
+			req.session.oauthAccessTokenSecret,
+			function (error, data) {
+				if (error !== null) {
+					logger.error(inspect(error));
+					res.send(error);
+				} else {
+					res.send(data);
+				}
+			});
+	} else { // if the user has clicked "Next" on the initial tweets page or subsequent tweets pages
+		consumer.get(
+			"https://api.twitter.com/1.1/statuses/user_timeline.json?count=100",
+			req.session.oauthAccessToken,
+			req.session.oauthAccessTokenSecret,
+			function (error, data) {
+				if (error !== null) {
+					logger.error(inspect(error));
+					res.send(error);
+				} else {
+					res.send(data);
+				}
+			});
+	}
+});
+
+
 
 router.get("/score/all/:sessionId", function(req, res) {
 	logger.info("GET request for all scores for the sessionId " + req.params.sessionId);
