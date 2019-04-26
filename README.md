@@ -1,7 +1,18 @@
 # VApp
-This will be the private repo for our SFWR ENG 4G06 capstone project, affectionately named Vulnerability App or VApp for 
+VAppNation Let's GOOOOOOOO! 
+
+This will be the repo for our SFWR ENG 4G06 capstone project, affectionately named Vulnerability App or VApp for 
 short. The group members for the project will be able to commit to the repo over the course of the year, and the project 
-will go public in May 2019. 
+will go public in April 2019. 
+
+## Final Presentation Slideshow
+https://drive.google.com/open?id=1iK8ibjl5wICDxBloti1mOZN8J8dtteSV8cr895Le8fI
+
+## Articles for Scoring Algorithm Derivation
+https://drive.google.com/open?id=1Og0O5gTxoNhoH5C7YlyoZTDAEZljWYtgCRZ-FzXGadM
+
+## Video Demo of Rev0
+https://drive.google.com/file/d/1hMlly5w_-b42h_djI4QplboN3KWNIZEr
 
 ## How To Setup The Whole Thing Locally
 1. Make sure you have [NodeJS](https://nodejs.org/en/) and MySQL (see How To Setup The Database -> Local Database -> Installation below) installed.
@@ -12,7 +23,10 @@ will go public in May 2019.
 6. Start the local MySQL server: `mysql -u root -p` for Mac/Linux, `winpty mysql -u root -p` for Windows.
 7. Run `npm install`
 8. Run `npm start` to actually run the application.
-9. Visit [http://localhost:3000/](http://localhost:3000/) or another endpoint of your choice.
+9. Now you have a choice to make: You can use the client-side of the application via the server by visiting 
+[http://localhost:3000/](http://localhost:3000/) or another endpoint of your choice on this port, or you can see the Vue.js
+front-end by going to [http://localhost:8080/](http://localhost:8080/) or another endpoint of your choice on this port
+ (note to set up this front-end server, to follow the README in the front-end/ directory).
 10. All done!
 
 ## How To Setup The Database
@@ -115,6 +129,7 @@ account. More information can be found [here](https://developer.twitter.com/en/d
 
 ## Testing
 `npm test` in order to run unit-testing scripts on backend code
+* note that these tests will fail since the SensitiveInfo parameter is out of date. Fix it, and the tests will run!
 
 ## Endpoints
 All of these endpoints, requests, and responses can be found in detail at the Swagger [endpoint](http://localhost:3000/api-docs/) `/api-docs/` once you `npm start`.
