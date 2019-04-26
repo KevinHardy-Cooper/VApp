@@ -11,6 +11,7 @@ const SignOut = require("./routes/SignOut");
 const History = require("./routes/History");
 const SocialMediaScore = require("./routes/SocialMediaScore");
 const Implications = require("./routes/Implications");
+const Account = require("./routes/Account");
 const oauth = require("oauth");
 const session = require("express-session");
 const sensitiveInfo = require("../config/SensitiveInfo.json");
@@ -106,9 +107,14 @@ router.get("/faqs", function(req, res) {
 	res.sendFile(path.join(__dirname, "/public/views/faqs.html"));
 });
 
-router.get('/error', function(req, res) {
+router.get("/account", function(req, res) {
+	logger.info("GET request for the Account Page");
+	res.sendFile(path.join(__dirname, "/public/views/account.html"));
+});
+
+router.get("/error", function(req, res) {
 	logger.info("GET request for the Error Page");
-	res.sendFile(path.join(__dirname, '/public/views/error.html'));
+	res.sendFile(path.join(__dirname, "/public/views/error.html"));
 });
 
 router.post("/signup", function(req, res) {
@@ -301,6 +307,42 @@ router.get("/instructions/:socialMedia/:settingName/:settingState", function(req
 router.get("/grade/:sessionId/:socialMedia", function(req, res) {
 	logger.info("GET request for grade for " + req.params.sessionId + " for most recent " + req.params.socialMedia + " grade");
 	History.getMostRecentGradeBySessionIdAndSocialMedia(req.params.sessionId, req.params.socialMedia, function(error, result) {
+		if (error !== null || result === null) {
+			logger.error(inspect(error));
+			res.send(error);
+		} else {
+			res.send(result);
+		}
+	});
+});
+
+router.post("/update/email", function(req, res) {
+	logger.info("POST request to update email");
+	Account.updateEmailBySessionId(req.body.sessionId, req.body.email, function(error, result) {
+		if (error !== null || result === null) {
+			logger.error(inspect(error));
+			res.send(error);
+		} else {
+			res.send(result);
+		}
+	});
+});
+
+router.post("/update/password", function(req, res) {
+	logger.info("POST request to update password");
+	Account.updatePasswordBySessionId(req.body.sessionId, req.body.password, function(error, result) {
+		if (error !== null || result === null) {
+			logger.error(inspect(error));
+			res.send(error);
+		} else {
+			res.send(result);
+		}
+	});
+});
+
+router.post("/delete", function(req, res) {
+	logger.info("POST request to delete user");
+	Account.deleteAccountBySessionId(req.body.sessionId, function(error, result) {
 		if (error !== null || result === null) {
 			logger.error(inspect(error));
 			res.send(error);

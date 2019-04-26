@@ -7,13 +7,13 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>About</title>
+    <title>Account</title>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
-    <link href="css/about.css" rel="stylesheet">
+    <link href="css/account.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -56,57 +56,66 @@
 <div class="container">
     <div class="row">
         <div class="col-sm" style="text-align: center;">
-            <span style="font-size: 100px;"> <b>Meet The Team</b> </span>
+            <span style="font-size: 100px;"> <b>Account</b> </span>
+        </div>
+    </div>
+    <div class="row">
+        <p>As a security measure, we never display your email on the application.</p>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-3">
+            <p>Update your email:</p>
+        </div>
+        <div class="col-lg-6">
+            <input id="email" type="email" class="form-control" placeholder="Enter new email" maxlength="50">
+        </div>
+        <div class="col-lg-3">
+            <button class="btn btn-primary" onclick="updateEmail()">Update</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3">
+        </div>
+        <div class="col-lg-6">
+            <p id="emailResponseMessage"></p>
+        </div>
+        <div class="col-lg-3">
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-3">
+            <p>Update your password:</p>
+        </div>
+        <div class="col-lg-6">
+            <input id="password" type="password" class="form-control" placeholder="Enter new password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" maxlength="50">
+            <p id="passwordResponseMessage"></p>
+            <br>
+            <div id="message" class="text-center">
+                <p>Password Requirements:</p>
+                <p id="letter" class="invalid">A <b>lowercase</b> letter</p>
+                <p id="capital" class="invalid">An <b>uppercase</b> letter</p>
+                <p id="number" class="invalid">A <b>number</b></p>
+                <p id="special" class="invalid">A <b>special character</b></p>
+                <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <button id="submit" class="btn btn-primary" onclick="updatePassword()" disabled>Update</button>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <p>Delete account:</p>
+        <div class="col-sm">
+            <button class="btn btn-danger" onclick="deleteAccount()">Delete Account</button>
         </div>
     </div>
     <hr style="margin: 50px">
 </div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-2 cold-lg-2">
-            <img src="../img/abe.svg" width="100%">
-        </div>
-        <div class="col-md-2 cold-lg-2">
-            <img src="../img/jay.svg" width="100%">
-        </div>
-        <div class="col-md-2 cold-lg-2">
-            <img src="../img/kevin.svg" width="100%">
-        </div>
-        <div class="col-md-2 cold-lg-2">
-            <img src="../img/ratna.svg" width="100%">
-        </div>
-        <div class="col-md-2 cold-lg-2">
-            <img src="../img/shane.svg" width="100%">
-        </div>
-        <div class="col-md-2 cold-lg-2">
-            <img src="../img/terin.svg" width="100%">
-        </div>
-    </div>
-    <div class="row" style="text-align:center">
-        <div class="col-md-2 col-lg-2">
-            <p><strong>Abe</strong></p>
-            <p>Privacy Oracle</p>
-        </div>
-        <div class="col-md-2 col-lg-2">
-            <p><strong>Jay</strong></p>
-            <p>Janitor</p>
-        </div>
-        <div class="col-md-2 col-lg-2">
-            <p><strong>Kevin</strong></p>
-            <p>Software Engigod</p>
-        </div>
-        <div class="col-md-2 col-lg-2">
-            <p><strong>Ratna</strong></p>
-            <p>Score Master</p>
-        </div>
-        <div class="col-md-2 col-lg-2">
-            <p><strong>Shane</strong></p>
-            <p>Poster Boy</p>
-        </div>
-        <div class="col-md-2 col-lg-2">
-            <p><strong>Terin</strong></p>
-            <p>Project Manager</p>
-        </div>
     </div>
 </div>
 <div id="copyright" class="container">
@@ -115,4 +124,6 @@
 </body>
 <!-- Script to implement navbar functionality-->
 <script type="text/javascript" src="../js/Navbar.js"></script>
+<!-- Script used to handle account -->
+<script type="text/javascript" src="../js/AccountHandler.js"></script>
 </html>

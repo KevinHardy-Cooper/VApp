@@ -9,13 +9,13 @@ function signout(){
 		}),
 		contentType : "application/json",
 		type : "POST"}).done(function( res ) {
-			clearCookie("session_id");
-			if (res.code === 200) {
-				window.location = "/";
-			} else {
-				window.location = "/error";
-				return;
-			}
+		clearCookie("session_id");
+		if (res.code === 200) {
+			window.location = "/";
+		} else {
+			window.location = "/error";
+			return;
+		}
 		
 	});
 }

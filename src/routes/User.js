@@ -200,6 +200,100 @@ class User {
 		});
 	}
 	
+	static updateEmailByUserId(userId, email, callback) {
+		let con = DatabaseConnection.createConnection();
+		let sql = "UPDATE Users " +
+			"SET email = ? " +
+			"WHERE id = ?";
+		let inserts = [email, userId];
+		con.query(sql, inserts, function (error, result) {
+			con.end();
+			if (error) {
+				logger.error(inspect(error));
+				let response = {
+					"code": 400,
+					"message": "Domain validation errors, missing data"
+				};
+				logger.info(response);
+				callback(response, null);
+			} else if (result.affectedRows === 1) { // when a successful update takes place
+				let response = {
+					"code": 200,
+					"message": "Successful update to password"
+				};
+				logger.info(response);
+				callback(null, response);
+			} else if (result.affectedRows === 0 ) { // update didn't take place
+				let response = {
+					"code": 204,
+					"message": "User does not exist for given userId"
+				};
+				logger.info(response);
+				callback(null, response);
+			}
+		});
+	}
+	
+	static updatePasswordByUserId(userId, password, callback) {
+		let con = DatabaseConnection.createConnection();
+		let sql = "UPDATE Users " +
+			"SET password = ? " +
+			"WHERE id = ?";
+		let inserts = [password, userId];
+		con.query(sql, inserts, function (error, result) {
+			con.end();
+			if (error) {
+				logger.error(inspect(error));
+				let response = {
+					"code": 400,
+					"message": "Domain validation errors, missing data"
+				};
+				logger.info(response);
+				callback(response, null);
+			} else if (result.affectedRows === 1) { // when a successful update takes place
+				let response = {
+					"code": 200,
+					"message": "Successful update to email"
+				};
+				logger.info(response);
+				callback(null, response);
+			} else if (result.affectedRows === 0 ) { // update didn't take place
+				let response = {
+					"code": 204,
+					"message": "User does not exist for given userId"
+				};
+				logger.info(response);
+				callback(null, response);
+			}
+		});
+	}
+	
+	static deleteUserByUserId(userId, callback) {
+		let con = DatabaseConnection.createConnection();
+		let sql = "DELETE FROM Users " +
+			"WHERE id = ?";
+		let inserts = [userId];
+		con.query(sql, inserts, function (error, result) {
+			con.end();
+			if (error) {
+				logger.error(inspect(error));
+				let response = {
+					"code": 400,
+					"message": "Domain validation errors, missing data"
+				};
+				logger.info(response);
+				callback(response, null);
+			} else {
+				let response = {
+					"code": 200,
+					"message": "User was deleted"
+				};
+				logger.info(response);
+				callback(null, response);
+			}
+		});
+	}
+	
 	// Only used in testing
 	static deleteUser(email, password, callback) {
 		let con = DatabaseConnection.createConnection();

@@ -166,6 +166,32 @@ class Score {
 		});
 	}
 	
+	static deleteScoresByUserId(userId, callback) {
+		let con = DatabaseConnection.createConnection();
+		let sql = "DELETE FROM Scores " +
+			"WHERE user_id = ?";
+		let inserts = [userId];
+		con.query(sql, inserts, function (err, result) {
+			con.end();
+			if (err) {
+				logger.error(inspect(err));
+				let response = {
+					"code": 400,
+					"message": "Domain validation errors, missing data"
+				};
+				logger.info(response);
+				callback(response, null);
+			} else {
+				let response = {
+					"code": 200,
+					"message": "Scores were deleted"
+				};
+				logger.info(response);
+				callback(null, response);
+			}
+		});
+	}
+	
 	// Only used in testing
 	static deleteScore(userId, callback) {
 		let con = DatabaseConnection.createConnection();

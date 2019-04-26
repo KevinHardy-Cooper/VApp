@@ -16,7 +16,7 @@ tags:
   description: "Everything for static pages"
 - name: "settings"
   description: "Everything you need to get Social Media Settings"
-- name: "registration"
+- name: "account"
   description: "Everything you for your user accounts"
 - name: "score"
   description: "Everything you for scoring"
@@ -175,7 +175,7 @@ paths:
           description: "Domain validation errors, missing data"
         415:
           description: "Invalid Social Media/Invalid Setting Name"
-          
+
   /instructions/{socialMedia}/{settingName}/{settingState}:
     get:
       tags:
@@ -224,7 +224,7 @@ paths:
   /signup:
     post:
       tags:
-      - "registration"
+      - "account"
       summary: "Sign up the user"
       description: ""
       consumes:
@@ -265,7 +265,7 @@ paths:
   /signout:
     post:
       tags:
-      - "registration"
+      - "account"
       summary: "Sign out the user"
       description: ""
       produces:
@@ -284,7 +284,7 @@ paths:
   /signin:
     post:
       tags:
-      - "registration"
+      - "account"
       summary: "Sign in the user"
       description: ""
       consumes:
@@ -321,6 +321,94 @@ paths:
       responses:
         200:
           description: "Sign-in page loaded"
+
+  /update/email:
+    post:
+      tags:
+      - "account"
+      summary: "Update user's email"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "UpdateEmail object"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateEmail"
+      responses:
+        200:
+          description: "Successful Email Update"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+        204:
+          description: "Conflict - This email is already in use"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+        400:
+          description: "Domain validation errors, missing data"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+
+  /update/password:
+    post:
+      tags:
+      - "account"
+      summary: "Update user's password"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "UpdatePassword object"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdatePassword"
+      responses:
+        200:
+          description: "Successful Password Update"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+        400:
+          description: "Domain validation errors, missing data"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+
+  /delete:
+    post:
+      tags:
+      - "account"
+      summary: "Deletes user account"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: sessionId
+        in: "body"
+        description: "Current session ID"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successful User Deletion"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+        204:
+          description: "User does not exist for sessionId in Account"
+          schema:
+            $ref: "#/definitions/GenericResponse"
+        400:
+          description: "Domain validation errors, missing data"
+          schema:
+            $ref: "#/definitions/GenericResponse"
 
   /user/settings/{socialMedia}:
     get:
@@ -592,6 +680,22 @@ definitions:
       sessionId:
         type: "string"
         format: "Random 20-bit Hex Hash"
+
+  UpdateEmail:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+      sessionId:
+        type: "string"
+
+  UpdatePassword:
+    type: "object"
+    properties:
+      password:
+        type: "string"
+      sessionId:
+        type: "string"
 
   GenericResponse:
     type: "object"
