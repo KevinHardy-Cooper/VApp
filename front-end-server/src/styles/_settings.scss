@@ -1,0 +1,19 @@
+h2 {
+  text-align: center;
+  padding: 1em;
+  a {
+    color: goldenrod;
+  }
+}
+
+.cards-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;
+}
+
+.page-container {
+  padding: 1em;
+}

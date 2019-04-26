@@ -1,0 +1,32 @@
+{
+  "name": "4g06-front-end",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.16",
+    "@fortawesome/free-brands-svg-icons": "^5.8.0",
+    "@fortawesome/free-solid-svg-icons": "^5.8.0",
+    "@fortawesome/vue-fontawesome": "^0.1.6",
+    "axios": "^0.18.0",
+    "chart.js": "^2.8.0",
+    "jquery": "^3.4.0",
+    "progressbar.js": "^1.0.1",
+    "vue": "^2.6.6",
+    "vue-awesome": "^3.4.0",
+    "vue-cookies": "^1.5.13",
+    "vue-progress": "^0.2.1",
+    "vue-router": "^3.0.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.4.0",
+    "@vue/cli-service": "^3.4.0",
+    "fibers": "^3.1.1",
+    "sass": "^1.16.0",
+    "sass-loader": "^7.1.0",
+    "vue-template-compiler": "^2.5.21"
+  }
+}

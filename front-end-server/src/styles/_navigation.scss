@@ -1,0 +1,82 @@
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  top: 0;
+  left: 0;
+  position: sticky;
+  width: 100%;
+  height: 5vh;
+  min-height: 30px;
+  z-index: 1;
+
+  color: white;
+  background: transparentize($secondary-color, 0.2);
+  box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.5);
+
+  .logo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    padding: 1em;
+    text-align: center;
+
+    cursor: pointer;
+  }
+
+  ul {
+    display: flex;
+  }
+  li {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+
+    width: 100%;
+    height: 100%;
+
+    list-style: none;
+
+    // No wrapping of text
+    white-space: nowrap;
+
+    // Underline Effect
+    background-image: linear-gradient($primary-color, $primary-color);
+    background-position: 0% 100%;
+    background-repeat: no-repeat;
+    background-size: 0% 5px;
+
+    // Transition property here to animate back and forth
+    transition: 0.3s;
+
+    &:hover,
+    &.router-link-exact-active {
+      // When hover underline with a transition effect
+      // Keep the underline when link is active
+      background-size: 100% 5px;
+      cursor: pointer;
+    }
+    // Add some spacing to the end
+    &:last-child {
+      margin-right: 5em;
+    }
+  }
+}
+
+font-awesome-icon {
+  color: purple;
+}
+
+.separator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  margin: 1em;
+}

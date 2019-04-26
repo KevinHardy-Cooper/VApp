@@ -1,0 +1,128 @@
+// Global style sheet
+@import "themes";
+@import "animations";
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+* {
+  font-family: "Open Sans";
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: $text-color;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background: $background-color;
+}
+
+button {
+  padding: 1em;
+  margin: 1em;
+  border: 2px solid $primary-color;
+  background-color: $background-color;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+  &:hover {
+    background: $primary-color;
+  }
+}
+
+a {
+  color: goldenrod;
+}
+form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;
+}
+
+input {
+  margin: 1em;
+  color: black;
+  /*// Have a different background for an invalid input
+  &:invalid {
+    background: #f09898;
+  }*/
+}
+
+a {
+  &:hover {
+  }
+}
+
+table,
+td,
+th {
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  padding: 15px;
+}
+
+.page-container {
+  width: 100%;
+}
+
+.input-container {
+}
+
+// Custom scroll bar
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $secondary-color;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $accent-color;
+}
+
+#app {
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  height: 100%;
+  width: 100%;
+}
+#nav {
+  padding: 30px;
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+}
+
+#logo-icon {
+  margin: 10px;
+  height: 25px;
+  width: 25px;
+}

@@ -1,0 +1,22 @@
+.info-container {
+  text-align: center;
+  padding: 3em;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+
+  align-items: center;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  padding: 3em;
+
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}

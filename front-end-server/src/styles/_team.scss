@@ -1,0 +1,32 @@
+.team-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;
+
+  padding: 3em;
+}
+
+.members-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: row;
+}
+
+.member-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;
+}
+
+img {
+  margin: 1em;
+  padding: 1em;
+  width: 250px;
+  height: 250px;
+}

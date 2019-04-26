@@ -1,0 +1,31 @@
+// Color theme
+$primary-color: #3500d3;
+$secondary-color: #282828;
+$accent-color: #240090;
+$background-color: #0c0032;
+$foreground-color: #190061;
+
+$text-color: white;
+
+$theme-colors: (
+  "primary": (
+    "base": #384ea9,
+    "light": #384ea9,
+    "dark": #273677
+  ),
+  "accent": (
+    "base": #f08110,
+    "light": #ff8100,
+    "dark": #e47f17
+  ),
+  "foreground": (
+    "base": #393939,
+    "light": #6e6e6e,
+    "dark": #111
+  ),
+  "background": (
+    "base": #f8f5f5,
+    "light": #fff,
+    "dark": #ddd
+  )
+);

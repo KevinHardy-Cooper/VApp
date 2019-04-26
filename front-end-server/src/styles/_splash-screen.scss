@@ -1,0 +1,28 @@
+.splash-container {
+  display: flex;
+
+  width: 100%;
+  height: 100%;
+  // Space out elements evenly
+  justify-content: center;
+  align-items: center;
+}
+
+.splash {
+  width: 30vh;
+  height: 30vh;
+  animation: float 3s ease-in-out infinite;
+}
+
+.spinny-words div {
+  top: -0px;
+  opacity: 0;
+  animation: rotateWord 18s ease-out infinite;
+}
+
+.spinny-words div:nth-child(2) {
+  animation-delay: 6s;
+}
+.spinny-words div:nth-child(3) {
+  animation-delay: 12s;
+}

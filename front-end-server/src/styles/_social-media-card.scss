@@ -1,0 +1,29 @@
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  width: 20%;
+
+  padding: 1em;
+  margin: 1em;
+
+  transition-duration: 0.5s;
+  &:hover {
+    //transform: translatey(-5px);
+    //box-shadow: 0 0 1em 0 $accent-color;
+  }
+}
+
+img.card-logo {
+  width: 100px;
+  height: 100px;
+
+  margin: 1em;
+}
+
+button {
+  width: 90%;
+}
